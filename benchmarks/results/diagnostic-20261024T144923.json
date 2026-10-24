@@ -1,0 +1,126 @@
+{
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "memory": {
+    "utc": "2026-10-24T20:49:22.460453+00:00",
+    "disk_free_bytes": 10449838080,
+    "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    19031.\nPages active:                                 346911.\nPages inactive:                               337107.\nPages speculative:                             15646.\nPages throttled:                                   0.\nPages wired down:                             152539.\nPages purgeable:                               22432.\n\"Translation faults\":                      187438469.\nPages copy-on-write:                        10571531.\nPages zero filled:                          85102351.\nPages reactivated:                          42831086.\nPages purged:                                9873280.\nFile-backed pages:                            222784.\nAnonymous pages:                              476880.\nPages stored in compressor:                   278124.\nPages occupied by compressor:                 140951.\nDecompressions:                             34299646.\nCompressions:                               40379982.\nPageins:                                    11060119.\nPageouts:                                     127083.\nSwapins:                                      348782.\nSwapouts:                                     827911.",
+    "swap": "vm.swapusage: total = 8192.00M  used = 7200.44M  free = 991.56M  (encrypted)",
+    "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 70%"
+  },
+  "tools": {
+    "uv": {
+      "path": "/opt/homebrew/bin/uv",
+      "command": [
+        "uv",
+        "--version"
+      ],
+      "rc": 0,
+      "stdout": "uv 0.13.5 (Homebrew 2026-10-22 aarch64-apple-darwin)",
+      "stderr": ""
+    },
+    "git": {
+      "path": "/usr/bin/git",
+      "command": [
+        "git",
+        "--version"
+      ],
+      "rc": 0,
+      "stdout": "git version 2.54.0 (Apple Git-157)",
+      "stderr": ""
+    },
+    "node": {
+      "path": "/opt/homebrew/bin/node",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "rc": 0,
+      "stdout": "v26.12.1",
+      "stderr": ""
+    },
+    "opencode": {
+      "path": "/opt/homebrew/bin/opencode",
+      "command": [
+        "opencode",
+        "--version"
+      ],
+      "rc": 0,
+      "stdout": "1.19.4",
+      "stderr": ""
+    },
+    "dotnet": {
+      "path": "/opt/local/share/dotnet/dotnet",
+      "command": [
+        "dotnet",
+        "--list-sdks"
+      ],
+      "rc": 0,
+      "stdout": "10.0.201 [/opt/local/share/dotnet/sdk]",
+      "stderr": ""
+    }
+  },
+  "hardware": {
+    "chip_type": "Apple M3",
+    "machine_model": "Mac15,12",
+    "machine_name": "MacBook Air",
+    "number_processors": "proc 8:0:4:4",
+    "physical_memory": "16 GB"
+  },
+  "graphics": [
+    {
+      "spdisplays_vendor": "sppci_vendor_Apple",
+      "sppci_model": "Apple M3"
+    }
+  ],
+  "macos": {
+    "command": [
+      "sw_vers"
+    ],
+    "rc": 0,
+    "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t27.2\nBuildVersion:\t\t26B118",
+    "stderr": ""
+  },
+  "python": {
+    "command": [
+      "uv",
+      "python",
+      "list",
+      "--only-installed"
+    ],
+    "rc": 0,
+    "stdout": "cpython-3.15.0-macos-aarch64-none     /opt/homebrew/bin/python3.15 -> ../Cellar/python@3.15/3.15.0_1/bin/python3.15\ncpython-3.15.0-macos-aarch64-none     /opt/homebrew/bin/python3 -> ../Cellar/python@3.15/3.15.0_1/bin/python3\ncpython-3.14.9-macos-aarch64-none     /opt/homebrew/bin/python3.14 -> ../Cellar/python@3.14/3.14.9/bin/python3.14\ncpython-3.14.7-macos-aarch64-none     /usr/local/bin/python3.14 -> ../../../Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14\ncpython-3.14.7-macos-aarch64-none     /usr/local/bin/python3 -> ../../../Library/Frameworks/Python.framework/Versions/3.14/bin/python3\ncpython-3.14.7-macos-aarch64-none     /Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14\ncpython-3.14.7-macos-aarch64-none     /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 -> python3.14\ncpython-3.13.14-macos-aarch64-none    /Users/johnbenjamincastrosanabria/.local/share/uv/python/cpython-3.13-macos-aarch64-none/bin/python3.13\ncpython-3.12.13-macos-aarch64-none    /Users/johnbenjamincastrosanabria/.local/share/uv/python/cpython-3.12-macos-aarch64-none/bin/python3.12\ncpython-3.11.15-macos-aarch64-none    /Users/johnbenjamincastrosanabria/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin/python3.11\ncpython-3.9.6-macos-aarch64-none      /usr/bin/python3",
+    "stderr": ""
+  },
+  "power": {
+    "command": [
+      "pmset",
+      "-g",
+      "custom"
+    ],
+    "rc": 0,
+    "stdout": "Battery Power:\n Sleep On Power Button 1\n lowpowermode         0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         120\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           1\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n lowpowermode         0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         0\n womp                 1\n networkoversleep     0\n sleep                0\n tcpkeepalive         1\n disksleep            10",
+    "stderr": ""
+  },
+  "battery": {
+    "command": [
+      "pmset",
+      "-g",
+      "batt"
+    ],
+    "rc": 0,
+    "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=23396451)\t21%; discharging; 0:32 remaining present: true",
+    "stderr": ""
+  },
+  "thermal": {
+    "command": [
+      "pmset",
+      "-g",
+      "therm"
+    ],
+    "rc": 0,
+    "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+    "stderr": ""
+  },
+  "inference_processes": [],
+  "global_opencode_sha256": "4517f8345e4a7a6674de547719f5c807173d28bd2fa45af90abf84728b1a022b"
+}

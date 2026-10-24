@@ -31,6 +31,9 @@ def task(task_id,s,harness='',label='control',timeout=1200):
             shutil.rmtree(work/part/'obj/Debug',ignore_errors=True)
     memory=snapshot()
     result=run(work,(work/'TASK.md').read_text(),s['kind'],s['model_id'],harness,timeout=timeout)
+    if result.get('resource_abort'):
+        from server import stop
+        stop()
     final=grade(work,spec['command']);unchanged=before_hashes==hashes(work)
     tools=[e for e in result['events'] if e.get('type')=='tool_use'];finished=[e.get('part',{}) for e in result['events'] if e.get('type')=='step_finish']
     first_tool_s=None
@@ -38,10 +41,19 @@ def task(task_id,s,harness='',label='control',timeout=1200):
         starts=[e['timestamp'] for e in result['events'] if e.get('type')=='step_start']
         if starts:first_tool_s=(tools[0]['timestamp']-min(starts))/1000
     errors=[e for e in result['events'] if e.get('type')=='error']
+    if result.get('resource_abort'):
+        return {'task':task_id,'label':label,'status':'infrastructure','artifact_acceptance':final['rc']==0 and unchanged,'acceptance':final,'tests_unchanged':unchanged,'agent':result,'resource_abort':result['resource_abort'],'workspace':str(work)}
     infrastructure=not result['events'] or any(e.get('error',{}).get('name') in ['APIError','ProviderModelNotFoundError','ContextOverflowError'] for e in errors)
     status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if infrastructure else 'fail')
     launch_tool_s=(tools[0]['timestamp']-result['started_epoch_ms'])/1000 if tools and 'started_epoch_ms' in result else None
-    return {'task':task_id,'label':label,'status':status,'workspace':str(work),'baseline':baseline,'acceptance':final,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
+    row={'task':task_id,'label':label,'status':status,'server_at_start':dict(s),'workspace':str(work),'baseline':baseline,'acceptance':final,'artifact_acceptance':final['rc']==0 and unchanged,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
+    if result['timeout']:
+        # A disconnected client is not proof that native generation stopped.
+        # Restart only our owned model before another task, keeping all parameters.
+        from server import stop,start
+        recovery=time.perf_counter();stop();start(s['kind'])
+        row['timeout_recovery']={'server_restarted':True,'wall_s':time.perf_counter()-recovery,'included_in_agent_wall':False}
+    return row
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--tasks',nargs='+',default=['F7-A','F7-B','F7-C','F7-D']);ap.add_argument('--harness',type=pathlib.Path);ap.add_argument('--label',default='control');ap.add_argument('--timeout',type=int,default=1200);a=ap.parse_args()
@@ -49,5 +61,7 @@ def main():
     out={'schema':1,'server':s,'label':a.label,'harness':guidance,'rows':[],'started':datetime.datetime.now(datetime.timezone.utc).isoformat()}
     p=ROOT/'benchmarks/results'/f"tasks-{s['kind']}-{a.label}-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
     for t in a.tasks:
+        s=json.loads((ROOT/'logs/server.json').read_text())
         row=task(t,s,guidance,a.label,a.timeout);out['rows'].append(row);p.write_text(json.dumps(out,indent=2)+'\n');print(t,row['status'],row.get('agent',{}).get('wall_s'),p,flush=True)
+        if row.get('resource_abort'):raise SystemExit(75)
 if __name__=='__main__':main()

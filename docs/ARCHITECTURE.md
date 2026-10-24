@@ -9,7 +9,7 @@ OpenCode 1.19.4 (isolated XDG state, native Seatbelt sandbox)
   -> localhost only -> one native inference runtime
        :8082 MLX-LM / Metal / Ornith MLX 4 bit
        :8083 independent llama.cpp / Metal / Ornith Q4_K_M (conditional)
-       :8080 existing PrismML llama-server / Bonsai PTQ1_0
+       :8085 existing PrismML llama-server / Bonsai PTQ1_0
 External Python/.NET acceptance evaluation -> JSON evidence -> report
 Harness² upstream deterministic demo is separate from local Ornith experiments.
 ```

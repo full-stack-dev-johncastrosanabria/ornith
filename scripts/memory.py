@@ -1,5 +1,9 @@
 """Native memory snapshot; initial swap is not attributed to the model."""
 import datetime,json,subprocess,shutil
+RESERVE=8*1024**3
+def require_space():
+    if shutil.disk_usage(__file__).free<RESERVE:
+        raise SystemExit(75)
 def snapshot():
     out={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'disk_free_bytes':shutil.disk_usage(__file__).free}
     for key,cmd in [('vm_stat',['vm_stat']),('swap',['sysctl','vm.swapusage']),('pressure',['memory_pressure','-Q'])]:

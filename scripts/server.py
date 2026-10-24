@@ -9,15 +9,18 @@ import subprocess
 import sys
 import time
 import urllib.request
+from memory import require_space
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 STATE = ROOT/'logs/server.json'
 LOCK = ROOT/'logs/inference.lock'
 BONSAI = pathlib.Path.home()/'Library/Mobile Documents/com~apple~CloudDocs/bonsai/bonsai-demo'
-PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8080}
+PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085}
 
 def active():
-    for port in [8080,8081,8082,8083,8084,11434,1234]:
+    # 8080 belongs to an unrelated existing service, outside this laboratory.
+    # Do not send experimental traffic there or stop its owner.
+    for port in [8082,8083,8084,8085,11434,1234]:
         with socket.socket() as s:
             s.settimeout(.2)
             if s.connect_ex(('127.0.0.1',port)) == 0:
@@ -28,6 +31,7 @@ def active():
             raise RuntimeError(f'Existing inference process: {line.strip()}')
 
 def start(kind):
+    require_space()
     ROOT.joinpath('logs').mkdir(exist_ok=True)
     active()
     fd=os.open(LOCK,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600)
@@ -73,7 +77,8 @@ def stop():
         print('No owned server.');return
     s=json.loads(STATE.read_text());pid=s['pid']
     command=subprocess.run(['ps','-p',str(pid),'-o','command='],capture_output=True,text=True).stdout
-    if command.strip() and s['cmd'][0] not in command:raise RuntimeError('PID reused; refusing to signal unrelated process.')
+    identity=s['cmd'][:2] if 'python' in pathlib.Path(s['cmd'][0]).name else s['cmd'][:1]
+    if command.strip() and not all(part in command for part in identity):raise RuntimeError('PID reused; refusing to signal unrelated process.')
     if command.strip():
         os.killpg(pid,signal.SIGTERM)
         for _ in range(60):

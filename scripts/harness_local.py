@@ -13,8 +13,7 @@ def propose(s,prompt):
     req=urllib.request.Request(f"http://127.0.0.1:{s['port']}/v1/chat/completions",data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});t=time.perf_counter()
     with urllib.request.urlopen(req,timeout=600) as r:d=json.load(r)
     text=d['choices'][0]['message'].get('content','').strip()
-    if not text or len(text)>4000:raise ValueError('Invalid guidance; retain control harness.')
-    return {'wall_s':time.perf_counter()-t,'response':d,'guidance':text}
+    return {'wall_s':time.perf_counter()-t,'response':d,'guidance':text,'valid':bool(text) and len(text)<=4000}
 
 def trace(row):
     # No external acceptance scores/solutions/rubrics are provided to the editor.
@@ -27,9 +26,15 @@ def main():
     out={'method':'local Propose-Probe-Compose reproduction, not official Harness2 model-backed runner','k':1,'mode':'sequential','workers':1,'server':s,'optimization_task':'DEV','holdouts':['F7-A','F7-B','F7-C','F7-D']};t=time.perf_counter()
     def save():p.write_text(json.dumps(out,indent=2)+'\n')
     out['control']=task('DEV',s,label='optimization-control',timeout=600);save();print('control complete',flush=True)
+    if out['control'].get('resource_abort'):raise SystemExit(75)
     out['proposal']=propose(s,'Propose ONE change to system/tool guidance based on this execution trace. Preserve all constraints. '+json.dumps(trace(out['control'])));save();print('proposal complete',flush=True)
+    if not out['proposal']['valid']:
+        out['status']='invalid proposal; control retained';out['optimization_wall_s']=time.perf_counter()-t;save();raise RuntimeError('Model did not produce usable guidance; raw response retained.')
     out['probe']=task('DEV',s,out['proposal']['guidance'],label='optimization-probe',timeout=600);save();print('probe complete',flush=True)
+    if out['probe'].get('resource_abort'):raise SystemExit(75)
     out['composition']=propose(s,'Compose the final reusable system guidance from the control/probe contrast. Do not mention task-specific answers. Proposed guidance: '+out['proposal']['guidance']+' Control: '+json.dumps(trace(out['control']))+' Probe: '+json.dumps(trace(out['probe'])));save()
+    if not out['composition']['valid']:
+        out['status']='invalid composition; control retained';out['optimization_wall_s']=time.perf_counter()-t;save();raise RuntimeError('Model did not produce usable composition; raw response retained.')
     out['optimization_wall_s']=time.perf_counter()-t;out['guidance_path']='opencode/agents/optimized-guidance.txt'
     (ROOT/out['guidance_path']).write_text(out['composition']['guidance']+'\n');save();print(p,flush=True)
 if __name__=='__main__':main()

@@ -1,6 +1,6 @@
 # Measured results
 
-Generated 2026-10-24T16:52:40.109034+00:00 from versioned JSON evidence.
+Generated 2026-10-24T20:51:46.671562+00:00 from versioned JSON evidence.
 
 **Exploratory comparison.** Short benchmarks have three repetitions; each F7/configuration is a single run. These are new public equivalents, not historical F7. No conclusive superiority claim from one task run.
 
@@ -10,7 +10,7 @@ Generated 2026-10-24T16:52:40.109034+00:00 from versioned JSON evidence.
 | Prefill t/s | 24.62 (23.13–24.84, n=3) | N/E | N/E | same runtime; no separate micro |
 | Peak measured server RSS | N/E | 1.20 GiB peak RSS | N/E | N/E |
 | Tool cycles | read cycle verified | 3/3 | N/E | see F7 tool events |
-| F7 tasks | N/E | 0/1 scored | N/E | N/E |
+| F7 tasks | N/E | 0/2 scored | N/E | N/E |
 | Agent wall/task | N/E | N/E | N/E | N/E |
 | System swap during tasks | N/E | 1.10–7.17 GiB system swap | N/E | N/E |
 
@@ -18,11 +18,18 @@ Rates in the first two rows use native runtime counters: Bonsai HTTP timing fiel
 
 MLX HTTP transport measurements: TTFT 0.77 s (0.74–1.09, n=3); wall 8.90 s (8.76–9.22, n=3). True prefill rate is not estimated from TTFT.
 
+## Artifact acceptance versus agent completion
+
+- Ornith control: 1/2 artifacts pass external tests; 0/2 agent runs completed successfully.
+
+For example, the recorded Ornith F7-B artifact passes all three tests, but its agent run timed out at1200 seconds. This is a productivity/completion failure, not a claim that its final code fails those tests.
+
 ## External acceptance by task
 
 | Configuration | Task | Outcome | Agent seconds | Tool calls | Tool errors | Tests immutable |
 |---|---|---|---|---|---|---|
 | Ornith control | F7-A | fail | 712.50 | 7 | 0 | True |
+| Ornith control | F7-B | fail | 1200.07 | 8 | 0 | True |
 
 Failed acceptance, timeouts and infrastructure errors are retained. Passing artifact tests after an agent timeout is reported separately in raw JSON; it is not an end-to-end successful run. Tool errors count error events; they are not automatically equivalent to model retries. Context compaction and auxiliary requests are represented by raw event traces and server logs.
 

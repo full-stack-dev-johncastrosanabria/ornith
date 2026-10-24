@@ -1,11 +1,12 @@
 """Isolated OpenCode v1 launcher, enforced native macOS workspace/network sandbox."""
 import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
+from server import PORTS
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def configuration(kind,model_id,harness=''):
     profile=json.loads((ROOT/'runtimes/profile.json').read_text())
     provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf'}[kind]
-    port={'mlx':8082,'gguf':8083,'bonsai':8080}[kind]
+    port=PORTS[kind]
     ref=provider+'/local'
     permissions={'*':'deny',**{t:'allow' for t in ['read','glob','grep','edit','bash']},'external_directory':'deny'}
     prompt='You are a local programming agent. Work only in the current workspace. Read relevant files, make minimal changes, run the available tests, and report actual results. Never modify acceptance tests. Never use the network. Do not delegate.'
@@ -53,7 +54,7 @@ def run(work,prompt,kind,model_id,harness='',timeout=1200):
     env,profile,ref,state=prepare(work,kind,model_id,harness)
     cmd=['/usr/bin/sandbox-exec','-f',str(profile),shutil.which('opencode'),'run',prompt,'--dir',str(work),'--agent','ornith-code','--model',ref,'--format','json','--title','local-lab','--pure']
     started_epoch_ms=int(time.time()*1000)
-    t=time.perf_counter();events=[];timed_out=False;samples=[];done=threading.Event()
+    t=time.perf_counter();events=[];timed_out=False;samples=[];resource_abort=[];done=threading.Event()
     def sample():
         from memory import snapshot
         while not done.is_set():
@@ -62,18 +63,24 @@ def run(work,prompt,kind,model_id,harness='',timeout=1200):
                 pid=json.loads((ROOT/'logs/server.json').read_text())['pid']
                 row['server_rss_kib']=subprocess.run(['ps','-p',str(pid),'-o','rss='],capture_output=True,text=True).stdout.strip()
             samples.append(row);done.wait(5)
-    sampler=threading.Thread(target=sample,daemon=True);sampler.start()
+            if row['disk_free_bytes']<8*1024**3 and p.poll() is None:
+                resource_abort.append('disk below 8 GiB reserve');os.killpg(p.pid,signal.SIGTERM);return
+    sampler=threading.Thread(target=sample,daemon=True)
     with (state/'stdout.jsonl').open('w') as out,(state/'stderr.log').open('w') as err:
         p=subprocess.Popen(cmd,cwd=work,env=env,stdout=out,stderr=err,start_new_session=True)
+        sampler.start()
         (state/'process.json').write_text(json.dumps({'pid':p.pid,'pgid':p.pid,'argv':cmd},indent=2)+'\n')
         try:p.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            timed_out=True;os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=15)
+            timed_out=True;os.killpg(p.pid,signal.SIGTERM)
+            try:p.wait(timeout=15)
+            except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=15)
     done.set();sampler.join(timeout=5)
     for line in (state/'stdout.jsonl').read_text().splitlines():
         try:events.append(json.loads(line))
         except json.JSONDecodeError:pass
     result={'rc':p.returncode,'timeout':timed_out,'wall_s':time.perf_counter()-t,'started_epoch_ms':started_epoch_ms,'state':str(state),'events':events,'memory_samples':samples,'stderr':(state/'stderr.log').read_text()[-8000:],'configuration_sha256':__import__('hashlib').sha256((state/'config/opencode.json').read_bytes()).hexdigest()}
+    result['resource_abort']=resource_abort
     (state/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     return result
 
