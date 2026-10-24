@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ornith-mlx/local",
+  "small_model": "ornith-mlx/local",
+  "enabled_providers": [
+    "ornith-mlx"
+  ],
+  "autoupdate": false,
+  "share": "disabled",
+  "snapshot": false,
+  "plugin": [],
+  "mcp": {},
+  "lsp": false,
+  "formatter": false,
+  "permission": {
+    "*": "deny",
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "edit": "allow",
+    "bash": "allow",
+    "external_directory": "deny"
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 1536
+  },
+  "provider": {
+    "ornith-mlx": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "ornith-mlx",
+      "options": {
+        "baseURL": "http://127.0.0.1:8082/v1",
+        "apiKey": "local-only"
+      },
+      "models": {
+        "local": {
+          "id": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "name": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "tool_call": true,
+          "limit": {
+            "context": 8192,
+            "output": 1536
+          }
+        }
+      }
+    }
+  },
+  "default_agent": "ornith-code",
+  "agent": {
+    "ornith-code": {
+      "description": "Local workspace coding agent",
+      "mode": "primary",
+      "model": "ornith-mlx/local",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "steps": 12,
+      "prompt": "You are a local programming agent. Work only in the current workspace. Read relevant files, make minimal changes, run the available tests, and report actual results. Never modify acceptance tests. Never use the network. Do not delegate.",
+      "permission": {
+        "*": "deny",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "edit": "allow",
+        "bash": "allow",
+        "external_directory": "deny"
+      }
+    },
+    "title": {
+      "disable": true
+    },
+    "summary": {
+      "disable": true
+    }
+  }
+}

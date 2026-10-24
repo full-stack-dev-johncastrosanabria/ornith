@@ -1,0 +1,276 @@
+{
+  "server": {
+    "kind": "mlx",
+    "pid": 54898,
+    "port": 8082,
+    "cmd": [
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/runtimes/mlx/.venv/bin/python",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/scripts/mlx_server.py",
+      "--model",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/models/ornith-mlx",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8082",
+      "--temp",
+      "0.6",
+      "--top-p",
+      "0.95",
+      "--max-tokens",
+      "1024",
+      "--decode-concurrency",
+      "1",
+      "--prompt-concurrency",
+      "1",
+      "--prompt-cache-size",
+      "1",
+      "--prompt-cache-bytes",
+      "536870912"
+    ],
+    "started": 1792858050.45207,
+    "model_id": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+    "models": [
+      "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53"
+    ]
+  },
+  "rows": [
+    {
+      "cycle": "read",
+      "pass": true,
+      "acceptance": null,
+      "agent": {
+        "rc": 0,
+        "timeout": false,
+        "wall_s": 43.20218758300325,
+        "state": "/Users/johnbenjamincastrosanabria/Developer/ornith/opencode/state/30fcc55c95ba4bed8ccd837f02af59b1",
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1792858081137,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab476c001oSG1QaodPIKJAX",
+              "messageID": "msg_16eaad7a0001ErK865v4399uTs",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792858084581,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "type": "tool",
+              "tool": "glob",
+              "callID": "c1c92f19-7aa4-4ed9-9fa3-8f8f023d6fa5",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "pattern": "**/README.md"
+                },
+                "output": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542/README.md",
+                "metadata": {
+                  "count": 1,
+                  "truncated": false
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542",
+                "time": {
+                  "start": 1792858084548,
+                  "end": 1792858084579
+                }
+              },
+              "id": "prt_16eab54b9001vQHhhYuWBFsMrM",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "messageID": "msg_16eaad7a0001ErK865v4399uTs"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792858084605,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab4e17001dabu4O13Mvr1GB",
+              "messageID": "msg_16eaad7a0001ErK865v4399uTs",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "text",
+              "text": "\n\n",
+              "time": {
+                "start": 1792858082839,
+                "end": 1792858084596
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792858084605,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab54f7001f8MP07MYtnSM9g",
+              "reason": "tool-calls",
+              "messageID": "msg_16eaad7a0001ErK865v4399uTs",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3718,
+                "input": 3660,
+                "output": 58,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792858085623,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab58f5001h3BhWKg4boKvuW",
+              "messageID": "msg_16eab54fb001ZcDNn0yrZSFSx7",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792858090031,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "type": "tool",
+              "tool": "read",
+              "callID": "5a063864-12b9-4f5f-b433-f3ff7c56db02",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542/README.md"
+                },
+                "output": "<path>/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542/README.md</path>\n<type>file</type>\n<content>\n1: Verification marker: NATIVE-M3-4829\n\n(End of file - total 1 lines)\n</content>",
+                "metadata": {
+                  "preview": "Verification marker: NATIVE-M3-4829",
+                  "truncated": false,
+                  "loaded": [],
+                  "display": {
+                    "type": "file",
+                    "path": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542/README.md",
+                    "text": "Verification marker: NATIVE-M3-4829",
+                    "lineStart": 1,
+                    "lineEnd": 1,
+                    "totalLines": 1,
+                    "truncated": false
+                  }
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-mlx-read-0fef6542/README.md",
+                "time": {
+                  "start": 1792858090023,
+                  "end": 1792858090029
+                }
+              },
+              "id": "prt_16eab6a230018kQSdk1mbpjMSl",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "messageID": "msg_16eab54fb001ZcDNn0yrZSFSx7"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792858090085,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab5c9f001E87ZRUtPEeZrRj",
+              "messageID": "msg_16eab54fb001ZcDNn0yrZSFSx7",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "text",
+              "text": "\n\n",
+              "time": {
+                "start": 1792858086559,
+                "end": 1792858090076
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792858090085,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab6a5e001syoLXGUpOxr8Wf",
+              "reason": "tool-calls",
+              "messageID": "msg_16eab54fb001ZcDNn0yrZSFSx7",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3842,
+                "input": 129,
+                "output": 75,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3638
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792858092341,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab7332001ptDdodsiQK6B9g",
+              "messageID": "msg_16eab6a62001FH4po5oNljdjxA",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792858094685,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab7744001gtQoihCgLBMEgX",
+              "messageID": "msg_16eab6a62001FH4po5oNljdjxA",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "text",
+              "text": "\n\nThe verification marker in README.md is exactly: **NATIVE-M3-4829**",
+              "time": {
+                "start": 1792858093380,
+                "end": 1792858094672
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792858094685,
+            "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+            "part": {
+              "id": "prt_16eab7c53001eJx5WJMhVy3kMI",
+              "reason": "stop",
+              "messageID": "msg_16eab6a62001FH4po5oNljdjxA",
+              "sessionID": "ses_e9155298effe8pdkhPfUxWP6M8",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3977,
+                "input": 300,
+                "output": 39,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3638
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "stderr": "",
+        "configuration_sha256": "c4598518b8e028691d6b9a1b0308735badcdae4ed5548b93b692eb7fc3c00d9c"
+      },
+      "tools": [
+        "glob",
+        "read"
+      ]
+    }
+  ],
+  "passed": 1
+}

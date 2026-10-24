@@ -1,0 +1,43 @@
+"""Fresh F7 runs with protected public tests and independent external acceptance."""
+import argparse,datetime,hashlib,json,os,pathlib,shutil,subprocess,time,uuid
+from memory import snapshot
+from opencode_local import run
+ROOT=pathlib.Path(__file__).resolve().parents[1]
+
+def hashes(work):
+    return {str(p.relative_to(work)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (work/'tests').rglob('*') if p.is_file() and not any(t in p.parts for t in ['bin','obj','__pycache__'])}
+def grade(work,command):
+    env=os.environ.copy();env.update({'PYTHONDONTWRITEBYTECODE':'1','PYTHONPATH':str(work),'DOTNET_CLI_TELEMETRY_OPTOUT':'1','DOTNET_SKIP_FIRST_TIME_EXPERIENCE':'1'})
+    t=time.perf_counter()
+    try:
+        p=subprocess.run(__import__('shlex').split(command),cwd=work,env=env,capture_output=True,text=True,timeout=180)
+        return {'rc':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'wall_s':time.perf_counter()-t}
+    except subprocess.TimeoutExpired as e:return {'rc':124,'stdout':str(e.stdout),'stderr':'external grader timeout','wall_s':time.perf_counter()-t}
+
+def task(task_id,s,harness='',label='control',timeout=1200):
+    fixture=ROOT/'benchmarks/fixtures'/task_id
+    manifest=json.loads((ROOT/'benchmarks/fixtures/manifest.json').read_text());spec=next(t for t in manifest['tasks'] if t['task']==task_id)
+    work=ROOT/'benchmarks/work'/f"{s['kind']}-{label}-{task_id}-{uuid.uuid4().hex[:8]}";shutil.copytree(fixture,work)
+    # Dependencies restored by the trusted orchestrator before any local-model execution.
+    if task_id=='F7-A':
+        p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj'],cwd=work,capture_output=True,text=True,timeout=240)
+        if p.returncode:return {'task':task_id,'status':'infrastructure','restore':p.stdout+p.stderr,'workspace':str(work)}
+    before_hashes=hashes(work);baseline=grade(work,spec['command']);memory=snapshot()
+    result=run(work,(work/'TASK.md').read_text(),s['kind'],s['model_id'],harness,timeout=timeout)
+    final=grade(work,spec['command']);unchanged=before_hashes==hashes(work)
+    tools=[e for e in result['events'] if e.get('type')=='tool_use'];finished=[e.get('part',{}) for e in result['events'] if e.get('type')=='step_finish']
+    first_tool_s=None
+    if tools:
+        starts=[e['timestamp'] for e in result['events'] if e.get('type')=='step_start']
+        if starts:first_tool_s=(tools[0]['timestamp']-min(starts))/1000
+    status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if not result['events'] else 'fail')
+    return {'task':task_id,'label':label,'status':status,'workspace':str(work),'baseline':baseline,'acceptance':final,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
+
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument('--tasks',nargs='+',default=['F7-A','F7-B','F7-C','F7-D']);ap.add_argument('--harness',type=pathlib.Path);ap.add_argument('--label',default='control');ap.add_argument('--timeout',type=int,default=1200);a=ap.parse_args()
+    s=json.loads((ROOT/'logs/server.json').read_text());guidance=a.harness.read_text() if a.harness else ''
+    out={'schema':1,'server':s,'label':a.label,'harness':guidance,'rows':[],'started':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    p=ROOT/'benchmarks/results'/f"tasks-{s['kind']}-{a.label}-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
+    for t in a.tasks:
+        row=task(t,s,guidance,a.label,a.timeout);out['rows'].append(row);p.write_text(json.dumps(out,indent=2)+'\n');print(t,row['status'],row.get('agent',{}).get('wall_s'),p,flush=True)
+if __name__=='__main__':main()

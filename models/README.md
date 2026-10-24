@@ -1,0 +1,1 @@
+Weights live in the existing Hugging Face cache. `ornith-mlx` is a symlink created by `scripts/download_model.py`. Nothing here is committed except this README. Do not copy Bonsai weights or alter its installation.
