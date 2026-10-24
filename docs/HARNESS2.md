@@ -42,3 +42,22 @@ The official CLI supports JB/LAB/WB, not these F7 fixtures. Custom local provide
 | Compaction | Native OpenCode automatic compaction | Infrastructure feature, not an independently optimized treatment |
 
 Differences from the official algorithm: one candidate rather than general/domain candidate branching, no official benchmark adapter, no upstream source executor, no recursive experience-reflector/library update, no remote or model judge. Public external acceptance is recorded independently; proposal/composition receive only DEV execution observations, never F7 prompts/acceptance scores/solutions. The final control and treatment share the same model, runtime, sampling, context, output cap, tool permissions and tests. Optimization wall/calls/tokens are separate from final-task costs.
+
+## Official-core integration, authorized extension
+
+The user approved adding an official-core phase. `scripts/harness_official.py` invokes upstream `run_domain`, recursion, proposal/composition, selection, reflection and library code. This is **official Harness² core with local macOS/F7 adapters**, not the stock benchmark CLI or an upstream-supported F7 benchmark. It remains unvalidated with real model calls until its own execution evidence exists.
+
+`scripts/setup_harness_official.py` installs only the pinned source executor: OpenCode `23fb5e0516c99ac04a1aa46c193efda2e1b9bb24`, the upstream compatibility patch, and Bun1.3.11. These live under `harness2/official/dependencies/`; the clean Harness² reference and global OpenCode stay unchanged. Its downloader/installer checks the8GiB reserve during each child process and stops the owned process group if needed. No official Linux benchmark, Docker, Vertex credentials or cloud judge is installed.
+
+The adapters provide:
+
+- Local Ornith MLX for solver, proposer and reflector through one endpoint, with isolated configuration, stripped credentials, localhost-only networking, workspace confinement and protected acceptance tests.
+- The official pinned source launcher under native Seatbelt. Baseline and treatment both use this executor, independently from the global-OpenCode cohort.
+- DEV-only optimization and reflection. Held-out F7 tasks are executed only after freezing a validated changed text harness; their acceptance results never enter the optimizer.
+- Always-on text editing only in this first official-core run. Skills, scripts, plugins and delegated agents are rejected by adapter validation rather than silently ignored.
+- `k=1`, sequential recursion, one proposer worker and one rollout worker. Upstream sequential defaults to two proposer workers; a local dispatch wrapper supplies its existing worker arguments without editing upstream code.
+- Independent acceptance from the existing public F7 tests, with optimization wall time reported separately.
+
+Three no-model checks in `scripts/test_harness_official.py` pass, including a real upstream-core cycle over the local adapter with a deterministic test editor. This verifies adapter plumbing, not Ornith performance or the pinned source executor. The real run first requires3/3 source-executor smoke cycles, then a fresh F7 source-executor control, DEV optimization, and held-out treatment. A failed setup/parser or absent changed composition is recorded as incomplete; no benefit is invented.
+
+The native follow-on controller `scripts/campaign_official.py --after-pid GGUF_CONTROLLER_PID` waits for the queued GGUF phase, checks absence of another server, locks the laboratory and runs setup/preflight/API/official-core stages with separate logs. Resource or integration failures leave raw evidence and stop the affected phase. See `logs/official-campaign-*.json`, `logs/official-*.log`, `benchmarks/results/harness-official-local-*.json`, and `benchmarks/reports/harness-official-comparison.json` when produced.

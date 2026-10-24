@@ -49,10 +49,13 @@ def prepare(work,kind,model_id,harness=''):
     profile=state/'sandbox.sb';profile.write_text(sandbox(work,state))
     return env,profile,ref,state
 
-def run(work,prompt,kind,model_id,harness='',timeout=1200):
+def run(work,prompt,kind,model_id,harness='',timeout=1200,*,argv=None,read_roots=()):
     work=pathlib.Path(work).resolve()
     env,profile,ref,state=prepare(work,kind,model_id,harness)
-    cmd=['/usr/bin/sandbox-exec','-f',str(profile),shutil.which('opencode'),'run',prompt,'--dir',str(work),'--agent','ornith-code','--model',ref,'--format','json','--title','local-lab','--pure']
+    if read_roots:
+        profile.write_text(profile.read_text()+''.join('(allow file-read-data (subpath '+json.dumps(str(pathlib.Path(p).resolve()))+'))\n' for p in read_roots))
+    env['BUN_INSTALL_CACHE_DIR']=str(state/'cache/bun')
+    cmd=['/usr/bin/sandbox-exec','-f',str(profile)]+(argv or [shutil.which('opencode'),'run',prompt,'--dir',str(work),'--agent','ornith-code','--model',ref,'--format','json','--title','local-lab','--pure'])
     started_epoch_ms=int(time.time()*1000)
     t=time.perf_counter();events=[];timed_out=False;samples=[];resource_abort=[];done=threading.Event()
     def sample():

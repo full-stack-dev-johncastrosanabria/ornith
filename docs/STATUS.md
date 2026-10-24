@@ -13,4 +13,6 @@ The user subsequently freed resources. Native checks at15:31 showed15.54 GiB fre
 
 Native runs include an 8 GiB disk guard; timeout recovery restarts only the owned model to prevent an abandoned generation contaminating the next task. A detached sequential campaign resumes missing task IDs within the named cohort. Raw JSON and stage checkpoints determine progress; no completion is claimed while the matrix is incomplete.
 
+The user approved an additional official-core experiment. Its local adapter now passes3 no-model integration checks, including upstream recursion with one worker, DEV-only optimization and a held-out F7 fence. A separate native controller is queued after GGUF. It must install/validate the pinned source executor, pass3/3 source tool cycles and collect its own source-executor control before optimization/treatment. This phase is not yet validated with Ornith and is classified as official Harness² core with local macOS/F7 adapters. See `docs/HARNESS2.md` and `logs/official-process.json`.
+
 Ponytail5.3.2 is installed from DietrichGebert/ponytail. Its full skill applies to Codex implementation/review, not to evaluated-model prompts, to preserve the experiment's fixed control.
