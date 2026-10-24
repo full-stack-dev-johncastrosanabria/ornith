@@ -1,5 +1,5 @@
 """Verify parsed OpenAI tool calls, execute arithmetic locally, verify follow-up."""
-import datetime,json,pathlib,time,urllib.request
+import datetime,json,pathlib,re,time,urllib.request
 from bench_api import request
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def post(base,body):
@@ -25,7 +25,13 @@ def main():
             messages.append({'role':'tool','tool_call_id':call['id'],'content':json.dumps({'sum':value})})
         row['executed']=True
         follow,wall=post(base,{**defaults,'messages':messages,'tools':[tool]});row['followup']=follow;row['followup_wall_s']=wall
-    out={'server':s,'models_response':model_list,'rows':rows}
+    checks={
+        'conversation':bool(re.search(r'\b42\b',rows[0]['response']['choices'][0]['message'].get('content') or '')),
+        'streaming':bool(re.search(r'\b91\b',streamed['content'])),
+        'tool_roundtrip':row['executed'] and bool(re.search(r'\b42\b',row.get('followup',{}).get('choices',[{'message':{}}])[0]['message'].get('content') or '')),
+    }
+    out={'server':s,'models_response':model_list,'rows':rows,'checks':checks,'pass':all(checks.values())}
     p=ROOT/'benchmarks/results'/f"smoke-api-{s['kind']}-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json";p.write_text(json.dumps(out,indent=2)+'\n')
     print(p);print('Parsed tool calls',len(calls),'executed',row['executed']);print('conversation',rows[0]['response']['choices'][0]['message']);print('reasoning_chars',len(streamed['reasoning']),'content',streamed['content'])
+    if not out['pass']:raise SystemExit(1)
 if __name__=='__main__':main()
