@@ -1,6 +1,6 @@
 # Native architecture
 
-Verified 2026-10-24: MacBook Air Mac15,12, Apple M3 (8 CPU / 8 GPU cores), 16 GB unified memory, macOS 27.2 build 26B118, Metal 4. Initial available disk: 18,467,627,008 bytes (17.20 GiB). Initial system swap used: 1260.94 MiB. No inference process detected initially. Existing unrelated applications were left running.
+Verified 2026-10-24: MacBook Air Mac15,12, Apple M3 (8 CPU / 8 GPU cores), 16 GB unified memory, macOS 27.2 build 26B118, Metal 4. The user's screenshot also confirms the13-inch2024 model and16 GB. Initial available disk: 18,467,627,008 bytes (17.20 GiB). Initial system swap used: 1260.94 MiB. No inference process detected initially. Existing unrelated applications were left running.
 
 Python 3.12.13 is already managed by uv. Independent virtual environments: runtimes/mlx/.venv (MLX-LM), harness2/.venv (upstream core, no optional cloud bridge), benchmarks/.venv (public acceptance tests). Existing Git, uv, Node 26.12.1, .NET SDK 10.0.201 and OpenCode 1.19.4 are reused.
 

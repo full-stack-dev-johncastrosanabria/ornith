@@ -1,17 +1,18 @@
 """Fresh F7 runs with protected public tests and independent external acceptance."""
 import argparse,datetime,hashlib,json,os,pathlib,shutil,subprocess,time,uuid
 from memory import snapshot
-from opencode_local import run
+from opencode_local import run,prepare
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def hashes(work):
     return {str(p.relative_to(work)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (work/'tests').rglob('*') if p.is_file() and not any(t in p.parts for t in ['bin','obj','__pycache__'])}
 def grade(work,command):
-    env=os.environ.copy();env.update({'PYTHONDONTWRITEBYTECODE':'1','PYTHONPATH':str(work),'DOTNET_CLI_TELEMETRY_OPTOUT':'1','DOTNET_SKIP_FIRST_TIME_EXPERIENCE':'1'})
+    env,profile,_,state=prepare(work,'mlx','unused')
+    env['PYTHONPATH']=str(work)
     t=time.perf_counter()
     try:
-        p=subprocess.run(__import__('shlex').split(command),cwd=work,env=env,capture_output=True,text=True,timeout=180)
-        return {'rc':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'wall_s':time.perf_counter()-t}
+        p=subprocess.run(['/usr/bin/sandbox-exec','-f',str(profile),*__import__('shlex').split(command)],cwd=work,env=env,capture_output=True,text=True,timeout=180)
+        return {'rc':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'wall_s':time.perf_counter()-t,'isolation':'native sandbox, independent grading state'}
     except subprocess.TimeoutExpired as e:return {'rc':124,'stdout':str(e.stdout),'stderr':'external grader timeout','wall_s':time.perf_counter()-t}
 
 def task(task_id,s,harness='',label='control',timeout=1200):
@@ -20,7 +21,7 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     work=ROOT/'benchmarks/work'/f"{s['kind']}-{label}-{task_id}-{uuid.uuid4().hex[:8]}";shutil.copytree(fixture,work)
     # Dependencies restored by the trusted orchestrator before any local-model execution.
     if task_id=='F7-A':
-        p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj'],cwd=work,capture_output=True,text=True,timeout=240)
+        p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj','--source',str(pathlib.Path.home()/'.nuget/packages'),'-p:NuGetAudit=false'],cwd=work,capture_output=True,text=True,timeout=240)
         if p.returncode:return {'task':task_id,'status':'infrastructure','restore':p.stdout+p.stderr,'workspace':str(work)}
     before_hashes=hashes(work);baseline=grade(work,spec['command'])
     if task_id=='F7-A':

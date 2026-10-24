@@ -3,6 +3,7 @@ import json,pathlib,tempfile,unittest
 from unittest.mock import patch
 import campaign
 import memory
+import report
 from types import SimpleNamespace
 
 class ResumeTests(unittest.TestCase):
@@ -20,5 +21,16 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual(error.exception.code,75)
         with patch.object(memory.shutil,'disk_usage',return_value=SimpleNamespace(free=memory.RESERVE)):
             memory.require_space()
+    def test_report_does_not_fill_new_cohort_with_old_results(self):
+        with tempfile.TemporaryDirectory() as directory:
+            results=pathlib.Path(directory)
+            (results/'tasks-mlx-control-20261024T100000.json').write_text(json.dumps({'label':'control','rows':[{'task':'F7-A','status':'fail'},{'task':'F7-B','status':'fail'}]}))
+            (results/'tasks-mlx-control-cleared-host-20261024T160000.json').write_text(json.dumps({'label':'control-cleared-host','rows':[{'task':'F7-A','status':'fail'}]}))
+            with patch.object(report,'RESULTS',results):rows=report.group('mlx','control')
+            self.assertEqual([r['task'] for r in rows],['F7-A'])
+    def test_correct_timed_out_artifact_is_not_a_failed_quality_score(self):
+        rows=[{'status':'fail','acceptance':{'rc':0},'tests_unchanged':True}]
+        self.assertEqual(report.artifact_quality(rows),'1/1')
+        self.assertEqual(report.quality(rows),'0/1 scored')
 
 if __name__=='__main__':unittest.main()

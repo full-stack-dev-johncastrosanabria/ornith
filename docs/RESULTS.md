@@ -1,6 +1,6 @@
 # Measured results
 
-Generated 2026-10-24T20:51:46.671562+00:00 from versioned JSON evidence.
+Generated 2026-10-24T22:40:37.101019+00:00 from versioned JSON evidence.
 
 **Exploratory comparison.** Short benchmarks have three repetitions; each F7/configuration is a single run. These are new public equivalents, not historical F7. No conclusive superiority claim from one task run.
 
@@ -8,28 +8,33 @@ Generated 2026-10-24T20:51:46.671562+00:00 from versioned JSON evidence.
 |---|---|---|---|---|
 | Decode t/s | 6.83 (6.81–6.84, n=3) | N/E | N/E | same runtime; no separate micro |
 | Prefill t/s | 24.62 (23.13–24.84, n=3) | N/E | N/E | same runtime; no separate micro |
-| Peak measured server RSS | N/E | 1.20 GiB peak RSS | N/E | N/E |
+| Peak measured server RSS | N/E | 3.79 GiB peak RSS | N/E | N/E |
 | Tool cycles | read cycle verified | 3/3 | N/E | see F7 tool events |
-| F7 tasks | N/E | 0/2 scored | N/E | N/E |
-| Agent wall/task | N/E | N/E | N/E | N/E |
-| System swap during tasks | N/E | 1.10–7.17 GiB system swap | N/E | N/E |
+| F7 artifact acceptance | N/E | 3/4 | N/E | N/E |
+| F7 agent completions | N/E | 2/4 scored | N/E | N/E |
+| Agent wall/task | N/E | 996.6 s median, 2 completed tasks | N/E | N/E |
+| System swap during tasks | N/E | 0.72–0.83 GiB system swap | N/E | N/E |
 
-Rates in the first two rows use native runtime counters: Bonsai HTTP timing fields, MLX direct stream_generate counters (different measurement paths, both fresh KV; not equivalent HTTP latency). For a runtime-only comparison use Ornith GGUF vs Ornith MLX with the same weights family/quantization quality; that comparison remains unexecuted. Do not infer pure runtime effects from Bonsai vs Ornith.
+Rates use native runtime counters: llama.cpp HTTP timing fields and MLX direct stream_generate counters. These differ from HTTP latency. Ornith affine4 MLX and Q4_K_M GGUF also differ in quantization, so their quality difference cannot be attributed solely to runtime. Bonsai versus Ornith is a model-plus-runtime comparison. Missing measurements remain N/E.
 
-MLX HTTP transport measurements: TTFT 0.77 s (0.74–1.09, n=3); wall 8.90 s (8.76–9.22, n=3). True prefill rate is not estimated from TTFT.
+MLX HTTP transport measurements: TTFT 0.60 s (0.59–10.61, n=3); wall 7.99 s (7.97–15.97, n=3). True prefill rate is not estimated from TTFT.
+
+The cleared-host cohort is kept separate from the earlier memory-congested block. Once its first row exists, this report uses only that cohort for each condition; it never fills missing rows from the older block. Old negative outcomes remain in the raw evidence.
 
 ## Artifact acceptance versus agent completion
 
-- Ornith control: 1/2 artifacts pass external tests; 0/2 agent runs completed successfully.
+- Ornith MLX control: 3/4 artifacts pass external tests; 2/4 agent runs completed successfully.
 
-For example, the recorded Ornith F7-B artifact passes all three tests, but its agent run timed out at1200 seconds. This is a productivity/completion failure, not a claim that its final code fails those tests.
+The earlier congested-block Ornith F7-B artifact passes all three tests, but its agent timed out at1200 seconds. This illustrates why artifact correctness and completed-agent productivity are separate.
 
 ## External acceptance by task
 
 | Configuration | Task | Outcome | Agent seconds | Tool calls | Tool errors | Tests immutable |
 |---|---|---|---|---|---|---|
-| Ornith control | F7-A | fail | 712.50 | 7 | 0 | True |
-| Ornith control | F7-B | fail | 1200.07 | 8 | 0 | True |
+| Ornith MLX control | F7-A | fail | 507.40 | 7 | 0 | True |
+| Ornith MLX control | F7-B | fail | 1200.04 | 12 | 0 | True |
+| Ornith MLX control | F7-C | pass | 826.88 | 9 | 0 | True |
+| Ornith MLX control | F7-D | pass | 1166.25 | 14 | 0 | True |
 
 Failed acceptance, timeouts and infrastructure errors are retained. Passing artifact tests after an agent timeout is reported separately in raw JSON; it is not an end-to-end successful run. Tool errors count error events; they are not automatically equivalent to model retries. Context compaction and auxiliary requests are represented by raw event traces and server logs.
 
@@ -39,12 +44,13 @@ Official unmodified Harness² deterministic demo: k1 sequential, 2/2 tasks, 8 Py
 
 ## Not executed and limits
 
-- Ornith GGUF Q4_K_M: download would leave less than 8 GiB free; neither runtime build nor inference performed. Candidate startup/config files are not validation.
+- Ornith GGUF task matrix is not yet measured. It was initially blocked by disk space; after the user freed resources, a separate pinned native Metal build and Q4_K_M download are scheduled. Candidate configs and build success alone are not validation.
 - Official model-backed Harness² benchmark adapters: not executed. The local reproduction is explicitly distinct.
 - Three independent repetitions per long F7 task/configuration, seed blocks, thermal crossover and long-session soak: not executed.
 - Production code review and security assessment: not scored by these bounded acceptance tests.
-- A causal no-swapping claim: not established from system swap alone; inspect sampled swapin/swapout deltas and unrelated system activity. Initial system swap was already 1.23 GiB.
+- A causal no-swapping claim is not established from system swap alone; inspect sampled deltas and unrelated activity. The cleared-host block started at903 MiB used swap.
+- MLX does not expose a reasoning-token usage split here; reported zero reasoning tokens is not evidence that the model did not reason. Separate reasoning content was verified through the API.
 
 ## Recommendation
 
-Prioritize externally correct completed tasks. Preserve Bonsai as the reference. Ornith MLX is usable only to the extent shown by measured tool and task outcomes above; no GGUF preference or conclusive overall model/harness advantage is established without the missing controlled repetitions.
+Prioritize externally correct completed tasks. Preserve Bonsai as the reference. Use measured task outcomes and wall time above; a conclusive overall model/runtime/harness advantage requires the missing controlled repetitions.

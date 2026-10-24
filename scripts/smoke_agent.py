@@ -28,4 +28,5 @@ def main():
         row={'cycle':cycle,'pass':ok and not result['timeout'],'acceptance':acceptance,'agent':result,'tools':[t.get('tool') for t in tools]};rows.append(row)
         dest.write_text(json.dumps({'server':s,'rows':rows,'passed':sum(x['pass'] for x in rows)},indent=2)+'\n');print(cycle,row['pass'],result['wall_s'],dest,flush=True)
         if not row['pass']:break
+    if len(rows)!=3 or not all(x['pass'] for x in rows):raise SystemExit(1)
 if __name__=='__main__':main()
