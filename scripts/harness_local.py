@@ -8,7 +8,8 @@ from bench_tasks import task
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def propose(s,prompt):
-    body={'model':s['model_id'],'messages':[{'role':'system','content':'Return only a concise system-prompt paragraph for a coding agent. No markdown fences. Do not solve the task or include code. Limit to 100 words. All execution is native macOS, local-only, immutable public tests, no delegation.'},{'role':'user','content':prompt}],'temperature':.6,'top_p':.95,'max_tokens':1024}
+    output=json.loads((ROOT/'runtimes/profile.json').read_text())['output']
+    body={'model':s['model_id'],'messages':[{'role':'system','content':'Return only a concise system-prompt paragraph for a coding agent. No markdown fences. Do not solve the task or include code. Limit to 100 words. All execution is native macOS, local-only, immutable public tests, no delegation.'},{'role':'user','content':prompt}],'temperature':.6,'top_p':.95,'max_tokens':output}
     req=urllib.request.Request(f"http://127.0.0.1:{s['port']}/v1/chat/completions",data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});t=time.perf_counter()
     with urllib.request.urlopen(req,timeout=600) as r:d=json.load(r)
     text=d['choices'][0]['message'].get('content','').strip()

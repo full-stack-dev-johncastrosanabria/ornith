@@ -10,7 +10,7 @@ uv pip install --python harness2/.venv/bin/python -e harness2/upstream
 harness2/.venv/bin/harness2-demo --output harness2/runs/demo-k1 --k 1 --mode sequential
 ```
 
-Exit0. Demo report: 2 completed, 0 failed, execution_count8, editor_calls8. Uses deterministic editors and real Python executions, no LLM. A portable copy of demo.json is kept in benchmarks/results. Repeat with scripts/run_harness_demo.sh.
+Exit0. Demo report: 2 completed, 0 failed, execution_count8, editor_calls8. Uses deterministic editors and real Python executions, no LLM. A portable copy of demo.json is kept in benchmarks/results. Repeat with scripts/run_harness_demo.sh. After the initial editable install, switched to a non-editable local wheel and removed only generated build/egg-info/bytecode directories, so upstream stays a clean source reference. No tracked source was changed.
 
 Exact constraints found in the inspected source:
 
@@ -26,3 +26,19 @@ Exact constraints found in the inspected source:
 | Alternative judge endpoint | harness2/config.py:152–153 | HARNESS2_JUDGE_BASE_URL/API_KEY exists; not proof that every benchmark is local-compatible |
 
 The core itself is not inherently Linux-only: its deterministic demo passed on macOS. Do not describe absent Bun/source dependencies as mandatory Linux incompatibility. WorkBuddy cannot run under the user's no-container rule. LAB/JobBench and official model-backed optimization have not been validated natively or with Ornith. A local F7 Propose-Probe-Compose reproduction may reuse protocol ideas while using the installed OpenCode; it must never be reported as the official benchmark runner.
+
+## Bounded local harness experiment
+
+The official CLI supports JB/LAB/WB, not these F7 fixtures. Custom local providers are plausible through OpenCode configuration; a mandatory remote-model requirement for the entire optimizer has **not** been established. We do not claim that the core is incompatible with local inference. A true upstream F7 integration would need a benchmark adapter plus the pinned Bun/OpenCode source runner and its configuration. This lab instead implements the explicitly labeled minimal methodology reproduction allowed by the mission, reusing its own fixture/evaluation/OpenCode components.
+
+| Component | Investigated extension | Local scope |
+|---|---|---|
+| System prompt | Upstream always-on harness files and proposer/composer | One model-generated guidance candidate, DEV probe, frozen composition |
+| Tool guidance | tool_descriptions/tool_guidance.md; compose_prompt staging | Guidance paragraph only; tool implementations unchanged |
+| Skills | skills/*/SKILL.md advertised by upstream compose_prompt | Not activated in this initial single-worker experiment |
+| Memory | Core library and harnessing-level retained lessons | Only the frozen guidance file persists; no claim of upstream experience reflection |
+| Scripts | Upstream script staging and native Python/Bash hooks | Shared local test/measurement scripts; not optimized by this k1 run |
+| Execution | Sequential recursion and installed OpenCode | k1, one worker, no delegation or parallel recursion |
+| Compaction | Native OpenCode automatic compaction | Infrastructure feature, not an independently optimized treatment |
+
+Differences from the official algorithm: one candidate rather than general/domain candidate branching, no official benchmark adapter, no upstream source executor, no recursive experience-reflector/library update, no remote or model judge. Public external acceptance is recorded independently; proposal/composition receive only DEV execution observations, never F7 prompts/acceptance scores/solutions. The final control and treatment share the same model, runtime, sampling, context, output cap, tool permissions and tests. Optimization wall/calls/tokens are separate from final-task costs.

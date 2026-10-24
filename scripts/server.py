@@ -34,6 +34,7 @@ def start(kind):
     os.close(fd)
     env=os.environ.copy();env['HF_HUB_OFFLINE']='1';env['HF_HUB_DISABLE_TELEMETRY']='1'
     port=PORTS[kind]
+    profile=json.loads((ROOT/'runtimes/profile.json').read_text())
     if kind=='mlx':
         model=ROOT/'models/ornith-mlx'
         if not model.exists():LOCK.unlink();raise RuntimeError('Run download_model.py first.')
@@ -44,12 +45,12 @@ def start(kind):
         else:
             binary=ROOT/'runtimes/gguf/llama.cpp/build/bin/llama-server';model=ROOT/'models/ornith-gguf.gguf'
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
-        cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c','8192','-np','1','--jinja','--temp','0.6','--top-p','0.95']
+        cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c',str(profile['context']),'-np','1','--jinja','--temp','0.6','--top-p','0.95','--top-k','0','--min-p','0']
         if kind=='bonsai':cmd+=['--reasoning-budget','100','--cache-ram','512']
     try:
         with (ROOT/f'logs/{kind}-server.log').open('ab') as log:
             p=subprocess.Popen(cmd,cwd=ROOT,env=env,stdout=log,stderr=log,start_new_session=True)
-        state={'kind':kind,'pid':p.pid,'port':port,'cmd':cmd,'started':time.time()}
+        state={'kind':kind,'pid':p.pid,'port':port,'cmd':cmd,'started':time.time(),'profile':profile}
         STATE.write_text(json.dumps(state,indent=2)+'\n')
         for _ in range(240):
             if p.poll() is not None:raise RuntimeError(f'Server exited {p.returncode}; see logs/{kind}-server.log')

@@ -10,4 +10,5 @@ fi
 [[ $(git -C harness2/upstream rev-parse HEAD) == "$REV" ]] || { echo 'Unexpected upstream SHA; inspect before proceeding.'; exit 1; }
 [[ -z $(git -C harness2/upstream status --porcelain) ]] || { echo 'Upstream is dirty; preserve and inspect changes.'; exit 1; }
 [[ -d harness2/.venv ]] || uv venv --python 3.12 harness2/.venv
-uv pip install --python harness2/.venv/bin/python -e harness2/upstream
+uv pip install --python harness2/.venv/bin/python harness2/upstream
+git -C harness2/upstream clean -fd -- build harness2.egg-info

@@ -39,7 +39,7 @@ public class OrdersTests : IClassFixture<WebApplicationFactory<Program>> {
  var r=await client.PostAsJsonAsync("/orders",new {sku,quantity,unitPrice});Assert.Equal(HttpStatusCode.BadRequest,r.StatusCode);
  }
 }'''
-    },'Implement POST /orders in ASP.NET Core. Accept sku (nonblank), quantity (1..100 inclusive), unitPrice (>=0). Return HTTP 201 with JSON total = quantity * unitPrice for valid input, otherwise HTTP 400. Preserve public record signature.','dotnet test tests/Acceptance.csproj --no-restore --disable-build-servers -p:UseSharedCompilation=false -v minimal'))
+    },'Implement POST /orders in ASP.NET Core. Accept sku (nonblank), quantity (1..100 inclusive), unitPrice (>=0). Return HTTP 201 with JSON total = quantity * unitPrice for valid input, otherwise HTTP 400. Preserve public record signature.','dotnet test tests/Acceptance.csproj --no-restore --disable-build-servers -p:UseSharedCompilation=false -p:EnableSourceControlManagerQueries=false -p:EnableSourceLink=false -v minimal'))
     rows.append(write('F7-B',{
     'app.py':'''from fastapi import FastAPI
 from pydantic import BaseModel

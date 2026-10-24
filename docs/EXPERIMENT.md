@@ -7,7 +7,7 @@ Priority: externally verified correctness, total task time, then decode throughp
 ## Controls
 
 - Sequential execution, one loaded model, fresh workspace and session per task.
-- Initial 8192 context, 1536 output cap for OpenCode; temperature .6 and top_p .95. Baseline Bonsai uses FAST reasoning-budget100 in this controlled configuration, not its historical QUALITY profile.
+- Initial integration preflights used 8192 context and a 1536 OpenCode output cap. After 3/3 tool cycles, first validate context16384 with the output cap unchanged, then increase only the output cap to4096. Final task matrix fixes context16384/output4096 across conditions; temperature .6/top_p .95, top_k0/min_p0 (explicit on final llama.cpp, defaults on MLX), no KV quantization. Bonsai uses FAST reasoning-budget100, not its historical QUALITY profile. Do not pool initial 8K short measurements with the final 16K baseline or present these multi-stage setup differences as a one-variable speed experiment.
 - Preserve runtime/model revision, exact argv, config hash, acceptance hashes, raw events, independent tests and memory snapshots.
 - Three repetitions of short microbenchmarks; report medians and min/max. Do not infer prefill speed by dividing prompt tokens by TTFT. Runtime-reported prefill/decode timings are separate from transport TTFT and wall time.
 - Distinguish cached and cold input. The short API protocol varies a leading nonce and sends cache_prompt=false; support of this flag varies by runtime. MLX direct benchmarks must state whether prompt KV cache is reused.

@@ -1,0 +1,1281 @@
+{
+  "purpose": "one long-prefill native stability probe; not an agent/quality score",
+  "server": {
+    "kind": "mlx",
+    "pid": 58226,
+    "port": 8082,
+    "cmd": [
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/runtimes/mlx/.venv/bin/python",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/scripts/mlx_server.py",
+      "--model",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/models/ornith-mlx",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8082",
+      "--temp",
+      "0.6",
+      "--top-p",
+      "0.95",
+      "--max-tokens",
+      "1024",
+      "--decode-concurrency",
+      "1",
+      "--prompt-concurrency",
+      "1",
+      "--prompt-cache-size",
+      "1",
+      "--prompt-cache-bytes",
+      "536870912"
+    ],
+    "started": 1792859555.845323,
+    "profile": {
+      "context": 16384,
+      "output": 1536,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "concurrency": 1,
+      "kv_quantization": null,
+      "stage": "context-only stability validation after successful 8192 tool cycles"
+    },
+    "model_id": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+    "models": [
+      "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53"
+    ]
+  },
+  "request": {
+    "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+    "messages": [
+      {
+        "role": "user",
+        "content": "After this padding, reply only OK.\npadding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding padding \nReply OK."
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_tokens": 128,
+    "stream": true,
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "response": {
+    "wall_s": 151.6990713339983,
+    "ttft_s": 145.0991424169988,
+    "first_tool_delta_s": null,
+    "content": "\n\nOK.",
+    "reasoning": "The user has given me a message that says \"After this padding, reply only OK.\" followed by a very long string of \"padding\" repeated many times.\n\nI should just reply \"OK.\" as requested.\n",
+    "usage": {
+      "prompt_tokens": 12023,
+      "completion_tokens": 49,
+      "total_tokens": 12072,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "timings": {},
+    "tool_calls_deltas": [],
+    "events": [
+      {
+        "s": 145.0991424169988,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "The"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.16463637499692,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " user"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.23678537499654,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " has"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.30768837499636,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " given"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.3784888750015,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " me"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.44959283399658,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " a"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.51910279200092,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " message"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.58494562499982,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " that"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.6502864590002,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " says"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.73308570899826,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " \""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.80260412499774,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "After"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.8749879169991,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " this"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 145.94663929200033,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " padding"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 146.02095137500146,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": ","
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 146.10281012499763,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " reply"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 146.1994882500003,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " only"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 146.34665033400233,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " OK"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 147.0178237500004,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": ".\""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 147.80245250000007,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " followed"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 147.97620124999958,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " by"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.10780820900254,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " a"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.22009704200173,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " very"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.32936099999642,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " long"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.42224862500007,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.52044941700296,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " of"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.61884329200257,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " \""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.71772754199628,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "padding"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.81847562499752,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "\""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 148.9171822089993,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " repeated"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.01057416699769,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " many"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.1015922919978,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " times"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.1886667919971,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "."
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.28314983400196,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "\n\n"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.3909554589991,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "I"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.5209132500022,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " should"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.6727119999996,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " just"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 149.84931829199923,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " reply"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.00818245900155,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " \""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.21515004200046,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "OK"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.45231149999745,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": ".\""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.63821829199878,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " as"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.77340412500052,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": " requested"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 150.93682783399709,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "."
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.079401959003,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "reasoning": "\n"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.34408991700184,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "content": "\n\n"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.4502545419964,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "content": "OK"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.56888395900023,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": null,
+              "delta": {
+                "role": "assistant",
+                "content": "."
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.6975581250008,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion.chunk",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": "stop",
+              "delta": {
+                "role": "assistant"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "s": 151.69872891699924,
+        "event": {
+          "id": "chatcmpl-179860db-6c4a-46aa-a840-491c832c333e",
+          "system_fingerprint": "0.32.2-0.32.4-macOS-27.2-arm64-arm-64bit-applegpu_g15g",
+          "object": "chat.completion",
+          "model": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+          "created": 1792859558,
+          "choices": [],
+          "usage": {
+            "prompt_tokens": 12023,
+            "completion_tokens": 49,
+            "total_tokens": 12072,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "memory_samples": [
+    {
+      "utc": "2026-10-24T16:32:38.006458+00:00",
+      "disk_free_bytes": 12797759488,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   196190.\nPages active:                                 127238.\nPages inactive:                               253150.\nPages speculative:                              4771.\nPages throttled:                                   0.\nPages wired down:                             333729.\nPages purgeable:                                4467.\n\"Translation faults\":                      180917319.\nPages copy-on-write:                         4845063.\nPages zero filled:                         103849124.\nPages reactivated:                          33477663.\nPages purged:                                6775674.\nFile-backed pages:                            248309.\nAnonymous pages:                              136850.\nPages stored in compressor:                   230432.\nPages occupied by compressor:                  96538.\nDecompressions:                             27439223.\nCompressions:                               32898529.\nPageins:                                    13012786.\nPageouts:                                      23557.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 57%"
+    },
+    {
+      "utc": "2026-10-24T16:32:43.024288+00:00",
+      "disk_free_bytes": 12797542400,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    38816.\nPages active:                                 169110.\nPages inactive:                               170475.\nPages speculative:                               101.\nPages throttled:                                   0.\nPages wired down:                             276123.\nPages purgeable:                                 447.\n\"Translation faults\":                      181498356.\nPages copy-on-write:                         4845497.\nPages zero filled:                         104426537.\nPages reactivated:                          33561316.\nPages purged:                                6778793.\nFile-backed pages:                            213499.\nAnonymous pages:                              126187.\nPages stored in compressor:                   507259.\nPages occupied by compressor:                 357544.\nDecompressions:                             27500577.\nCompressions:                               33250907.\nPageins:                                    13421661.\nPageouts:                                      23588.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 37%"
+    },
+    {
+      "utc": "2026-10-24T16:32:48.050288+00:00",
+      "disk_free_bytes": 12797788160,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7161.\nPages active:                                 168244.\nPages inactive:                               171068.\nPages speculative:                               156.\nPages throttled:                                   0.\nPages wired down:                             563417.\nPages purgeable:                                 931.\n\"Translation faults\":                      181504375.\nPages copy-on-write:                         4845883.\nPages zero filled:                         104461418.\nPages reactivated:                          33561339.\nPages purged:                                6778795.\nFile-backed pages:                            214722.\nAnonymous pages:                              124746.\nPages stored in compressor:                   253627.\nPages occupied by compressor:                 102139.\nDecompressions:                             27753857.\nCompressions:                               33251288.\nPageins:                                    13421771.\nPageouts:                                      23588.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%"
+    },
+    {
+      "utc": "2026-10-24T16:32:53.064035+00:00",
+      "disk_free_bytes": 12797808640,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5195.\nPages active:                                 159747.\nPages inactive:                               158350.\nPages speculative:                               382.\nPages throttled:                                   0.\nPages wired down:                             584596.\nPages purgeable:                                4236.\n\"Translation faults\":                      181521759.\nPages copy-on-write:                         4846404.\nPages zero filled:                         104495261.\nPages reactivated:                          33577615.\nPages purged:                                6778799.\nFile-backed pages:                            193440.\nAnonymous pages:                              125039.\nPages stored in compressor:                   258031.\nPages occupied by compressor:                 103915.\nDecompressions:                             27756056.\nCompressions:                               33257963.\nPageins:                                    13422621.\nPageouts:                                      23588.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%"
+    },
+    {
+      "utc": "2026-10-24T16:32:58.081778+00:00",
+      "disk_free_bytes": 12797837312,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5033.\nPages active:                                 149564.\nPages inactive:                               148327.\nPages speculative:                               385.\nPages throttled:                                   0.\nPages wired down:                             605189.\nPages purgeable:                                2241.\n\"Translation faults\":                      181530062.\nPages copy-on-write:                         4846814.\nPages zero filled:                         104567779.\nPages reactivated:                          33577619.\nPages purged:                                6778801.\nFile-backed pages:                            173350.\nAnonymous pages:                              124926.\nPages stored in compressor:                   257109.\nPages occupied by compressor:                 103687.\nDecompressions:                             27757010.\nCompressions:                               33257963.\nPageins:                                    13422627.\nPageouts:                                      23590.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%"
+    },
+    {
+      "utc": "2026-10-24T16:33:03.089711+00:00",
+      "disk_free_bytes": 12796604416,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5132.\nPages active:                                 146867.\nPages inactive:                               144973.\nPages speculative:                               422.\nPages throttled:                                   0.\nPages wired down:                             612117.\nPages purgeable:                                5071.\n\"Translation faults\":                      181536649.\nPages copy-on-write:                         4847230.\nPages zero filled:                         104580737.\nPages reactivated:                          33577661.\nPages purged:                                6778981.\nFile-backed pages:                            163355.\nAnonymous pages:                              128907.\nPages stored in compressor:                   254759.\nPages occupied by compressor:                 102674.\nDecompressions:                             27759458.\nCompressions:                               33257963.\nPageins:                                    13426888.\nPageouts:                                      23590.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%"
+    },
+    {
+      "utc": "2026-10-24T16:33:08.106736+00:00",
+      "disk_free_bytes": 12796702720,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4771.\nPages active:                                 146223.\nPages inactive:                               144774.\nPages speculative:                               421.\nPages throttled:                                   0.\nPages wired down:                             613361.\nPages purgeable:                                3289.\n\"Translation faults\":                      181542018.\nPages copy-on-write:                         4847630.\nPages zero filled:                         104585759.\nPages reactivated:                          33577661.\nPages purged:                                6778983.\nFile-backed pages:                            162665.\nAnonymous pages:                              128753.\nPages stored in compressor:                   254621.\nPages occupied by compressor:                 102635.\nDecompressions:                             27759591.\nCompressions:                               33257963.\nPageins:                                    13426892.\nPageouts:                                      23590.\nSwapins:                                      274272.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%"
+    },
+    {
+      "utc": "2026-10-24T16:33:13.119703+00:00",
+      "disk_free_bytes": 12796690432,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5073.\nPages active:                                 143789.\nPages inactive:                               142410.\nPages speculative:                               153.\nPages throttled:                                   0.\nPages wired down:                             619116.\nPages purgeable:                                7193.\n\"Translation faults\":                      181551208.\nPages copy-on-write:                         4848024.\nPages zero filled:                         104659781.\nPages reactivated:                          33577661.\nPages purged:                                6779161.\nFile-backed pages:                            150706.\nAnonymous pages:                              135646.\nPages stored in compressor:                   252209.\nPages occupied by compressor:                 101644.\nDecompressions:                             27762014.\nCompressions:                               33257963.\nPageins:                                    13427160.\nPageouts:                                      23590.\nSwapins:                                      274276.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 28%"
+    },
+    {
+      "utc": "2026-10-24T16:33:18.128181+00:00",
+      "disk_free_bytes": 12796686336,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4954.\nPages active:                                 140680.\nPages inactive:                               139865.\nPages speculative:                               191.\nPages throttled:                                   0.\nPages wired down:                             624905.\nPages purgeable:                                4069.\n\"Translation faults\":                      181556693.\nPages copy-on-write:                         4848429.\nPages zero filled:                         104666953.\nPages reactivated:                          33577661.\nPages purged:                                6779163.\nFile-backed pages:                            147955.\nAnonymous pages:                              132781.\nPages stored in compressor:                   252015.\nPages occupied by compressor:                 101590.\nDecompressions:                             27762200.\nCompressions:                               33257963.\nPageins:                                    13427197.\nPageouts:                                      23590.\nSwapins:                                      274276.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 28%"
+    },
+    {
+      "utc": "2026-10-24T16:33:23.145068+00:00",
+      "disk_free_bytes": 12796637184,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5228.\nPages active:                                 139230.\nPages inactive:                               138162.\nPages speculative:                               194.\nPages throttled:                                   0.\nPages wired down:                             627930.\nPages purgeable:                                2480.\n\"Translation faults\":                      181562399.\nPages copy-on-write:                         4848822.\nPages zero filled:                         104672183.\nPages reactivated:                          33577661.\nPages purged:                                6779341.\nFile-backed pages:                            146169.\nAnonymous pages:                              131417.\nPages stored in compressor:                   251447.\nPages occupied by compressor:                 101441.\nDecompressions:                             27762406.\nCompressions:                               33257963.\nPageins:                                    13427222.\nPageouts:                                      23590.\nSwapins:                                      274276.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 27%"
+    },
+    {
+      "utc": "2026-10-24T16:33:28.162480+00:00",
+      "disk_free_bytes": 12796678144,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     6948.\nPages active:                                 137023.\nPages inactive:                               136226.\nPages speculative:                               165.\nPages throttled:                                   0.\nPages wired down:                             630394.\nPages purgeable:                                2921.\n\"Translation faults\":                      181568829.\nPages copy-on-write:                         4849221.\nPages zero filled:                         104700463.\nPages reactivated:                          33577707.\nPages purged:                                6779343.\nFile-backed pages:                            141342.\nAnonymous pages:                              132072.\nPages stored in compressor:                   251404.\nPages occupied by compressor:                 101422.\nDecompressions:                             27762452.\nCompressions:                               33257963.\nPageins:                                    13427225.\nPageouts:                                      23590.\nSwapins:                                      274276.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1156.94M  free = 891.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 27%"
+    },
+    {
+      "utc": "2026-10-24T16:33:33.179899+00:00",
+      "disk_free_bytes": 12795822080,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    22055.\nPages active:                                 148135.\nPages inactive:                               141617.\nPages speculative:                              5862.\nPages throttled:                                   0.\nPages wired down:                             596920.\nPages purgeable:                                3214.\n\"Translation faults\":                      181678384.\nPages copy-on-write:                         4853452.\nPages zero filled:                         104766113.\nPages reactivated:                          33577751.\nPages purged:                                6779395.\nFile-backed pages:                            121852.\nAnonymous pages:                              173762.\nPages stored in compressor:                   228232.\nPages occupied by compressor:                  97596.\nDecompressions:                             27787235.\nCompressions:                               33257963.\nPageins:                                    13442494.\nPageouts:                                      23590.\nSwapins:                                      274984.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%"
+    },
+    {
+      "utc": "2026-10-24T16:33:38.198871+00:00",
+      "disk_free_bytes": 12795572224,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    14249.\nPages active:                                 131911.\nPages inactive:                               128880.\nPages speculative:                              2330.\nPages throttled:                                   0.\nPages wired down:                             634822.\nPages purgeable:                                2598.\n\"Translation faults\":                      181691166.\nPages copy-on-write:                         4854022.\nPages zero filled:                         104823943.\nPages reactivated:                          33604135.\nPages purged:                                6779399.\nFile-backed pages:                             97528.\nAnonymous pages:                              165593.\nPages stored in compressor:                   234141.\nPages occupied by compressor:                  99993.\nDecompressions:                             27787981.\nCompressions:                               33266271.\nPageins:                                    13443627.\nPageouts:                                      23594.\nSwapins:                                      274984.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 27%"
+    },
+    {
+      "utc": "2026-10-24T16:33:43.217557+00:00",
+      "disk_free_bytes": 12795592704,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5844.\nPages active:                                 133447.\nPages inactive:                               128493.\nPages speculative:                              4298.\nPages throttled:                                   0.\nPages wired down:                             640717.\nPages purgeable:                                2281.\n\"Translation faults\":                      181702433.\nPages copy-on-write:                         4854635.\nPages zero filled:                         104831970.\nPages reactivated:                          33604140.\nPages purged:                                6779399.\nFile-backed pages:                            100868.\nAnonymous pages:                              165370.\nPages stored in compressor:                   232049.\nPages occupied by compressor:                  99386.\nDecompressions:                             27789695.\nCompressions:                               33266271.\nPageins:                                    13445888.\nPageouts:                                      23594.\nSwapins:                                      274992.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 26%"
+    },
+    {
+      "utc": "2026-10-24T16:33:48.228573+00:00",
+      "disk_free_bytes": 12796506112,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5399.\nPages active:                                 133901.\nPages inactive:                               127926.\nPages speculative:                              4929.\nPages throttled:                                   0.\nPages wired down:                             640798.\nPages purgeable:                                2692.\n\"Translation faults\":                      181718298.\nPages copy-on-write:                         4855387.\nPages zero filled:                         104838887.\nPages reactivated:                          33604140.\nPages purged:                                6779486.\nFile-backed pages:                             97766.\nAnonymous pages:                              168990.\nPages stored in compressor:                   231565.\nPages occupied by compressor:                  99232.\nDecompressions:                             27790174.\nCompressions:                               33266271.\nPageins:                                    13450333.\nPageouts:                                      23594.\nSwapins:                                      275000.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 26%"
+    },
+    {
+      "utc": "2026-10-24T16:33:53.247601+00:00",
+      "disk_free_bytes": 12795326464,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4784.\nPages active:                                 133253.\nPages inactive:                               130695.\nPages speculative:                              1594.\nPages throttled:                                   0.\nPages wired down:                             642794.\nPages purgeable:                                2110.\n\"Translation faults\":                      181734232.\nPages copy-on-write:                         4855920.\nPages zero filled:                         104846420.\nPages reactivated:                          33604146.\nPages purged:                                6779629.\nFile-backed pages:                             95266.\nAnonymous pages:                              170276.\nPages stored in compressor:                   231040.\nPages occupied by compressor:                  99065.\nDecompressions:                             27790643.\nCompressions:                               33266271.\nPageins:                                    13451662.\nPageouts:                                      23603.\nSwapins:                                      275000.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 26%"
+    },
+    {
+      "utc": "2026-10-24T16:33:58.266785+00:00",
+      "disk_free_bytes": 12795334656,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4737.\nPages active:                                 132223.\nPages inactive:                               127976.\nPages speculative:                              3526.\nPages throttled:                                   0.\nPages wired down:                             644808.\nPages purgeable:                                2097.\n\"Translation faults\":                      181744943.\nPages copy-on-write:                         4856474.\nPages zero filled:                         104852922.\nPages reactivated:                          33604238.\nPages purged:                                6779697.\nFile-backed pages:                             92793.\nAnonymous pages:                              170932.\nPages stored in compressor:                   230490.\nPages occupied by compressor:                  98915.\nDecompressions:                             27791198.\nCompressions:                               33266271.\nPageins:                                    13453801.\nPageouts:                                      23603.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 26%"
+    },
+    {
+      "utc": "2026-10-24T16:34:03.285327+00:00",
+      "disk_free_bytes": 12795383808,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5600.\nPages active:                                 130426.\nPages inactive:                               129654.\nPages speculative:                               471.\nPages throttled:                                   0.\nPages wired down:                             646843.\nPages purgeable:                                5259.\n\"Translation faults\":                      181753281.\nPages copy-on-write:                         4856899.\nPages zero filled:                         104862945.\nPages reactivated:                          33604241.\nPages purged:                                6779990.\nFile-backed pages:                             87059.\nAnonymous pages:                              173492.\nPages stored in compressor:                   231409.\nPages occupied by compressor:                  99191.\nDecompressions:                             27792978.\nCompressions:                               33268709.\nPageins:                                    13454032.\nPageouts:                                      23603.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 26%"
+    },
+    {
+      "utc": "2026-10-24T16:34:08.295090+00:00",
+      "disk_free_bytes": 12795412480,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4879.\nPages active:                                 126089.\nPages inactive:                               125040.\nPages speculative:                               460.\nPages throttled:                                   0.\nPages wired down:                             653589.\nPages purgeable:                                3800.\n\"Translation faults\":                      181759988.\nPages copy-on-write:                         4857302.\nPages zero filled:                         104873464.\nPages reactivated:                          33614840.\nPages purged:                                6780011.\nFile-backed pages:                             86199.\nAnonymous pages:                              165390.\nPages stored in compressor:                   237466.\nPages occupied by compressor:                 102128.\nDecompressions:                             27793953.\nCompressions:                               33275938.\nPageins:                                    13454420.\nPageouts:                                      23603.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 25%"
+    },
+    {
+      "utc": "2026-10-24T16:34:13.306681+00:00",
+      "disk_free_bytes": 12795416576,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    10887.\nPages active:                                 126318.\nPages inactive:                               126645.\nPages speculative:                               469.\nPages throttled:                                   0.\nPages wired down:                             645759.\nPages purgeable:                                5864.\n\"Translation faults\":                      181766871.\nPages copy-on-write:                         4857701.\nPages zero filled:                         104961899.\nPages reactivated:                          33616602.\nPages purged:                                6780189.\nFile-backed pages:                             86431.\nAnonymous pages:                              167001.\nPages stored in compressor:                   237399.\nPages occupied by compressor:                 102107.\nDecompressions:                             27794448.\nCompressions:                               33276463.\nPageins:                                    13454659.\nPageouts:                                      23603.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 25%"
+    },
+    {
+      "utc": "2026-10-24T16:34:18.321268+00:00",
+      "disk_free_bytes": 12795367424,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     9028.\nPages active:                                 125171.\nPages inactive:                               125107.\nPages speculative:                               542.\nPages throttled:                                   0.\nPages wired down:                             650322.\nPages purgeable:                                3917.\n\"Translation faults\":                      181772952.\nPages copy-on-write:                         4858106.\nPages zero filled:                         104968946.\nPages reactivated:                          33616602.\nPages purged:                                6780365.\nFile-backed pages:                             86559.\nAnonymous pages:                              164261.\nPages stored in compressor:                   237127.\nPages occupied by compressor:                 102015.\nDecompressions:                             27794716.\nCompressions:                               33276463.\nPageins:                                    13454745.\nPageouts:                                      23603.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 25%"
+    },
+    {
+      "utc": "2026-10-24T16:34:23.338647+00:00",
+      "disk_free_bytes": 12795199488,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4596.\nPages active:                                 126188.\nPages inactive:                               125142.\nPages speculative:                               232.\nPages throttled:                                   0.\nPages wired down:                             652812.\nPages purgeable:                                3227.\n\"Translation faults\":                      181784732.\nPages copy-on-write:                         4859367.\nPages zero filled:                         104974960.\nPages reactivated:                          33635335.\nPages purged:                                6780463.\nFile-backed pages:                             95514.\nAnonymous pages:                              156048.\nPages stored in compressor:                   240893.\nPages occupied by compressor:                 103215.\nDecompressions:                             27795388.\nCompressions:                               33281105.\nPageins:                                    13462443.\nPageouts:                                      23604.\nSwapins:                                      275004.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 25%"
+    },
+    {
+      "utc": "2026-10-24T16:34:28.365406+00:00",
+      "disk_free_bytes": 12795371520,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4717.\nPages active:                                 124530.\nPages inactive:                               123425.\nPages speculative:                               322.\nPages throttled:                                   0.\nPages wired down:                             655324.\nPages purgeable:                                3058.\n\"Translation faults\":                      181793982.\nPages copy-on-write:                         4859935.\nPages zero filled:                         104980939.\nPages reactivated:                          33636197.\nPages purged:                                6780482.\nFile-backed pages:                             94203.\nAnonymous pages:                              154074.\nPages stored in compressor:                   242882.\nPages occupied by compressor:                 103867.\nDecompressions:                             27795753.\nCompressions:                               33283585.\nPageins:                                    13462607.\nPageouts:                                      23604.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 24%"
+    },
+    {
+      "utc": "2026-10-24T16:34:33.385584+00:00",
+      "disk_free_bytes": 12795314176,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7725.\nPages active:                                 121079.\nPages inactive:                               121599.\nPages speculative:                                69.\nPages throttled:                                   0.\nPages wired down:                             657737.\nPages purgeable:                                3078.\n\"Translation faults\":                      181799822.\nPages copy-on-write:                         4860350.\nPages zero filled:                         104985660.\nPages reactivated:                          33641643.\nPages purged:                                6780486.\nFile-backed pages:                             92061.\nAnonymous pages:                              150686.\nPages stored in compressor:                   242966.\nPages occupied by compressor:                 103976.\nDecompressions:                             27796024.\nCompressions:                               33284581.\nPageins:                                    13462683.\nPageouts:                                      23604.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 24%"
+    },
+    {
+      "utc": "2026-10-24T16:34:38.403511+00:00",
+      "disk_free_bytes": 12795281408,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    11256.\nPages active:                                 117798.\nPages inactive:                               116785.\nPages speculative:                                59.\nPages throttled:                                   0.\nPages wired down:                             662813.\nPages purgeable:                                3080.\n\"Translation faults\":                      181807106.\nPages copy-on-write:                         4860758.\nPages zero filled:                         105007599.\nPages reactivated:                          33642249.\nPages purged:                                6780495.\nFile-backed pages:                             83111.\nAnonymous pages:                              151531.\nPages stored in compressor:                   241957.\nPages occupied by compressor:                 103474.\nDecompressions:                             27797231.\nCompressions:                               33284819.\nPageins:                                    13462728.\nPageouts:                                      23604.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 24%"
+    },
+    {
+      "utc": "2026-10-24T16:34:43.421145+00:00",
+      "disk_free_bytes": 12795371520,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    18995.\nPages active:                                 118367.\nPages inactive:                               116936.\nPages speculative:                               254.\nPages throttled:                                   0.\nPages wired down:                             654236.\nPages purgeable:                                3146.\n\"Translation faults\":                      181813285.\nPages copy-on-write:                         4861163.\nPages zero filled:                         105100208.\nPages reactivated:                          33642251.\nPages purged:                                6780495.\nFile-backed pages:                             83495.\nAnonymous pages:                              152062.\nPages stored in compressor:                   241707.\nPages occupied by compressor:                 103397.\nDecompressions:                             27797481.\nCompressions:                               33284819.\nPageins:                                    13462894.\nPageouts:                                      23604.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 24%"
+    },
+    {
+      "utc": "2026-10-24T16:34:48.432535+00:00",
+      "disk_free_bytes": 12795326464,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4963.\nPages active:                                 115278.\nPages inactive:                               114015.\nPages speculative:                               389.\nPages throttled:                                   0.\nPages wired down:                             673625.\nPages purgeable:                                3076.\n\"Translation faults\":                      181819270.\nPages copy-on-write:                         4861556.\nPages zero filled:                         105121956.\nPages reactivated:                          33645814.\nPages purged:                                6780497.\nFile-backed pages:                             82608.\nAnonymous pages:                              147074.\nPages stored in compressor:                   243367.\nPages occupied by compressor:                 103915.\nDecompressions:                             27797725.\nCompressions:                               33286950.\nPageins:                                    13463138.\nPageouts:                                      23610.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 22%"
+    },
+    {
+      "utc": "2026-10-24T16:34:53.450979+00:00",
+      "disk_free_bytes": 12795305984,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4857.\nPages active:                                 103153.\nPages inactive:                               101428.\nPages speculative:                               763.\nPages throttled:                                   0.\nPages wired down:                             687991.\nPages purgeable:                                1651.\n\"Translation faults\":                      181852289.\nPages copy-on-write:                         4862166.\nPages zero filled:                         105155132.\nPages reactivated:                          33670795.\nPages purged:                                6781314.\nFile-backed pages:                             81506.\nAnonymous pages:                              123838.\nPages stored in compressor:                   264828.\nPages occupied by compressor:                 113993.\nDecompressions:                             27800867.\nCompressions:                               33313968.\nPageins:                                    13464183.\nPageouts:                                      23618.\nSwapins:                                      275012.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 20%"
+    },
+    {
+      "utc": "2026-10-24T16:34:58.468964+00:00",
+      "disk_free_bytes": 12795293696,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4859.\nPages active:                                  89419.\nPages inactive:                                88571.\nPages speculative:                                50.\nPages throttled:                                   0.\nPages wired down:                             703808.\nPages purgeable:                                 767.\n\"Translation faults\":                      181859829.\nPages copy-on-write:                         4862562.\nPages zero filled:                         105173032.\nPages reactivated:                          33682702.\nPages purged:                                6781723.\nFile-backed pages:                             74592.\nAnonymous pages:                              103448.\nPages stored in compressor:                   282955.\nPages occupied by compressor:                 125478.\nDecompressions:                             27801708.\nCompressions:                               33333314.\nPageins:                                    13464251.\nPageouts:                                      23618.\nSwapins:                                      275016.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 17%"
+    },
+    {
+      "utc": "2026-10-24T16:35:03.486437+00:00",
+      "disk_free_bytes": 12795146240,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   142846.\nPages active:                                  79053.\nPages inactive:                                78531.\nPages speculative:                               161.\nPages throttled:                                   0.\nPages wired down:                             576981.\nPages purgeable:                                4454.\n\"Translation faults\":                      181874346.\nPages copy-on-write:                         4862969.\nPages zero filled:                         105249680.\nPages reactivated:                          33707523.\nPages purged:                                6781886.\nFile-backed pages:                             74393.\nAnonymous pages:                               83352.\nPages stored in compressor:                   303562.\nPages occupied by compressor:                 134613.\nDecompressions:                             27809366.\nCompressions:                               33361723.\nPageins:                                    13468660.\nPageouts:                                      23618.\nSwapins:                                      275016.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%"
+    },
+    {
+      "utc": "2026-10-24T16:35:08.516547+00:00",
+      "disk_free_bytes": 12795215872,
+      "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   114833.\nPages active:                                  82872.\nPages inactive:                                81468.\nPages speculative:                               419.\nPages throttled:                                   0.\nPages wired down:                             599939.\nPages purgeable:                                2952.\n\"Translation faults\":                      181888323.\nPages copy-on-write:                         4863372.\nPages zero filled:                         105277912.\nPages reactivated:                          33707523.\nPages purged:                                6781886.\nFile-backed pages:                             74956.\nAnonymous pages:                               89803.\nPages stored in compressor:                   297848.\nPages occupied by compressor:                 132654.\nDecompressions:                             27814601.\nCompressions:                               33361723.\nPageins:                                    13468903.\nPageouts:                                      23618.\nSwapins:                                      275016.\nSwapouts:                                     638466.",
+      "swap": "vm.swapusage: total = 2048.00M  used = 1140.94M  free = 907.06M  (encrypted)",
+      "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 27%"
+    }
+  ],
+  "health_after": {
+    "status": "ok"
+  }
+}

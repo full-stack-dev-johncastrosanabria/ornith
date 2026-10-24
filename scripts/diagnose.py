@@ -12,6 +12,7 @@ out['graphics']=[{k:v for k,v in g.items() if k in ['sppci_model','spdisplays_me
 for tool,args in [('uv',['--version']),('git',['--version']),('node',['--version']),('opencode',['--version']),('dotnet',['--list-sdks'])]:
     out['tools'][tool]={'path':shutil.which(tool),**command([tool]+args)}
 out['macos']=command(['sw_vers']);out['python']=command(['uv','python','list','--only-installed'])
+out['power']=command(['pmset','-g','custom']);out['battery']=command(['pmset','-g','batt']);out['thermal']=command(['pmset','-g','therm'])
 out['inference_processes']=[l for l in subprocess.check_output(['ps','-axo','pid,rss,comm'],text=True).splitlines() if any(t in l.lower() for t in ['llama-server','mlx_lm','ollama','opencode'])]
 p=pathlib.Path.home()/'.config/opencode/opencode.jsonc'
 out['global_opencode_sha256']=hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None

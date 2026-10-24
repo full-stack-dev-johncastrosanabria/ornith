@@ -22,7 +22,14 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     if task_id=='F7-A':
         p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj'],cwd=work,capture_output=True,text=True,timeout=240)
         if p.returncode:return {'task':task_id,'status':'infrastructure','restore':p.stdout+p.stderr,'workspace':str(work)}
-    before_hashes=hashes(work);baseline=grade(work,spec['command']);memory=snapshot()
+    before_hashes=hashes(work);baseline=grade(work,spec['command'])
+    if task_id=='F7-A':
+        # Preflight compilation must not pollute the model's initially clean task
+        # with hundreds of generated files. Keep only restored NuGet assets.
+        for part in ['src','tests']:
+            shutil.rmtree(work/part/'bin',ignore_errors=True)
+            shutil.rmtree(work/part/'obj/Debug',ignore_errors=True)
+    memory=snapshot()
     result=run(work,(work/'TASK.md').read_text(),s['kind'],s['model_id'],harness,timeout=timeout)
     final=grade(work,spec['command']);unchanged=before_hashes==hashes(work)
     tools=[e for e in result['events'] if e.get('type')=='tool_use'];finished=[e.get('part',{}) for e in result['events'] if e.get('type')=='step_finish']
@@ -30,8 +37,11 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     if tools:
         starts=[e['timestamp'] for e in result['events'] if e.get('type')=='step_start']
         if starts:first_tool_s=(tools[0]['timestamp']-min(starts))/1000
-    status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if not result['events'] else 'fail')
-    return {'task':task_id,'label':label,'status':status,'workspace':str(work),'baseline':baseline,'acceptance':final,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
+    errors=[e for e in result['events'] if e.get('type')=='error']
+    infrastructure=not result['events'] or any(e.get('error',{}).get('name') in ['APIError','ProviderModelNotFoundError','ContextOverflowError'] for e in errors)
+    status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if infrastructure else 'fail')
+    launch_tool_s=(tools[0]['timestamp']-result['started_epoch_ms'])/1000 if tools and 'started_epoch_ms' in result else None
+    return {'task':task_id,'label':label,'status':status,'workspace':str(work),'baseline':baseline,'acceptance':final,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--tasks',nargs='+',default=['F7-A','F7-B','F7-C','F7-D']);ap.add_argument('--harness',type=pathlib.Path);ap.add_argument('--label',default='control');ap.add_argument('--timeout',type=int,default=1200);a=ap.parse_args()
