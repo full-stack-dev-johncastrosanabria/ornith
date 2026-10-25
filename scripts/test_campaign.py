@@ -7,6 +7,12 @@ import report
 from types import SimpleNamespace
 
 class ResumeTests(unittest.TestCase):
+    def test_infrastructure_interruptions_remain_pending(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=pathlib.Path(directory);results=root/'benchmarks/results';results.mkdir(parents=True)
+            (results/'tasks-mlx-control-20261024.json').write_text(json.dumps({'rows':[{'task':'F7-A','status':'fail'},{'task':'F7-B','status':'infrastructure','resource_abort':['disk below reserve']}]}))
+            with patch.object(campaign,'ROOT',root):found=campaign.existing_tasks('mlx','control')
+            self.assertEqual(list(found),['F7-A'])
     def test_negative_measurements_are_completed_attempts(self):
         with tempfile.TemporaryDirectory() as directory:
             root=pathlib.Path(directory);results=root/'benchmarks/results';results.mkdir(parents=True)
@@ -32,5 +38,9 @@ class ResumeTests(unittest.TestCase):
         rows=[{'status':'fail','acceptance':{'rc':0},'tests_unchanged':True}]
         self.assertEqual(report.artifact_quality(rows),'1/1')
         self.assertEqual(report.quality(rows),'0/1 scored')
+    def test_report_excludes_infrastructure_from_quality_denominators(self):
+        rows=[{'status':'fail','acceptance':{'rc':1},'tests_unchanged':True},{'status':'infrastructure','acceptance':{'rc':1},'tests_unchanged':True}]
+        self.assertEqual(report.artifact_quality(rows),'0/1')
+        self.assertEqual(report.quality(rows),'0/1 scored; 1 infrastructure')
 
 if __name__=='__main__':unittest.main()

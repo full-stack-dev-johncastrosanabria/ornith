@@ -74,9 +74,7 @@ def main():
     lines+=['The cleared-host cohort is kept separate from the earlier memory-congested block. Once its first row exists, this report uses only that cohort for each condition; it never fills missing rows from the older block. Old negative outcomes remain in the raw evidence.','', '## Artifact acceptance versus agent completion','']
     for label,rows in [('Bonsai control',br),('Ornith MLX control',mr),('Ornith GGUF control',gr),('Ornith local PPC',hr)]:
         if rows:
-            accepted=sum(r.get('acceptance',{}).get('rc')==0 and r.get('tests_unchanged',False) for r in rows)
-            completed=sum(r['status']=='pass' for r in rows)
-            lines.append(f'- {label}: {accepted}/{len(rows)} artifacts pass external tests; {completed}/{len(rows)} agent runs completed successfully.')
+            lines.append(f'- {label}: {artifact_quality(rows)} artifacts pass external tests; agent completions: {quality(rows)}.')
     lines+=['','The earlier congested-block Ornith F7-B artifact passes all three tests, but its agent timed out at1200 seconds. This illustrates why artifact correctness and completed-agent productivity are separate.','']
     lines+=['## External acceptance by task','','| Configuration | Task | Outcome | Agent seconds | Tool calls | Tool errors | Tests immutable |','|---|---|---|---|---|---|---|']
     flattened=[];observability=[]

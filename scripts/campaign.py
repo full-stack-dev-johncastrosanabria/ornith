@@ -7,7 +7,8 @@ def existing_tasks(kind,label):
     for path in sorted((ROOT/'benchmarks/results').glob(f'tasks-{kind}-{label}-*.json')):
         data=json.loads(path.read_text())
         if data.get('label',label)!=label:continue
-        for row in data.get('rows',[]):found[row['task']]=row
+        for row in data.get('rows',[]):
+            if row.get('status') in ('pass','fail'):found[row['task']]=row
     return found
 
 def ensure(kind):
