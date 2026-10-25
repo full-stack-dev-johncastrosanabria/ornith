@@ -6,6 +6,7 @@ The executor is the official pinned OpenCode source checkout, not the global CLI
 import argparse,datetime,json,pathlib,shutil,sys,time,uuid
 from unittest.mock import patch
 import bench_tasks,smoke_agent
+from campaign import existing_tasks
 from memory import require_space
 from opencode_local import ROOT,run
 from server import STATE,start,stop
@@ -125,13 +126,16 @@ class F7Adapter:
         return {'artifact_acceptance':row.get('artifact_acceptance'),'agent_status':row['status']}
 
 def evaluate(label,harness=''):
+    completed=existing_tasks('mlx',label)
     for tid in ['F7-A','F7-B','F7-C','F7-D']:
         p=ROOT/'benchmarks/results'/f'tasks-mlx-{label}-{tid}.json'
-        if p.exists():continue
+        if tid in completed:continue
+        if p.exists():p.rename(p.with_name('infrastructure-'+uuid.uuid4().hex[:8]+'-'+p.name))
         with patch.object(bench_tasks,'run',source_run):
             row=bench_tasks.task(tid,json.loads(STATE.read_text()),harness,label=label)
         p.write_text(json.dumps({'label':label,'executor':'official-pinned-opencode-source','rows':[row]},indent=2)+'\n')
         print(tid,row['status'],flush=True)
+        if row['status']=='infrastructure':raise RuntimeError('Official evaluation interrupted by infrastructure; evidence at '+str(p))
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true');a=ap.parse_args()
@@ -164,6 +168,7 @@ def main():
     comparison={'classification':result['classification'],'optimization_wall_s':result['optimization_wall_s'],'optimization_result':str(output),'conditions':{}}
     for label in ['official-source-control','official-source-treatment']:
         rows=[json.loads(p.read_text())['rows'][0] for p in sorted((ROOT/'benchmarks/results').glob(f'tasks-mlx-{label}-F7-*.json'))]
+        if any(r['status'] not in ('pass','fail') for r in rows):raise RuntimeError('Incomplete official condition: '+label)
         comparison['conditions'][label]={'artifact_passes':sum(bool(r.get('artifact_acceptance')) for r in rows),'agent_completions':sum(r['status']=='pass' for r in rows),'n':len(rows),'tasks':[{'task':r['task'],'status':r['status'],'wall_s':r.get('agent',{}).get('wall_s')} for r in rows]}
     (ROOT/'benchmarks/reports/harness-official-comparison.json').write_text(json.dumps(comparison,indent=2)+'\n')
     print(output,flush=True)

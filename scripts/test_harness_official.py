@@ -15,6 +15,27 @@ class ScriptedEditor(Proposer):
         self._calls.append(reply);return reply
 
 class OfficialTests(unittest.TestCase):
+    def test_resume_preserves_failures_and_archives_infrastructure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);results=root/'benchmarks/results';results.mkdir(parents=True)
+            label='official-source-control'
+            for tid,status in [('F7-A','fail'),('F7-B','infrastructure')]:
+                (results/f'tasks-mlx-{label}-{tid}.json').write_text(json.dumps({'label':label,'rows':[{'task':tid,'status':status}]}))
+            state=root/'state.json';state.write_text(json.dumps({'kind':'mlx','model_id':'local'}))
+            with patch.object(h,'ROOT',root),patch('campaign.ROOT',root),patch.object(h,'STATE',state),patch.object(h.bench_tasks,'task',side_effect=lambda tid,*a,**kw:{'task':tid,'status':'pass'}) as solver:
+                h.evaluate(label)
+            self.assertEqual([c.args[0] for c in solver.call_args_list],['F7-B','F7-C','F7-D'])
+            self.assertEqual(len(list(results.glob('infrastructure-*.json'))),1)
+            self.assertEqual(json.loads((results/f'tasks-mlx-{label}-F7-A.json').read_text())['rows'][0]['status'],'fail')
+
+    def test_infrastructure_halts_official_condition(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);(root/'benchmarks/results').mkdir(parents=True)
+            state=root/'state.json';state.write_text('{}')
+            with patch.object(h,'ROOT',root),patch('campaign.ROOT',root),patch.object(h,'STATE',state),patch.object(h.bench_tasks,'task',return_value={'task':'F7-A','status':'infrastructure'}) as solver:
+                with self.assertRaises(RuntimeError):h.evaluate('official-source-control')
+            self.assertEqual(solver.call_count,1)
+
     def test_scope_and_heldout_fence(self):
         with tempfile.TemporaryDirectory() as tmp:
             adapter=h.F7Adapter(pathlib.Path(tmp))
