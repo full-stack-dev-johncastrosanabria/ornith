@@ -3,6 +3,13 @@ import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
 from server import PORTS
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
+def first_tool_latency(events,launch_ms):
+    if type(launch_ms) not in (int,float):return None
+    starts=[e.get('part',{}).get('state',{}).get('time',{}).get('start') for e in events if e.get('type')=='tool_use']
+    starts=[t for t in starts if type(t) in (int,float)]
+    if not starts or min(starts)<launch_ms:return None
+    return (min(starts)-launch_ms)/1000
+
 def configuration(kind,model_id,harness=''):
     profile=json.loads((ROOT/'runtimes/profile.json').read_text())
     provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf'}[kind]

@@ -9,6 +9,7 @@ import bench_tasks,smoke_agent
 from campaign import existing_tasks
 from memory import require_space
 from opencode_local import ROOT,run
+from report import execution_stats
 from server import STATE,start,stop
 from harness2 import config
 from harness2.core import recursion,tree
@@ -59,6 +60,10 @@ class LocalProposer(Proposer):
         s=json.loads(STATE.read_text())
         prompt='Read MISSION.md and follow it. Edit context/harness in place when requested. Save the requested final response verbatim to output/answer.md and return it.'
         result=source_run(work,prompt,s['kind'],s['model_id'],timeout=wall)
+        if self.audit_dir:
+            self.audit_dir.mkdir(parents=True,exist_ok=True)
+            with (self.audit_dir/'local-executions.jsonl').open('a') as log:
+                log.write(json.dumps({'work':str(work),'state':result['state'],'wall_s':result['wall_s'],'timeout':result['timeout'],**execution_stats({'agent':result,'tool_count':sum(e.get('type')=='tool_use' for e in result['events'])})})+'\n')
         # Harvest exactly what upstream expects, before its temporary session ends.
         if (work/'context').exists():shutil.copytree(work/'context',cwd/'context',dirs_exist_ok=True)
         answer=work/'output/answer.md'
@@ -155,6 +160,12 @@ def main():
     with patch.object(recursion,'run_mode',sequential_dispatch):
         result=run_domain('programming',['DEV'],1,adapter=adapter,prop=prop,runs_root=adapter.spec.runs_root,library_root=root/'library',modes=('seq',))
     result.update({'classification':'official Harness² core with local macOS/F7/source-launch adapters','optimization_wall_s':time.perf_counter()-t,'editor_calls':len(prop._calls),'root':str(root)})
+    metrics=root/'editor/local-executions.jsonl'
+    result['editor_execution_metrics']=[json.loads(line) for line in metrics.read_text().splitlines()] if metrics.exists() else []
+    result['solver_execution_metrics']=[]
+    for path in sorted((root/'executions').glob('*/result.json')):
+        row=json.loads(path.read_text())
+        result['solver_execution_metrics'].append({'run_id':path.parent.name,'status':row['status'],'artifact_acceptance':row.get('artifact_acceptance'),'wall_s':row.get('agent',{}).get('wall_s'),**execution_stats(row)})
     output=ROOT/'benchmarks/results'/f'harness-official-local-{now}.json';output.write_text(json.dumps(result,indent=2)+'\n')
     summaries=list((root/'runs').glob('**/summary.json'))
     chosen=[]

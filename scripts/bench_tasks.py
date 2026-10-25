@@ -1,7 +1,7 @@
 """Fresh F7 runs with protected public tests and independent external acceptance."""
 import argparse,datetime,hashlib,json,os,pathlib,shutil,subprocess,time,uuid
 from memory import snapshot
-from opencode_local import run,prepare
+from opencode_local import run,prepare,first_tool_latency
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def hashes(work):
@@ -40,13 +40,13 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     first_tool_s=None
     if tools:
         starts=[e['timestamp'] for e in result['events'] if e.get('type')=='step_start']
-        if starts:first_tool_s=(tools[0]['timestamp']-min(starts))/1000
+        if starts:first_tool_s=first_tool_latency(result['events'],min(starts))
     errors=[e for e in result['events'] if e.get('type')=='error']
     if result.get('resource_abort'):
         return {'task':task_id,'label':label,'status':'infrastructure','artifact_acceptance':final['rc']==0 and unchanged,'acceptance':final,'tests_unchanged':unchanged,'agent':result,'resource_abort':result['resource_abort'],'workspace':str(work)}
     infrastructure=not result['events'] or any(e.get('error',{}).get('name') in ['APIError','ProviderModelNotFoundError','ContextOverflowError'] for e in errors)
     status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if infrastructure else 'fail')
-    launch_tool_s=(tools[0]['timestamp']-result['started_epoch_ms'])/1000 if tools and 'started_epoch_ms' in result else None
+    launch_tool_s=first_tool_latency(result['events'],result.get('started_epoch_ms'))
     row={'task':task_id,'label':label,'status':status,'server_at_start':dict(s),'workspace':str(work),'baseline':baseline,'acceptance':final,'artifact_acceptance':final['rc']==0 and unchanged,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
     if result['timeout']:
         # A disconnected client is not proof that native generation stopped.

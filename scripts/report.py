@@ -1,5 +1,6 @@
 """Derive a cautious report from saved measurements; absent is never zero."""
 import csv,datetime,json,pathlib,re,statistics
+from opencode_local import first_tool_latency
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 RESULTS=ROOT/'benchmarks/results'
 def latest(pattern,executor=None):
@@ -49,7 +50,7 @@ def execution_stats(row):
             test_runs+=1;test_retries+=previous_failed;previous_failed=code is not None and code!=0
     finishes=[e.get('part',{}).get('tokens',{}) for e in events if e.get('type')=='step_finish']
     reasons=[e.get('part',{}).get('reason') for e in events if e.get('type')=='step_finish']
-    return {'tool_calls':row.get('tool_count'),'failed_shell_calls':failed_commands,'test_bearing_shell_calls':test_runs,'test_reruns_after_failure':test_retries,'provider_retries':None,'provider_retry_note':'not exposed by installed CLI JSON; do not equate zero error events with zero retries','error_events':sum(e.get('type')=='error' for e in events),'finish_reasons':reasons,'output_limit_events':reasons.count('length'),'first_tool_from_launch_s':row.get('first_tool_from_launch_s'),'tokens_input_uncached':sum(t.get('input',0) for t in finishes),'tokens_cache_read':sum(t.get('cache',{}).get('read',0) for t in finishes),'tokens_output_reported':sum(t.get('output',0) for t in finishes),'tokens_reasoning_reported':sum(t.get('reasoning',0) for t in finishes)}
+    return {'tool_calls':row.get('tool_count'),'failed_shell_calls':failed_commands,'test_bearing_shell_calls':test_runs,'test_reruns_after_failure':test_retries,'provider_retries':None,'provider_retry_note':'not exposed by installed CLI JSON; do not equate zero error events with zero retries','error_events':sum(e.get('type')=='error' for e in events),'finish_reasons':reasons,'output_limit_events':reasons.count('length'),'first_tool_from_launch_s':first_tool_latency(events,row.get('agent',{}).get('started_epoch_ms')),'tokens_input_uncached':sum(t.get('input',0) for t in finishes),'tokens_cache_read':sum(t.get('cache',{}).get('read',0) for t in finishes),'tokens_output_reported':sum(t.get('output',0) for t in finishes),'tokens_reasoning_reported':sum(t.get('reasoning',0) for t in finishes)}
 def main():
     b=latest('micro-bonsai-*.json');m=latest('micro-mlx-direct-*.json');ma=latest('micro-mlx-20*.json');smoke=latest('smoke-agent-mlx-*.json',executor='global');opt=latest('harness-local-*.json')
     br=group('bonsai','control');mr=group('mlx','control');hr=group('mlx','optimized')
@@ -86,7 +87,7 @@ def main():
             observability.append({'configuration':label,'task':row['task'],**execution_stats(row)})
             wall=row.get('agent',{}).get('wall_s');flat={'configuration':label,'task':row['task'],'outcome':row['status'],'wall_s':wall,'tool_calls':row.get('tool_count'),'tool_errors':row.get('tool_errors'),'tests_unchanged':row.get('tests_unchanged')};flattened.append(flat)
             lines.append(f"| {label} | {row['task']} | {row['status']} | {wall:.2f} | {row.get('tool_count','N/E')} | {row.get('tool_errors','N/E')} | {row.get('tests_unchanged','N/E')} |" if wall is not None else f"| {label} | {row['task']} | {row['status']} | N/E | N/E | N/E | N/E |")
-    lines+=['','Failed acceptance, timeouts and infrastructure errors are retained. Passing artifact tests after an agent timeout is reported separately in raw JSON; it is not an end-to-end successful run. Tool errors count error events; they are not automatically equivalent to model retries. Context compaction and auxiliary requests are represented by raw event traces and server logs.','']
+    lines+=['','Failed acceptance, timeouts and infrastructure errors are retained. Passing artifact tests after an agent timeout is reported separately in raw JSON; it is not an end-to-end successful run. Tool errors count error events; they are not automatically equivalent to model retries. Context compaction and auxiliary requests are represented by raw event traces and server logs.','', 'First-tool latency in observability.json is derived from the earliest tool state.time.start, including parallel calls. Older raw task summaries captured completion-event time; their saved traces are preserved and recomputed here. Missing start timestamps remain unmeasured.','']
     for title,control,treatment in [('Bonsai to Ornith MLX',br,mr),('Ornith MLX to GGUF',mr,gr),('Harness effect',mr,hr)]:
         pairs=[(x,next((y for y in treatment if y['task']==x['task']),None)) for x in control]
         pairs=[(x,y) for x,y in pairs if y and x['status']==y['status']=='pass']
@@ -95,7 +96,7 @@ def main():
             for x,y in pairs:
                 reduction=100*(1-y['agent']['wall_s']/x['agent']['wall_s']);lines.append(f"- {x['task']}: {reduction:.1f}% agent-wall reduction ({x['agent']['wall_s']:.1f} → {y['agent']['wall_s']:.1f} s), one run per condition.")
             lines+=['']
-    lines+=['## Harness cost and provenance','', 'Official unmodified Harness² deterministic demo: k1 sequential, 2/2 tasks, 8 Python executions, 8 deterministic editor calls. It does not measure Ornith. Official model-backed benchmark suites were not executed. WorkBuddy requires Docker and is excluded; local model-backed upstream source/Bun integration remains unvalidated.','']
+    lines+=['## Harness cost and provenance','', 'Official unmodified Harness² deterministic demo: k1 sequential, 2/2 tasks, 8 Python executions, 8 deterministic editor calls. It does not measure Ornith. Official model-backed benchmark suites were not executed. WorkBuddy requires Docker and is excluded. The pinned source-executor validation and official core with local F7/macOS adapters are tracked separately in docs/HARNESS2.md and harness-official-local-*.json; the local PPC results below must not be attributed to that core.','']
     if opt:
         lines+=[f"Local Propose–Probe–Compose reproduction: k1, sequential, one worker, same Ornith MLX solver/improver/composer, DEV only. Optimization wall: {opt.get('optimization_wall_s','in progress')} seconds. That cost is separate from every final task wall. Composition is frozen before F7 optimized runs; F7 prompts, acceptance scores and solutions were not provided to the editor.",'']
         for role in ['control','probe']:

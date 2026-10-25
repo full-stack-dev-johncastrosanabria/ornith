@@ -8,6 +8,11 @@ import server
 from types import SimpleNamespace
 
 class ResumeTests(unittest.TestCase):
+    def test_first_tool_latency_uses_earliest_start_not_completion_order(self):
+        events=[{'type':'tool_use','timestamp':3000,'part':{'state':{'time':{'start':2100}}}},{'type':'tool_use','timestamp':4000,'part':{'state':{'time':{'start':1900}}}}]
+        self.assertEqual(report.execution_stats({'agent':{'events':events,'started_epoch_ms':1000},'first_tool_from_launch_s':2})['first_tool_from_launch_s'],0.9)
+        self.assertIsNone(report.first_tool_latency([{'type':'tool_use','timestamp':3000}],1000))
+        self.assertIsNone(report.first_tool_latency(events,5000))
     def test_source_executor_failure_does_not_replace_global_tool_validation(self):
         with tempfile.TemporaryDirectory() as directory:
             results=pathlib.Path(directory)

@@ -15,6 +15,17 @@ class ScriptedEditor(Proposer):
         self._calls.append(reply);return reply
 
 class OfficialTests(unittest.TestCase):
+    def test_local_editor_records_tokens_and_session_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);(root/'benchmarks/work').mkdir(parents=True)
+            cwd=root/'session';cwd.mkdir();state=root/'server.json';state.write_text(json.dumps({'kind':'mlx','model_id':'local'}))
+            result={'rc':0,'timeout':False,'wall_s':1.5,'state':'local-state','events':[{'type':'text','part':{'text':'done'}},{'type':'step_finish','part':{'tokens':{'output':7}}}]}
+            editor=h.LocalProposer(h.ChannelSpec('opencode','ornith-mlx/local'),audit_dir=root/'editor')
+            with patch.object(h,'ROOT',root),patch.object(h,'STATE',state),patch.object(h,'source_run',return_value=result):
+                self.assertEqual(editor._opencode(cwd,'mission','',20)[0],'done')
+            metrics=json.loads((root/'editor/local-executions.jsonl').read_text())
+            self.assertEqual(metrics['tokens_output_reported'],7);self.assertEqual(metrics['state'],'local-state')
+
     def test_resume_preserves_failures_and_archives_infrastructure(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=pathlib.Path(tmp);results=root/'benchmarks/results';results.mkdir(parents=True)
