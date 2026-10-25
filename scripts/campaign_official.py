@@ -7,7 +7,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--after-pid',required=True,type=int);a=ap.parse_args()
     while True:
         command=subprocess.run(['ps','-p',str(a.after_pid),'-o','command='],capture_output=True,text=True).stdout
-        if str(ROOT/'scripts/campaign_gguf.sh') not in command:break
+        if not any(str(ROOT/'scripts'/name) in command for name in ['campaign_gguf.sh','campaign.py']):break
         time.sleep(10)
     require_space()
     if STATE.exists():raise RuntimeError('Prior server state remains; inspect before starting official experiment')

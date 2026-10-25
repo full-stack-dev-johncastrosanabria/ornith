@@ -1,19 +1,19 @@
 # Measured results
 
-Generated 2026-10-25T03:42:29.666349+00:00 from versioned JSON evidence.
+Generated 2026-10-25T14:25:27.319185+00:00 from versioned JSON evidence.
 
 **Exploratory comparison.** Short benchmarks have three repetitions; each F7/configuration is a single run. These are new public equivalents, not historical F7. No conclusive superiority claim from one task run.
 
 | Indicator | Bonsai GGUF | Ornith MLX | Ornith GGUF | Ornith + local PPC |
 |---|---|---|---|---|
-| Decode t/s | 6.83 (6.81–6.84, n=3) | N/E | N/E | same runtime; no separate micro |
-| Prefill t/s | 24.62 (23.13–24.84, n=3) | N/E | N/E | same runtime; no separate micro |
-| Peak measured server RSS | N/E | 3.79 GiB peak RSS | N/E | 4.35 GiB peak RSS |
-| Tool cycles | read cycle verified | 3/3 | N/E | see F7 tool events |
-| F7 artifact acceptance | N/E | 3/4 | N/E | 0/1 |
-| F7 agent completions | N/E | 2/4 scored | N/E | 0/1 scored; 1 infrastructure |
-| Agent wall/task | N/E | 996.6 s median, 2 completed tasks | N/E | N/E |
-| System swap during tasks | N/E | 0.72–0.83 GiB system swap | N/E | 1.36–9.05 GiB system swap |
+| Decode t/s | 4.65 (4.24–5.61, n=3) | 15.43 (14.73–15.50, n=3) | 10.06 (9.71–10.07, n=3) | same runtime; no separate micro |
+| Prefill t/s | 22.05 (19.31–22.37, n=3) | 83.02 (64.58–86.29, n=3) | 75.52 (71.07–89.59, n=3) | same runtime; no separate micro |
+| Peak measured server RSS | N/E | 3.79 GiB peak RSS | 6.37 GiB peak RSS | 4.35 GiB peak RSS |
+| Tool cycles | read cycle verified | 3/3 | 3/3 | see F7 tool events |
+| F7 artifact acceptance | N/E | 3/4 | 3/4 | 2/4 |
+| F7 agent completions | N/E | 2/4 scored | 3/4 scored | 2/4 scored |
+| Agent wall/task | N/E | 996.6 s median, 2 completed tasks | 518.1 s median, 3 completed tasks | 541.6 s median, 2 completed tasks |
+| System swap during tasks | N/E | 0.72–0.83 GiB system swap | 0.49–6.52 GiB system swap | 0.49–1.53 GiB system swap |
 
 Rates use native runtime counters: llama.cpp HTTP timing fields and MLX direct stream_generate counters. These differ from HTTP latency. Ornith affine4 MLX and Q4_K_M GGUF also differ in quantization, so their quality difference cannot be attributed solely to runtime. Bonsai versus Ornith is a model-plus-runtime comparison. Missing measurements remain N/E.
 
@@ -24,7 +24,8 @@ The cleared-host cohort is kept separate from the earlier memory-congested block
 ## Artifact acceptance versus agent completion
 
 - Ornith MLX control: 3/4 artifacts pass external tests; agent completions: 2/4 scored.
-- Ornith local PPC: 0/1 artifacts pass external tests; agent completions: 0/1 scored; 1 infrastructure.
+- Ornith GGUF control: 3/4 artifacts pass external tests; agent completions: 3/4 scored.
+- Ornith local PPC: 2/4 artifacts pass external tests; agent completions: 2/4 scored.
 
 The earlier congested-block Ornith F7-B artifact passes all three tests, but its agent timed out at1200 seconds. This illustrates why artifact correctness and completed-agent productivity are separate.
 
@@ -36,10 +37,25 @@ The earlier congested-block Ornith F7-B artifact passes all three tests, but its
 | Ornith MLX control | F7-B | fail | 1200.04 | 12 | 0 | True |
 | Ornith MLX control | F7-C | pass | 826.88 | 9 | 0 | True |
 | Ornith MLX control | F7-D | pass | 1166.25 | 14 | 0 | True |
+| Ornith GGUF control | F7-A | fail | 749.89 | 15 | 0 | True |
+| Ornith GGUF control | F7-B | pass | 404.94 | 10 | 0 | True |
+| Ornith GGUF control | F7-C | pass | 565.48 | 9 | 0 | True |
+| Ornith GGUF control | F7-D | pass | 518.12 | 14 | 0 | True |
 | Ornith local PPC | F7-A | fail | 559.81 | 7 | 0 | True |
-| Ornith local PPC | F7-B | infrastructure | 45.60 | N/E | N/E | True |
+| Ornith local PPC | F7-B | pass | 596.62 | 12 | 0 | True |
+| Ornith local PPC | F7-C | fail | 1200.05 | 10 | 0 | True |
+| Ornith local PPC | F7-D | pass | 486.61 | 12 | 0 | True |
 
 Failed acceptance, timeouts and infrastructure errors are retained. Passing artifact tests after an agent timeout is reported separately in raw JSON; it is not an end-to-end successful run. Tool errors count error events; they are not automatically equivalent to model retries. Context compaction and auxiliary requests are represented by raw event traces and server logs.
+
+## Ornith MLX to GGUF — paired passing tasks
+
+- F7-C: 31.6% agent-wall reduction (826.9 → 565.5 s), one run per condition.
+- F7-D: 55.6% agent-wall reduction (1166.3 → 518.1 s), one run per condition.
+
+## Harness effect — paired passing tasks
+
+- F7-D: 58.3% agent-wall reduction (1166.3 → 486.6 s), one run per condition.
 
 ## Harness cost and provenance
 
@@ -47,9 +63,11 @@ Official unmodified Harness² deterministic demo: k1 sequential, 2/2 tasks, 8 Py
 
 Local Propose–Probe–Compose reproduction: k1, sequential, one worker, same Ornith MLX solver/improver/composer, DEV only. Optimization wall: 1562.8721079580027 seconds. That cost is separate from every final task wall. Composition is frozen before F7 optimized runs; F7 prompts, acceptance scores and solutions were not provided to the editor.
 
+- DEV control: artifact acceptance True; agent status fail; timeout True. Textual composition validity alone is not a demonstrated improvement.
+- DEV probe: artifact acceptance True; agent status fail; timeout True. Textual composition validity alone is not a demonstrated improvement.
+
 ## Not executed and limits
 
-- Ornith GGUF task matrix is not yet measured. It was initially blocked by disk space; after the user freed resources, a separate pinned native Metal build and Q4_K_M download are scheduled. Candidate configs and build success alone are not validation.
 - Official model-backed Harness² benchmark adapters: not executed. The local reproduction is explicitly distinct.
 - Three independent repetitions per long F7 task/configuration, seed blocks, thermal crossover and long-session soak: not executed.
 - Production code review and security assessment: not scored by these bounded acceptance tests.

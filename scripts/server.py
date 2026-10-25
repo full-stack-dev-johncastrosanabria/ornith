@@ -82,10 +82,13 @@ def stop():
     if command.strip():
         os.killpg(pid,signal.SIGTERM)
         for _ in range(60):
+            try:os.waitpid(pid,os.WNOHANG)
+            except ChildProcessError:pass
+            state=subprocess.run(['ps','-p',str(pid),'-o','stat='],capture_output=True,text=True).stdout.strip()
             with socket.socket() as c:
-                if c.connect_ex(('127.0.0.1',s['port']))!=0:break
+                if c.connect_ex(('127.0.0.1',s['port']))!=0 and not state:break
             time.sleep(.5)
-        else:raise RuntimeError('Server still owns port; manual inspection required.')
+        else:raise RuntimeError('Server process or port still active; manual inspection required.')
     STATE.unlink();LOCK.unlink(missing_ok=True);print('Owned server stopped.')
 
 if __name__=='__main__':

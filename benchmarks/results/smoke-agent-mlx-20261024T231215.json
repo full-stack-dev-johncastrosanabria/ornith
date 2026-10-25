@@ -1,0 +1,77 @@
+{
+  "server": {
+    "kind": "mlx",
+    "pid": 20015,
+    "port": 8082,
+    "cmd": [
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/runtimes/mlx/.venv/bin/python",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/scripts/mlx_server.py",
+      "--model",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/models/ornith-mlx",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8082",
+      "--temp",
+      "0.6",
+      "--top-p",
+      "0.95",
+      "--max-tokens",
+      "1024",
+      "--decode-concurrency",
+      "1",
+      "--prompt-concurrency",
+      "1",
+      "--prompt-cache-size",
+      "1",
+      "--prompt-cache-bytes",
+      "536870912"
+    ],
+    "started": 1792905078.182374,
+    "profile": {
+      "context": 16384,
+      "output": 4096,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "concurrency": 1,
+      "kv_quantization": null,
+      "stage": "fixed final profile after context-only stability validation"
+    },
+    "model_id": "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53",
+    "models": [
+      "/Users/johnbenjamincastrosanabria/.cache/huggingface/hub/models--ornith-ai--Ornith-1.5-9B-MLX-4bit/snapshots/a48173b246ac705be75c05bedf1a0666db522d53"
+    ]
+  },
+  "rows": [
+    {
+      "cycle": "read",
+      "pass": false,
+      "acceptance": null,
+      "agent": {
+        "rc": 1,
+        "timeout": false,
+        "wall_s": 0.0482493749987043,
+        "started_epoch_ms": 1792905135364,
+        "state": "/Users/johnbenjamincastrosanabria/Developer/ornith/opencode/state/10e7b914432842be9bf0474aee62d8dc",
+        "events": [],
+        "memory_samples": [
+          {
+            "utc": "2026-10-25T05:12:15.366024+00:00",
+            "disk_free_bytes": 21195382784,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    37609.\nPages active:                                 212420.\nPages inactive:                               211791.\nPages speculative:                              1848.\nPages throttled:                                   0.\nPages wired down:                             530213.\nPages purgeable:                                4173.\n\"Translation faults\":                      144761547.\nPages copy-on-write:                         7713464.\nPages zero filled:                         121193795.\nPages reactivated:                          22613134.\nPages purged:                                6283882.\nFile-backed pages:                            288851.\nAnonymous pages:                              137208.\nPages stored in compressor:                    50128.\nPages occupied by compressor:                  18304.\nDecompressions:                             17637005.\nCompressions:                               23928156.\nPageins:                                    10864751.\nPageouts:                                      69364.\nSwapins:                                      207575.\nSwapouts:                                     849714.",
+            "swap": "vm.swapusage: total = 3072.00M  used = 1489.75M  free = 1582.25M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 45%",
+            "elapsed_s": 0.011252500000409782,
+            "server_rss_kib": "1911184"
+          }
+        ],
+        "stderr": "error loading current directory\nerror: An internal error occurred (CouldntReadCurrentDirectory)\n",
+        "configuration_sha256": "54bbdb6e2122d03c4ec2ef515ddc4b53d766f802f6c48e9ca3914c1b2b1e91b4",
+        "resource_abort": [],
+        "executor": "official-pinned-opencode-source"
+      },
+      "tools": []
+    }
+  ],
+  "passed": 0
+}

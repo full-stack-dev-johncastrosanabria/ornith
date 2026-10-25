@@ -4,9 +4,28 @@ from unittest.mock import patch
 import campaign
 import memory
 import report
+import server
 from types import SimpleNamespace
 
 class ResumeTests(unittest.TestCase):
+    def test_source_executor_failure_does_not_replace_global_tool_validation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            results=pathlib.Path(directory)
+            (results/'smoke-agent-mlx-20261024T100000.json').write_text(json.dumps({'passed':3,'rows':[{'agent':{}}]}))
+            (results/'smoke-agent-mlx-20261024T230000.json').write_text(json.dumps({'passed':0,'rows':[{'agent':{'executor':'official-pinned-opencode-source'}}]}))
+            with patch.object(report,'RESULTS',results):
+                self.assertEqual(report.latest('smoke-agent-mlx-*.json',executor='global')['passed'],3)
+                self.assertEqual(report.latest('smoke-agent-mlx-*.json')['passed'],0)
+    def test_stop_waits_for_process_after_port_closes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state=pathlib.Path(directory)/'server.json';lock=pathlib.Path(directory)/'lock';lock.touch()
+            state.write_text(json.dumps({'pid':123456,'port':8085,'cmd':['/mock/llama-server']}))
+            replies=[SimpleNamespace(stdout='/mock/llama-server'),SimpleNamespace(stdout='S'),SimpleNamespace(stdout='')]
+            with patch.object(server,'STATE',state),patch.object(server,'LOCK',lock),patch.object(server.subprocess,'run',side_effect=replies),patch.object(server.os,'killpg'),patch.object(server.os,'waitpid',return_value=(0,0)),patch.object(server.socket,'socket') as sock,patch.object(server.time,'sleep') as sleep:
+                sock.return_value.__enter__.return_value.connect_ex.return_value=1
+                server.stop()
+            self.assertEqual(sleep.call_count,1)
+            self.assertFalse(state.exists());self.assertFalse(lock.exists())
     def test_infrastructure_interruptions_remain_pending(self):
         with tempfile.TemporaryDirectory() as directory:
             root=pathlib.Path(directory);results=root/'benchmarks/results';results.mkdir(parents=True)

@@ -50,6 +50,8 @@ class OfficialTests(unittest.TestCase):
             argv=runner.call_args.kwargs['argv']
             self.assertEqual(argv[0],str(h.config.BUN));self.assertIn('ornith-mlx/local',argv)
             self.assertEqual(runner.call_args.kwargs['read_roots'],(h.DEP,))
+            self.assertIn(pathlib.Path.home(),runner.call_args.kwargs['read_directories'])
+            self.assertTrue(all(p.is_relative_to(pathlib.Path.home()) for p in runner.call_args.kwargs['read_directories']))
             self.assertEqual(result['executor'],'official-pinned-opencode-source')
             with self.assertRaises(ValueError):h.source_run('/tmp/task','hello','bonsai','other')
 

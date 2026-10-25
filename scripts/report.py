@@ -2,8 +2,11 @@
 import csv,datetime,json,pathlib,re,statistics
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 RESULTS=ROOT/'benchmarks/results'
-def latest(pattern):
-    files=sorted(RESULTS.glob(pattern));return json.loads(files[-1].read_text()) if files else None
+def latest(pattern,executor=None):
+    for path in sorted(RESULTS.glob(pattern),reverse=True):
+        data=json.loads(path.read_text())
+        if executor is None or all(r.get('agent',{}).get('executor','global')==executor for r in data.get('rows',[])):return data
+    return None
 def medrange(values,unit=''):
     v=[x for x in values if isinstance(x,(int,float))]
     return f'{statistics.median(v):.2f}{unit} ({min(v):.2f}–{max(v):.2f}, n={len(v)})' if v else 'N/E'
@@ -48,9 +51,9 @@ def execution_stats(row):
     reasons=[e.get('part',{}).get('reason') for e in events if e.get('type')=='step_finish']
     return {'tool_calls':row.get('tool_count'),'failed_shell_calls':failed_commands,'test_bearing_shell_calls':test_runs,'test_reruns_after_failure':test_retries,'provider_retries':None,'provider_retry_note':'not exposed by installed CLI JSON; do not equate zero error events with zero retries','error_events':sum(e.get('type')=='error' for e in events),'finish_reasons':reasons,'output_limit_events':reasons.count('length'),'first_tool_from_launch_s':row.get('first_tool_from_launch_s'),'tokens_input_uncached':sum(t.get('input',0) for t in finishes),'tokens_cache_read':sum(t.get('cache',{}).get('read',0) for t in finishes),'tokens_output_reported':sum(t.get('output',0) for t in finishes),'tokens_reasoning_reported':sum(t.get('reasoning',0) for t in finishes)}
 def main():
-    b=latest('micro-bonsai-*.json');m=latest('micro-mlx-direct-*.json');ma=latest('micro-mlx-20*.json');smoke=latest('smoke-agent-mlx-*.json');opt=latest('harness-local-*.json')
+    b=latest('micro-bonsai-*.json');m=latest('micro-mlx-direct-*.json');ma=latest('micro-mlx-20*.json');smoke=latest('smoke-agent-mlx-*.json',executor='global');opt=latest('harness-local-*.json')
     br=group('bonsai','control');mr=group('mlx','control');hr=group('mlx','optimized')
-    gr=group('gguf','control');g=latest('micro-gguf-*.json');gs=latest('smoke-agent-gguf-*.json')
+    gr=group('gguf','control');g=latest('micro-gguf-*.json');gs=latest('smoke-agent-gguf-*.json',executor='global')
     decodeb=medrange([r.get('timings',{}).get('predicted_per_second') for r in b['rows']]) if b else 'N/E'
     prefillb=medrange([r.get('timings',{}).get('prompt_per_second') for r in b['rows']]) if b else 'N/E'
     decodem=medrange([r.get('decode_tps') for r in m['rows']]) if m else 'N/E'
@@ -95,6 +98,10 @@ def main():
     lines+=['## Harness cost and provenance','', 'Official unmodified Harness² deterministic demo: k1 sequential, 2/2 tasks, 8 Python executions, 8 deterministic editor calls. It does not measure Ornith. Official model-backed benchmark suites were not executed. WorkBuddy requires Docker and is excluded; local model-backed upstream source/Bun integration remains unvalidated.','']
     if opt:
         lines+=[f"Local Propose–Probe–Compose reproduction: k1, sequential, one worker, same Ornith MLX solver/improver/composer, DEV only. Optimization wall: {opt.get('optimization_wall_s','in progress')} seconds. That cost is separate from every final task wall. Composition is frozen before F7 optimized runs; F7 prompts, acceptance scores and solutions were not provided to the editor.",'']
+        for role in ['control','probe']:
+            row=opt.get(role)
+            if row:lines.append(f"- DEV {role}: artifact acceptance {row.get('artifact_acceptance','N/E')}; agent status {row['status']}; timeout {row.get('agent',{}).get('timeout','N/E')}. Textual composition validity alone is not a demonstrated improvement.")
+        lines+=['']
     lines+=['## Not executed and limits','']
     if not gr:lines+=['- Ornith GGUF task matrix is not yet measured. It was initially blocked by disk space; after the user freed resources, a separate pinned native Metal build and Q4_K_M download are scheduled. Candidate configs and build success alone are not validation.']
     lines+=['- Official model-backed Harness² benchmark adapters: not executed. The local reproduction is explicitly distinct.','- Three independent repetitions per long F7 task/configuration, seed blocks, thermal crossover and long-session soak: not executed.','- Production code review and security assessment: not scored by these bounded acceptance tests.','- A causal no-swapping claim is not established from system swap alone; inspect sampled deltas and unrelated activity. The cleared-host block started at903 MiB used swap.','- MLX does not expose a reasoning-token usage split here; reported zero reasoning tokens is not evidence that the model did not reason. Separate reasoning content was verified through the API.','', '## Recommendation','', 'Prioritize externally correct completed tasks. Preserve Bonsai as the reference. Use measured task outcomes and wall time above; a conclusive overall model/runtime/harness advantage requires the missing controlled repetitions.','']

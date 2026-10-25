@@ -1,0 +1,1699 @@
+{
+  "server": {
+    "kind": "gguf",
+    "pid": 64554,
+    "port": 8083,
+    "cmd": [
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/runtimes/gguf/llama.cpp/build/bin/llama-server",
+      "-m",
+      "/Users/johnbenjamincastrosanabria/Developer/ornith/models/ornith-gguf.gguf",
+      "--alias",
+      "gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8083",
+      "-ngl",
+      "99",
+      "-fa",
+      "on",
+      "-c",
+      "16384",
+      "-np",
+      "1",
+      "--jinja",
+      "--temp",
+      "0.6",
+      "--top-p",
+      "0.95",
+      "--top-k",
+      "0",
+      "--min-p",
+      "0"
+    ],
+    "started": 1792902435.205072,
+    "profile": {
+      "context": 16384,
+      "output": 4096,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "concurrency": 1,
+      "kv_quantization": null,
+      "stage": "fixed final profile after context-only stability validation"
+    },
+    "model_id": "gguf",
+    "models": [
+      "gguf"
+    ]
+  },
+  "rows": [
+    {
+      "cycle": "read",
+      "pass": true,
+      "acceptance": null,
+      "agent": {
+        "rc": 0,
+        "timeout": false,
+        "wall_s": 42.209583165997174,
+        "started_epoch_ms": 1792902462242,
+        "state": "/Users/johnbenjamincastrosanabria/Developer/ornith/opencode/state/fec9741d3101430da7cf2a1fb8e1f28e",
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1792902490608,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_17150e9ed001ngnLOYMB2Qd0ev",
+              "messageID": "msg_171507e45001IxsXYu2O3WIOWp",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902494669,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "type": "tool",
+              "tool": "glob",
+              "callID": "F7ri5bFeNvsOG1jFftMHdzatYr4JTuBX",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "pattern": "README.md"
+                },
+                "output": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699/README.md",
+                "metadata": {
+                  "count": 1,
+                  "truncated": false
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699",
+                "time": {
+                  "start": 1792902494621,
+                  "end": 1792902494668
+                }
+              },
+              "id": "prt_17150f4a5001UYVKDlVuJKNXp7",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "messageID": "msg_171507e45001IxsXYu2O3WIOWp"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902494759,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_17150fa21001yiW08BwI4qkdFZ",
+              "reason": "tool-calls",
+              "messageID": "msg_171507e45001IxsXYu2O3WIOWp",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3572,
+                "input": 3513,
+                "output": 59,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902495384,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_17150fc96001Fhjv4ahGMSdAFK",
+              "messageID": "msg_17150fa25001gbVsPqJNWeoVw6",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902500611,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "type": "tool",
+              "tool": "read",
+              "callID": "elYdU2qOVw1YFeE1QzfVjH0tN2SDH8jl",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699/README.md"
+                },
+                "output": "<path>/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699/README.md</path>\n<type>file</type>\n<content>\n1: Verification marker: NATIVE-M3-4829\n\n(End of file - total 1 lines)\n</content>",
+                "metadata": {
+                  "preview": "Verification marker: NATIVE-M3-4829",
+                  "truncated": false,
+                  "loaded": [],
+                  "display": {
+                    "type": "file",
+                    "path": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699/README.md",
+                    "text": "Verification marker: NATIVE-M3-4829",
+                    "lineStart": 1,
+                    "lineEnd": 1,
+                    "totalLines": 1,
+                    "truncated": false
+                  }
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-read-d2f90699/README.md",
+                "time": {
+                  "start": 1792902500597,
+                  "end": 1792902500608
+                }
+              },
+              "id": "prt_1715101f60010cOaXZgQiP8kc7",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "messageID": "msg_17150fa25001gbVsPqJNWeoVw6"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902500747,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_17151118000198xDo9uN6rUiFp",
+              "reason": "tool-calls",
+              "messageID": "msg_17150fa25001gbVsPqJNWeoVw6",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3696,
+                "input": 52,
+                "output": 73,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3571
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902501710,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_17151154c0011NU283AIcV8xOG",
+              "messageID": "msg_171511187001QQC4Nzxy5Lnogs",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902504375,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_1715119fe001LwFVGVFrftcPLT",
+              "messageID": "msg_171511187001QQC4Nzxy5Lnogs",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "text",
+              "text": "The verification marker in README.md is:\n\n**NATIVE-M3-4829**",
+              "time": {
+                "start": 1792902502910,
+                "end": 1792902504362
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902504375,
+            "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+            "part": {
+              "id": "prt_171511fad001jGT8VkWi2foX3M",
+              "reason": "stop",
+              "messageID": "msg_171511187001QQC4Nzxy5Lnogs",
+              "sessionID": "ses_e8eaf82d3ffeGVLwmVdD7KnyIP",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3832,
+                "input": 99,
+                "output": 38,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3695
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "memory_samples": [
+          {
+            "utc": "2026-10-25T04:27:42.244502+00:00",
+            "disk_free_bytes": 25281134592,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4997.\nPages active:                                 187656.\nPages inactive:                               186663.\nPages speculative:                               106.\nPages throttled:                                   0.\nPages wired down:                             531770.\nPages purgeable:                                1587.\n\"Translation faults\":                      129881577.\nPages copy-on-write:                         5842249.\nPages zero filled:                         113968881.\nPages reactivated:                          21548808.\nPages purged:                                6073668.\nFile-backed pages:                            225118.\nAnonymous pages:                              149307.\nPages stored in compressor:                   257702.\nPages occupied by compressor:                 100993.\nDecompressions:                             16713575.\nCompressions:                               22183304.\nPageins:                                     9627935.\nPageouts:                                      69066.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 37%",
+            "elapsed_s": 0.011028874996554805,
+            "server_rss_kib": "6653888"
+          },
+          {
+            "utc": "2026-10-25T04:27:47.266486+00:00",
+            "disk_free_bytes": 25269977088,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    25198.\nPages active:                                 168140.\nPages inactive:                               167271.\nPages speculative:                               660.\nPages throttled:                                   0.\nPages wired down:                             531753.\nPages purgeable:                                 186.\n\"Translation faults\":                      130042290.\nPages copy-on-write:                         5850214.\nPages zero filled:                         114055007.\nPages reactivated:                          21588770.\nPages purged:                                6074219.\nFile-backed pages:                            209153.\nAnonymous pages:                              126918.\nPages stored in compressor:                   292144.\nPages occupied by compressor:                 119163.\nDecompressions:                             16727905.\nCompressions:                               22235522.\nPageins:                                     9649992.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 5.03154204099701,
+            "server_rss_kib": "6619776"
+          },
+          {
+            "utc": "2026-10-25T04:27:52.286807+00:00",
+            "disk_free_bytes": 25269747712,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    24788.\nPages active:                                 168448.\nPages inactive:                               167385.\nPages speculative:                               727.\nPages throttled:                                   0.\nPages wired down:                             531714.\nPages purgeable:                                 233.\n\"Translation faults\":                      130060224.\nPages copy-on-write:                         5853603.\nPages zero filled:                         114059072.\nPages reactivated:                          21588784.\nPages purged:                                6074219.\nFile-backed pages:                            209335.\nAnonymous pages:                              127225.\nPages stored in compressor:                   291869.\nPages occupied by compressor:                 119123.\nDecompressions:                             16728164.\nCompressions:                               22235522.\nPageins:                                     9650267.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 10.05124804099978,
+            "server_rss_kib": "6621872"
+          },
+          {
+            "utc": "2026-10-25T04:27:57.303520+00:00",
+            "disk_free_bytes": 25269669888,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    22585.\nPages active:                                 170743.\nPages inactive:                               169213.\nPages speculative:                               780.\nPages throttled:                                   0.\nPages wired down:                             531734.\nPages purgeable:                                 318.\n\"Translation faults\":                      130088850.\nPages copy-on-write:                         5857184.\nPages zero filled:                         114078970.\nPages reactivated:                          21588784.\nPages purged:                                6074219.\nFile-backed pages:                            209449.\nAnonymous pages:                              131287.\nPages stored in compressor:                   287491.\nPages occupied by compressor:                 117130.\nDecompressions:                             16731514.\nCompressions:                               22235522.\nPageins:                                     9650473.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 15.071022707998054,
+            "server_rss_kib": "6623760"
+          },
+          {
+            "utc": "2026-10-25T04:28:02.327321+00:00",
+            "disk_free_bytes": 25269669888,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    15927.\nPages active:                                 170034.\nPages inactive:                               171426.\nPages speculative:                               814.\nPages throttled:                                   0.\nPages wired down:                             537874.\nPages purgeable:                                1490.\n\"Translation faults\":                      130102537.\nPages copy-on-write:                         5859551.\nPages zero filled:                         114088430.\nPages reactivated:                          21588784.\nPages purged:                                6074219.\nFile-backed pages:                            209518.\nAnonymous pages:                              132756.\nPages stored in compressor:                   285521.\nPages occupied by compressor:                 116110.\nDecompressions:                             16733536.\nCompressions:                               22235522.\nPageins:                                     9650593.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 20.091825749997952,
+            "server_rss_kib": "6624768"
+          },
+          {
+            "utc": "2026-10-25T04:28:07.347367+00:00",
+            "disk_free_bytes": 25269637120,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    17780.\nPages active:                                 173648.\nPages inactive:                               172120.\nPages speculative:                               862.\nPages throttled:                                   0.\nPages wired down:                             531702.\nPages purgeable:                                3430.\n\"Translation faults\":                      130114022.\nPages copy-on-write:                         5861216.\nPages zero filled:                         114093021.\nPages reactivated:                          21588784.\nPages purged:                                6074219.\nFile-backed pages:                            209617.\nAnonymous pages:                              137013.\nPages stored in compressor:                   285340.\nPages occupied by compressor:                 116073.\nDecompressions:                             16733743.\nCompressions:                               22235522.\nPageins:                                     9650731.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 25.11259904099643,
+            "server_rss_kib": "6627216"
+          },
+          {
+            "utc": "2026-10-25T04:28:12.367893+00:00",
+            "disk_free_bytes": 25269321728,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    18390.\nPages active:                                 173059.\nPages inactive:                               172242.\nPages speculative:                               883.\nPages throttled:                                   0.\nPages wired down:                             531774.\nPages purgeable:                                1877.\n\"Translation faults\":                      130133466.\nPages copy-on-write:                         5864609.\nPages zero filled:                         114098219.\nPages reactivated:                          21588784.\nPages purged:                                6074307.\nFile-backed pages:                            209696.\nAnonymous pages:                              136488.\nPages stored in compressor:                   284607.\nPages occupied by compressor:                 115837.\nDecompressions:                             16734382.\nCompressions:                               22235522.\nPageins:                                     9650863.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 30.134337332998257,
+            "server_rss_kib": "6629248"
+          },
+          {
+            "utc": "2026-10-25T04:28:17.389961+00:00",
+            "disk_free_bytes": 25268830208,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    10027.\nPages active:                                 177735.\nPages inactive:                               176716.\nPages speculative:                               940.\nPages throttled:                                   0.\nPages wired down:                             531779.\nPages purgeable:                                1438.\n\"Translation faults\":                      130188532.\nPages copy-on-write:                         5868160.\nPages zero filled:                         114134649.\nPages reactivated:                          21588784.\nPages purged:                                6074779.\nFile-backed pages:                            209979.\nAnonymous pages:                              145412.\nPages stored in compressor:                   283172.\nPages occupied by compressor:                 114983.\nDecompressions:                             16735840.\nCompressions:                               22235522.\nPageins:                                     9651167.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 35.16352262500004,
+            "server_rss_kib": "6697408"
+          },
+          {
+            "utc": "2026-10-25T04:28:22.422584+00:00",
+            "disk_free_bytes": 25268084736,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5235.\nPages active:                                 181545.\nPages inactive:                               179889.\nPages speculative:                               481.\nPages throttled:                                   0.\nPages wired down:                             531684.\nPages purgeable:                                1445.\n\"Translation faults\":                      130270492.\nPages copy-on-write:                         5871628.\nPages zero filled:                         114184556.\nPages reactivated:                          21588796.\nPages purged:                                6074787.\nFile-backed pages:                            209626.\nAnonymous pages:                              152289.\nPages stored in compressor:                   277862.\nPages occupied by compressor:                 113351.\nDecompressions:                             16736549.\nCompressions:                               22235522.\nPageins:                                     9652178.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 36%",
+            "elapsed_s": 40.19992870799979,
+            "server_rss_kib": "6800736"
+          }
+        ],
+        "stderr": "",
+        "configuration_sha256": "aaf04d3678dc8ffcaddaa024e98783215ab89808efc597e11532319180bc7abf",
+        "resource_abort": []
+      },
+      "tools": [
+        "glob",
+        "read"
+      ]
+    },
+    {
+      "cycle": "edit_test",
+      "pass": true,
+      "acceptance": {
+        "rc": 0,
+        "stdout": ".                                                                        [100%]\n1 passed in 0.00s\n",
+        "stderr": "",
+        "wall_s": 0.3385113750009623,
+        "isolation": "native sandbox, independent grading state"
+      },
+      "agent": {
+        "rc": 0,
+        "timeout": false,
+        "wall_s": 89.69192912500148,
+        "started_epoch_ms": 1792902504457,
+        "state": "/Users/johnbenjamincastrosanabria/Developer/ornith/opencode/state/76d12a3cf9b8426b848574517c975c18",
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1792902535373,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_1715198cb001HzqhiC8DNupxhv",
+              "messageID": "msg_17151235f001klp9JUkTG4A2Xk",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902544086,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "type": "tool",
+              "tool": "glob",
+              "callID": "30YSjAiPRlzGkIfCaVv7I4VrHD8ZoCAm",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "pattern": "**/math_ops.py"
+                },
+                "output": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                "metadata": {
+                  "count": 1,
+                  "truncated": false
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836",
+                "time": {
+                  "start": 1792902544059,
+                  "end": 1792902544085
+                }
+              },
+              "id": "prt_17151b19a001z0AIiUWhtj4Sql",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "messageID": "msg_17151235f001klp9JUkTG4A2Xk"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902544298,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_17151a82c0014xuPSOyyyiCE5Y",
+              "messageID": "msg_17151235f001klp9JUkTG4A2Xk",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "text",
+              "text": "I'll find and read the `math_ops.py` file first.\n\n",
+              "time": {
+                "start": 1792902539308,
+                "end": 1792902544291
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902544298,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_17151bba5001PqZicdvF3GDc5T",
+              "reason": "tool-calls",
+              "messageID": "msg_17151235f001klp9JUkTG4A2Xk",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3647,
+                "input": 3562,
+                "output": 85,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902545318,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_17151bfa4001U0odaNOb60OaCh",
+              "messageID": "msg_17151bba8001nR7xU2rSxVXeQ5",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902553687,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "type": "tool",
+              "tool": "read",
+              "callID": "CCQQwNVKjntNa5bKjqDqQDgW9MLKTXFu",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py"
+                },
+                "output": "<path>/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py</path>\n<type>file</type>\n<content>\n1: def increment(n):\n2:     raise NotImplementedError\n\n(End of file - total 2 lines)\n</content>",
+                "metadata": {
+                  "preview": "def increment(n):\n    raise NotImplementedError",
+                  "truncated": false,
+                  "loaded": [],
+                  "display": {
+                    "type": "file",
+                    "path": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                    "text": "def increment(n):\n    raise NotImplementedError",
+                    "lineStart": 1,
+                    "lineEnd": 2,
+                    "totalLines": 2,
+                    "truncated": false
+                  }
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                "time": {
+                  "start": 1792902553683,
+                  "end": 1792902553686
+                }
+              },
+              "id": "prt_17151c54e001HgEicSXU7gSpaj",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "messageID": "msg_17151bba8001nR7xU2rSxVXeQ5"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902553952,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_17151e15c001GBaItHr7PWf5x5",
+              "reason": "tool-calls",
+              "messageID": "msg_17151bba8001nR7xU2rSxVXeQ5",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3771,
+                "input": 54,
+                "output": 71,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3646
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902555498,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_17151e768001n3Q8o8qtz1wkBC",
+              "messageID": "msg_17151e15f001HydN2Oq6oPr1O4",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902572823,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "type": "tool",
+              "tool": "edit",
+              "callID": "uNkorXpFejj9rT5pJI0OaHyysblG7cSu",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                  "oldString": "def increment(n):\n    raise NotImplementedError",
+                  "newString": "def increment(n):\n    return n + 1"
+                },
+                "output": "Edit applied successfully.",
+                "metadata": {
+                  "diagnostics": {},
+                  "diff": "Index: /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n===================================================================\n--- /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n+++ /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n@@ -1,2 +1,2 @@\n def increment(n):\n-    raise NotImplementedError\n+    return n + 1\n",
+                  "filediff": {
+                    "file": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                    "patch": "Index: /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n===================================================================\n--- /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n+++ /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py\n@@ -1,2 +1,2 @@\n def increment(n):\n-    raise NotImplementedError\n+    return n + 1\n",
+                    "additions": 1,
+                    "deletions": 1
+                  },
+                  "truncated": false
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-edit_test-3e769836/math_ops.py",
+                "time": {
+                  "start": 1792902572814,
+                  "end": 1792902572819
+                }
+              },
+              "id": "prt_17151f656001fGbcAfLAZuLrbw",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "messageID": "msg_17151e15f001HydN2Oq6oPr1O4"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902573086,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171522c1a001IUfoMcomV2U6hK",
+              "reason": "tool-calls",
+              "messageID": "msg_17151e15f001HydN2Oq6oPr1O4",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3997,
+                "input": 99,
+                "output": 128,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3770
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902573818,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171522ef8001MLtEpkms8bFFbU",
+              "messageID": "msg_171522c1d001JJ90StCVKCyjg3",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902587128,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171523674001XXWVO5FdA3JW4F",
+              "messageID": "msg_171522c1d001JJ90StCVKCyjg3",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "text",
+              "text": "Now I'll run the tests.\n\n",
+              "time": {
+                "start": 1792902575732,
+                "end": 1792902587127
+              }
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902587304,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "type": "tool",
+              "tool": "bash",
+              "callID": "ZR9SXBY5jgVzfwnrlCY8z6yRMKOVbeJp",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "command": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider",
+                  "timeout": 120000
+                },
+                "output": ".                                                                        [100%]\n1 passed in 0.00s\n",
+                "metadata": {
+                  "output": ".                                                                        [100%]\n1 passed in 0.00s\n",
+                  "exit": 0,
+                  "truncated": false
+                },
+                "title": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider",
+                "time": {
+                  "start": 1792902586858,
+                  "end": 1792902587300
+                }
+              },
+              "id": "prt_171523e96001FCfOLN7jY6BVIb",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "messageID": "msg_171522c1d001JJ90StCVKCyjg3"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902587304,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_1715263a50018sLb83EYxQ1AKN",
+              "reason": "tool-calls",
+              "messageID": "msg_171522c1d001JJ90StCVKCyjg3",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4115,
+                "input": 20,
+                "output": 99,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3996
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902588022,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171526674001dCaCXxm6bMZ7TQ",
+              "messageID": "msg_1715263a7001fbwU83N3dlC1I4",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902594101,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171526c6c0012L4rYo8Nox8Hr8",
+              "messageID": "msg_1715263a7001fbwU83N3dlC1I4",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "text",
+              "text": "Done. I implemented `increment(n)` as `n + 1` in `math_ops.py` and ran the tests.\n\nThe test suite passed: **1 passed**.",
+              "time": {
+                "start": 1792902589548,
+                "end": 1792902594097
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902594101,
+            "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+            "part": {
+              "id": "prt_171527e32001IoS9JHGAmQwSwq",
+              "reason": "stop",
+              "messageID": "msg_1715263a7001fbwU83N3dlC1I4",
+              "sessionID": "ses_e8eaeddddffeYRnihBkAJLoTmF",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4198,
+                "input": 34,
+                "output": 50,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 4114
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "memory_samples": [
+          {
+            "utc": "2026-10-25T04:28:24.459728+00:00",
+            "disk_free_bytes": 25269755904,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    35092.\nPages active:                                 163908.\nPages inactive:                               168836.\nPages speculative:                               479.\nPages throttled:                                   0.\nPages wired down:                             531568.\nPages purgeable:                                1449.\n\"Translation faults\":                      130288668.\nPages copy-on-write:                         5875281.\nPages zero filled:                         114187938.\nPages reactivated:                          21588798.\nPages purged:                                6074798.\nFile-backed pages:                            208909.\nAnonymous pages:                              124314.\nPages stored in compressor:                   276170.\nPages occupied by compressor:                 112302.\nDecompressions:                             16736820.\nCompressions:                               22235522.\nPageins:                                     9652323.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 36%",
+            "elapsed_s": 0.013263125001685694,
+            "server_rss_kib": "6800768"
+          },
+          {
+            "utc": "2026-10-25T04:28:29.484358+00:00",
+            "disk_free_bytes": 25259110400,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5517.\nPages active:                                 174664.\nPages inactive:                               173413.\nPages speculative:                               290.\nPages throttled:                                   0.\nPages wired down:                             531543.\nPages purgeable:                                1224.\n\"Translation faults\":                      130389600.\nPages copy-on-write:                         5879390.\nPages zero filled:                         114263536.\nPages reactivated:                          21613933.\nPages purged:                                6074806.\nFile-backed pages:                            180217.\nAnonymous pages:                              168150.\nPages stored in compressor:                   295659.\nPages occupied by compressor:                 126758.\nDecompressions:                             16737689.\nCompressions:                               22256468.\nPageins:                                     9652734.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 5.036304375000327,
+            "server_rss_kib": "6761856"
+          },
+          {
+            "utc": "2026-10-25T04:28:34.507281+00:00",
+            "disk_free_bytes": 25258737664,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    25178.\nPages active:                                 164072.\nPages inactive:                               163716.\nPages speculative:                               102.\nPages throttled:                                   0.\nPages wired down:                             531366.\nPages purgeable:                                1232.\n\"Translation faults\":                      130449371.\nPages copy-on-write:                         5883918.\nPages zero filled:                         114293135.\nPages reactivated:                          21631245.\nPages purged:                                6074826.\nFile-backed pages:                            169006.\nAnonymous pages:                              158884.\nPages stored in compressor:                   297260.\nPages occupied by compressor:                 127751.\nDecompressions:                             16737863.\nCompressions:                               22258333.\nPageins:                                     9655178.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 10.057494207998388,
+            "server_rss_kib": "6761744"
+          },
+          {
+            "utc": "2026-10-25T04:28:39.527064+00:00",
+            "disk_free_bytes": 25258885120,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    18000.\nPages active:                                 166065.\nPages inactive:                               169270.\nPages speculative:                               147.\nPages throttled:                                   0.\nPages wired down:                             531313.\nPages purgeable:                                1276.\n\"Translation faults\":                      130468411.\nPages copy-on-write:                         5887336.\nPages zero filled:                         114297917.\nPages reactivated:                          21631288.\nPages purged:                                6074826.\nFile-backed pages:                            175622.\nAnonymous pages:                              159860.\nPages stored in compressor:                   296023.\nPages occupied by compressor:                 127390.\nDecompressions:                             16738944.\nCompressions:                               22258333.\nPageins:                                     9659559.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 15.076685208001436,
+            "server_rss_kib": "6761744"
+          },
+          {
+            "utc": "2026-10-25T04:28:44.539112+00:00",
+            "disk_free_bytes": 25258954752,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    17925.\nPages active:                                 166286.\nPages inactive:                               169147.\nPages speculative:                               150.\nPages throttled:                                   0.\nPages wired down:                             531311.\nPages purgeable:                                1267.\n\"Translation faults\":                      130486333.\nPages copy-on-write:                         5890909.\nPages zero filled:                         114302158.\nPages reactivated:                          21631288.\nPages purged:                                6074826.\nFile-backed pages:                            175631.\nAnonymous pages:                              159952.\nPages stored in compressor:                   295933.\nPages occupied by compressor:                 127366.\nDecompressions:                             16739029.\nCompressions:                               22258333.\nPageins:                                     9659662.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 20.08869924999817,
+            "server_rss_kib": "6761744"
+          },
+          {
+            "utc": "2026-10-25T04:28:49.558758+00:00",
+            "disk_free_bytes": 25258934272,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    18027.\nPages active:                                 166311.\nPages inactive:                               169137.\nPages speculative:                               150.\nPages throttled:                                   0.\nPages wired down:                             531210.\nPages purgeable:                                1277.\n\"Translation faults\":                      130503350.\nPages copy-on-write:                         5894285.\nPages zero filled:                         114306240.\nPages reactivated:                          21631288.\nPages purged:                                6074826.\nFile-backed pages:                            175631.\nAnonymous pages:                              159967.\nPages stored in compressor:                   295840.\nPages occupied by compressor:                 127350.\nDecompressions:                             16739127.\nCompressions:                               22258333.\nPageins:                                     9659760.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 25.124474790998647,
+            "server_rss_kib": "6761744"
+          },
+          {
+            "utc": "2026-10-25T04:28:54.593234+00:00",
+            "disk_free_bytes": 25258700800,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    17322.\nPages active:                                 167153.\nPages inactive:                               169268.\nPages speculative:                               151.\nPages throttled:                                   0.\nPages wired down:                             531217.\nPages purgeable:                                1389.\n\"Translation faults\":                      130524524.\nPages copy-on-write:                         5897815.\nPages zero filled:                         114348916.\nPages reactivated:                          21631312.\nPages purged:                                6074826.\nFile-backed pages:                            175764.\nAnonymous pages:                              160808.\nPages stored in compressor:                   295453.\nPages occupied by compressor:                 127074.\nDecompressions:                             16739508.\nCompressions:                               22258333.\nPageins:                                     9659861.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 30.142577708000317,
+            "server_rss_kib": "6765488"
+          },
+          {
+            "utc": "2026-10-25T04:28:59.603558+00:00",
+            "disk_free_bytes": 25258471424,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    16948.\nPages active:                                 167663.\nPages inactive:                               169183.\nPages speculative:                               190.\nPages throttled:                                   0.\nPages wired down:                             531315.\nPages purgeable:                                1332.\n\"Translation faults\":                      130529795.\nPages copy-on-write:                         5898332.\nPages zero filled:                         114351137.\nPages reactivated:                          21631312.\nPages purged:                                6074831.\nFile-backed pages:                            175833.\nAnonymous pages:                              161203.\nPages stored in compressor:                   295219.\nPages occupied by compressor:                 126886.\nDecompressions:                             16739729.\nCompressions:                               22258333.\nPageins:                                     9659915.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 35.15394479099996,
+            "server_rss_kib": "6768272"
+          },
+          {
+            "utc": "2026-10-25T04:29:04.615346+00:00",
+            "disk_free_bytes": 25258205184,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    13261.\nPages active:                                 170811.\nPages inactive:                               169937.\nPages speculative:                               243.\nPages throttled:                                   0.\nPages wired down:                             531163.\nPages purgeable:                                4182.\n\"Translation faults\":                      130548774.\nPages copy-on-write:                         5901902.\nPages zero filled:                         114359365.\nPages reactivated:                          21631312.\nPages purged:                                6074831.\nFile-backed pages:                            176028.\nAnonymous pages:                              164963.\nPages stored in compressor:                   294921.\nPages occupied by compressor:                 126770.\nDecompressions:                             16740073.\nCompressions:                               22258333.\nPageins:                                     9660190.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 40.16609987500124,
+            "server_rss_kib": "6768560"
+          },
+          {
+            "utc": "2026-10-25T04:29:09.632764+00:00",
+            "disk_free_bytes": 25257005056,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    11628.\nPages active:                                 171548.\nPages inactive:                               171120.\nPages speculative:                               258.\nPages throttled:                                   0.\nPages wired down:                             531148.\nPages purgeable:                                6490.\n\"Translation faults\":                      130568107.\nPages copy-on-write:                         5905298.\nPages zero filled:                         114370094.\nPages reactivated:                          21631312.\nPages purged:                                6074831.\nFile-backed pages:                            176080.\nAnonymous pages:                              166846.\nPages stored in compressor:                   293827.\nPages occupied by compressor:                 126483.\nDecompressions:                             16740994.\nCompressions:                               22258333.\nPageins:                                     9660311.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 45.18308333299865,
+            "server_rss_kib": "6768560"
+          },
+          {
+            "utc": "2026-10-25T04:29:14.649348+00:00",
+            "disk_free_bytes": 25256996864,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    14858.\nPages active:                                 168847.\nPages inactive:                               170709.\nPages speculative:                               262.\nPages throttled:                                   0.\nPages wired down:                             531087.\nPages purgeable:                                2907.\n\"Translation faults\":                      130586971.\nPages copy-on-write:                         5908805.\nPages zero filled:                         114373412.\nPages reactivated:                          21631312.\nPages purged:                                6075391.\nFile-backed pages:                            176103.\nAnonymous pages:                              163715.\nPages stored in compressor:                   293625.\nPages occupied by compressor:                 126422.\nDecompressions:                             16741203.\nCompressions:                               22258333.\nPageins:                                     9660418.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 50.200042207998194,
+            "server_rss_kib": "6768736"
+          },
+          {
+            "utc": "2026-10-25T04:29:19.661405+00:00",
+            "disk_free_bytes": 25256923136,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    16215.\nPages active:                                 167790.\nPages inactive:                               170673.\nPages speculative:                               263.\nPages throttled:                                   0.\nPages wired down:                             530886.\nPages purgeable:                                1686.\n\"Translation faults\":                      130604586.\nPages copy-on-write:                         5912197.\nPages zero filled:                         114377055.\nPages reactivated:                          21631312.\nPages purged:                                6075567.\nFile-backed pages:                            176121.\nAnonymous pages:                              162605.\nPages stored in compressor:                   293503.\nPages occupied by compressor:                 126358.\nDecompressions:                             16741289.\nCompressions:                               22258333.\nPageins:                                     9660519.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 55.211551874999714,
+            "server_rss_kib": "6768832"
+          },
+          {
+            "utc": "2026-10-25T04:29:24.681693+00:00",
+            "disk_free_bytes": 25256927232,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    15719.\nPages active:                                 168320.\nPages inactive:                               170715.\nPages speculative:                               291.\nPages throttled:                                   0.\nPages wired down:                             530873.\nPages purgeable:                                1733.\n\"Translation faults\":                      130622824.\nPages copy-on-write:                         5915690.\nPages zero filled:                         114380209.\nPages reactivated:                          21631328.\nPages purged:                                6075582.\nFile-backed pages:                            176245.\nAnonymous pages:                              163081.\nPages stored in compressor:                   293186.\nPages occupied by compressor:                 126267.\nDecompressions:                             16741605.\nCompressions:                               22258333.\nPageins:                                     9660670.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 60.23210612500043,
+            "server_rss_kib": "6768800"
+          },
+          {
+            "utc": "2026-10-25T04:29:29.698635+00:00",
+            "disk_free_bytes": 25256976384,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    15746.\nPages active:                                 168324.\nPages inactive:                               170698.\nPages speculative:                               291.\nPages throttled:                                   0.\nPages wired down:                             530873.\nPages purgeable:                                1729.\n\"Translation faults\":                      130640131.\nPages copy-on-write:                         5919101.\nPages zero filled:                         114383059.\nPages reactivated:                          21631328.\nPages purged:                                6075584.\nFile-backed pages:                            176240.\nAnonymous pages:                              163073.\nPages stored in compressor:                   293160.\nPages occupied by compressor:                 126253.\nDecompressions:                             16741627.\nCompressions:                               22258333.\nPageins:                                     9660768.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 65.24834308299978,
+            "server_rss_kib": "6768800"
+          },
+          {
+            "utc": "2026-10-25T04:29:34.712597+00:00",
+            "disk_free_bytes": 25256673280,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8223.\nPages active:                                 174216.\nPages inactive:                               172865.\nPages speculative:                               315.\nPages throttled:                                   0.\nPages wired down:                             530832.\nPages purgeable:                                1721.\n\"Translation faults\":                      130666979.\nPages copy-on-write:                         5922708.\nPages zero filled:                         114393917.\nPages reactivated:                          21631328.\nPages purged:                                6075584.\nFile-backed pages:                            176311.\nAnonymous pages:                              171085.\nPages stored in compressor:                   290270.\nPages occupied by compressor:                 125734.\nDecompressions:                             16741719.\nCompressions:                               22258333.\nPageins:                                     9660913.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 70.26288654100063,
+            "server_rss_kib": "6872608"
+          },
+          {
+            "utc": "2026-10-25T04:29:39.724920+00:00",
+            "disk_free_bytes": 25256534016,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8126.\nPages active:                                 174089.\nPages inactive:                               173087.\nPages speculative:                               316.\nPages throttled:                                   0.\nPages wired down:                             530835.\nPages purgeable:                                1732.\n\"Translation faults\":                      130684563.\nPages copy-on-write:                         5926123.\nPages zero filled:                         114397172.\nPages reactivated:                          21631371.\nPages purged:                                6075584.\nFile-backed pages:                            176319.\nAnonymous pages:                              171173.\nPages stored in compressor:                   290261.\nPages occupied by compressor:                 125732.\nDecompressions:                             16741732.\nCompressions:                               22258333.\nPageins:                                     9661015.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 34%",
+            "elapsed_s": 75.27567258300041,
+            "server_rss_kib": "6872624"
+          },
+          {
+            "utc": "2026-10-25T04:29:44.736411+00:00",
+            "disk_free_bytes": 25256771584,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     9012.\nPages active:                                 174101.\nPages inactive:                               173043.\nPages speculative:                               315.\nPages throttled:                                   0.\nPages wired down:                             530777.\nPages purgeable:                                1732.\n\"Translation faults\":                      130702326.\nPages copy-on-write:                         5929633.\nPages zero filled:                         114400251.\nPages reactivated:                          21631371.\nPages purged:                                6075584.\nFile-backed pages:                            176323.\nAnonymous pages:                              171136.\nPages stored in compressor:                   288023.\nPages occupied by compressor:                 124937.\nDecompressions:                             16741749.\nCompressions:                               22258333.\nPageins:                                     9661114.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 80.28573941599825,
+            "server_rss_kib": "6872656"
+          },
+          {
+            "utc": "2026-10-25T04:29:49.754568+00:00",
+            "disk_free_bytes": 25255628800,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4929.\nPages active:                                 176208.\nPages inactive:                               175446.\nPages speculative:                                49.\nPages throttled:                                   0.\nPages wired down:                             530649.\nPages purgeable:                                1722.\n\"Translation faults\":                      130733102.\nPages copy-on-write:                         5933236.\nPages zero filled:                         114414626.\nPages reactivated:                          21631376.\nPages purged:                                6075588.\nFile-backed pages:                            171633.\nAnonymous pages:                              180070.\nPages stored in compressor:                   287975.\nPages occupied by compressor:                 124904.\nDecompressions:                             16741784.\nCompressions:                               22258333.\nPageins:                                     9661424.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 85.30563591600003,
+            "server_rss_kib": "6976112"
+          }
+        ],
+        "stderr": "",
+        "configuration_sha256": "aaf04d3678dc8ffcaddaa024e98783215ab89808efc597e11532319180bc7abf",
+        "resource_abort": []
+      },
+      "tools": [
+        "glob",
+        "read",
+        "edit",
+        "bash"
+      ]
+    },
+    {
+      "cycle": "debug",
+      "pass": true,
+      "acceptance": {
+        "rc": 0,
+        "stdout": ".                                                                        [100%]\n1 passed in 0.00s\n",
+        "stderr": "",
+        "wall_s": 0.29446041600022,
+        "isolation": "native sandbox, independent grading state"
+      },
+      "agent": {
+        "rc": 0,
+        "timeout": false,
+        "wall_s": 141.08882087500024,
+        "started_epoch_ms": 1792902594492,
+        "state": "/Users/johnbenjamincastrosanabria/Developer/ornith/opencode/state/524c10968ec54447809796264bf4de03",
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1792902633370,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171531796001cbEnZ2WRvZa1Xu",
+              "messageID": "msg_171528347001QrOKYMaxX892Ef",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902640684,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "bash",
+              "callID": "50N67gFjzym6Uiz1jCgzZS2iiqt2Z9Hm",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "command": "ls -la"
+                },
+                "output": "total 8\ndrwxr-xr-x   4 johnbenjamincastrosanabria  staff   128 24 oct.  22:29 .\ndrwxr-xr-x  32 johnbenjamincastrosanabria  staff  1024 24 oct.  22:29 ..\n-rw-r--r--   1 johnbenjamincastrosanabria  staff    35 24 oct.  22:29 math_ops.py\ndrwxr-xr-x   3 johnbenjamincastrosanabria  staff    96 24 oct.  22:29 tests\n",
+                "metadata": {
+                  "output": "total 8\ndrwxr-xr-x   4 johnbenjamincastrosanabria  staff   128 24 oct.  22:29 .\ndrwxr-xr-x  32 johnbenjamincastrosanabria  staff  1024 24 oct.  22:29 ..\n-rw-r--r--   1 johnbenjamincastrosanabria  staff    35 24 oct.  22:29 math_ops.py\ndrwxr-xr-x   3 johnbenjamincastrosanabria  staff    96 24 oct.  22:29 tests\n",
+                  "exit": 0,
+                  "truncated": false
+                },
+                "title": "ls -la",
+                "time": {
+                  "start": 1792902640656,
+                  "end": 1792902640684
+                }
+              },
+              "id": "prt_171532bcc001ZsdbL2BQ3UYWlP",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_171528347001QrOKYMaxX892Ef"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902640954,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171531cc7001bsoYMLSGi1t0VJ",
+              "messageID": "msg_171528347001QrOKYMaxX892Ef",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "text",
+              "text": "I'll start by exploring the workspace structure and running the test suite to see what fails.\n\n",
+              "time": {
+                "start": 1792902634695,
+                "end": 1792902640934
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902640954,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153352f001Jf52sznB4Mxp1T",
+              "reason": "tool-calls",
+              "messageID": "msg_171528347001QrOKYMaxX892Ef",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3629,
+                "input": 3566,
+                "output": 63,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902643415,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171533ed5001kiEknGtOo2PboI",
+              "messageID": "msg_171533537001mobxggI3btgI9p",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902648974,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "bash",
+              "callID": "3prwAQPKdBAN5bWewPkz6QvJN9oh1UNB",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "command": "ls -la tests/ && echo \"---\" && cat math_ops.py"
+                },
+                "output": "total 8\ndrwxr-xr-x  3 johnbenjamincastrosanabria  staff   96 24 oct.  22:29 .\ndrwxr-xr-x  4 johnbenjamincastrosanabria  staff  128 24 oct.  22:29 ..\n-rw-r--r--  1 johnbenjamincastrosanabria  staff  108 24 oct.  22:29 test_math.py\n---\ndef increment(n):\n    return n - 1\n",
+                "metadata": {
+                  "output": "total 8\ndrwxr-xr-x  3 johnbenjamincastrosanabria  staff   96 24 oct.  22:29 .\ndrwxr-xr-x  4 johnbenjamincastrosanabria  staff  128 24 oct.  22:29 ..\n-rw-r--r--  1 johnbenjamincastrosanabria  staff  108 24 oct.  22:29 test_math.py\n---\ndef increment(n):\n    return n - 1\n",
+                  "exit": 0,
+                  "truncated": false
+                },
+                "title": "ls -la tests/ && echo \"---\" && cat math_ops.py",
+                "time": {
+                  "start": 1792902648961,
+                  "end": 1792902648973
+                }
+              },
+              "id": "prt_1715344b2001tc5BuRitgcEdF8",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_171533537001mobxggI3btgI9p"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902649198,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153556b001lfItPgqlDkRNIc",
+              "reason": "tool-calls",
+              "messageID": "msg_171533537001mobxggI3btgI9p",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 3851,
+                "input": 173,
+                "output": 50,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3628
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902651342,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171535dcc0014FzgIwJJc63L3g",
+              "messageID": "msg_17153556d001WDcKIoOSYrdj3X",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902664107,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "read",
+              "callID": "bCok9xe3IHluT0B5dWQSqWfDBuAYahzp",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/tests/test_math.py"
+                },
+                "output": "<path>/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/tests/test_math.py</path>\n<type>file</type>\n<content>\n1: from math_ops import increment\n2: def test_increment():\n3:     assert increment(3)==4\n4:     assert increment(-1)==0\n\n(End of file - total 4 lines)\n</content>",
+                "metadata": {
+                  "preview": "from math_ops import increment\ndef test_increment():\n    assert increment(3)==4\n    assert increment(-1)==0",
+                  "truncated": false,
+                  "loaded": [],
+                  "display": {
+                    "type": "file",
+                    "path": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/tests/test_math.py",
+                    "text": "from math_ops import increment\ndef test_increment():\n    assert increment(3)==4\n    assert increment(-1)==0",
+                    "lineStart": 1,
+                    "lineEnd": 4,
+                    "totalLines": 4,
+                    "truncated": false
+                  }
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/tests/test_math.py",
+                "time": {
+                  "start": 1792902664101,
+                  "end": 1792902664106
+                }
+              },
+              "id": "prt_171537421001w0TqdqydQJp5mY",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_17153556d001WDcKIoOSYrdj3X"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902664352,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153909c001kahysjF03iFuWa",
+              "reason": "tool-calls",
+              "messageID": "msg_17153556d001WDcKIoOSYrdj3X",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4101,
+                "input": 148,
+                "output": 103,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 3850
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902666130,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171539790001QUjtCdQJb3SdkS",
+              "messageID": "msg_17153909f001rk6Jq495n2tk2Q",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902682300,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153b63d001MXtsIYmRITvTv5",
+              "messageID": "msg_17153909f001rk6Jq495n2tk2Q",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "text",
+              "text": "Now let me run the test suite to confirm the failure.\n\n",
+              "time": {
+                "start": 1792902673981,
+                "end": 1792902682299
+              }
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902682449,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "bash",
+              "callID": "foZVQiyl7MM3LpeiIBYcPbVBSMp9UXgL",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "command": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider"
+                },
+                "output": "F                                                                        [100%]\n=================================== FAILURES ===================================\n________________________________ test_increment ________________________________\n\n    def test_increment():\n>       assert increment(3)==4\nE       assert 2 == 4\nE        +  where 2 = increment(3)\n\ntests/test_math.py:3: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_math.py::test_increment - assert 2 == 4\n1 failed in 0.01s\n",
+                "metadata": {
+                  "output": "F                                                                        [100%]\n=================================== FAILURES ===================================\n________________________________ test_increment ________________________________\n\n    def test_increment():\n>       assert increment(3)==4\nE       assert 2 == 4\nE        +  where 2 = increment(3)\n\ntests/test_math.py:3: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_math.py::test_increment - assert 2 == 4\n1 failed in 0.01s\n",
+                  "exit": 1,
+                  "truncated": false
+                },
+                "title": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider",
+                "time": {
+                  "start": 1792902682063,
+                  "end": 1792902682446
+                }
+              },
+              "id": "prt_17153bf1300124chf9ynZGSbuR",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_17153909f001rk6Jq495n2tk2Q"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902682449,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153d74e001wMz2CNX6I3S4e3",
+              "reason": "tool-calls",
+              "messageID": "msg_17153909f001rk6Jq495n2tk2Q",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4361,
+                "input": 121,
+                "output": 140,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 4100
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902684241,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153de4f001IAc4QD29esaug0",
+              "messageID": "msg_17153d7500016lh1Ql2mrN1VHY",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902705349,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "edit",
+              "callID": "jy5cV2UGdv9j0NAHQ5rvZbMmj7DiwMEJ",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "filePath": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py",
+                  "oldString": "def increment(n):\n    return n - 1",
+                  "newString": "def increment(n):\n    return n + 1"
+                },
+                "output": "Edit applied successfully.",
+                "metadata": {
+                  "diagnostics": {},
+                  "diff": "Index: /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n===================================================================\n--- /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n+++ /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n@@ -1,2 +1,2 @@\n def increment(n):\n-    return n - 1\n+    return n + 1\n",
+                  "filediff": {
+                    "file": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py",
+                    "patch": "Index: /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n===================================================================\n--- /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n+++ /Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py\n@@ -1,2 +1,2 @@\n def increment(n):\n-    return n - 1\n+    return n + 1\n",
+                    "additions": 1,
+                    "deletions": 1
+                  },
+                  "truncated": false
+                },
+                "title": "Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/work/smoke-gguf-debug-31a3473b/math_ops.py",
+                "time": {
+                  "start": 1792902705344,
+                  "end": 1792902705348
+                }
+              },
+              "id": "prt_1715406590019jKR2t7siQuIUp",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_17153d7500016lh1Ql2mrN1VHY"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902705557,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17153f5ee001HojuURT0e6BES3",
+              "messageID": "msg_17153d7500016lh1Ql2mrN1VHY",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "text",
+              "text": "The test fails because `increment` returns `n - 1` instead of `n + 1`. Let me fix the source file.\n\n",
+              "time": {
+                "start": 1792902690286,
+                "end": 1792902705554
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902705557,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171543192001Kmc3naIzn3zOML",
+              "reason": "tool-calls",
+              "messageID": "msg_17153d7500016lh1Ql2mrN1VHY",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4672,
+                "input": 119,
+                "output": 193,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 4360
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902706021,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17154336300144guhtPeK7Ty9v",
+              "messageID": "msg_171543194001Y95s7SKFXjpnrF",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902715397,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171543949001x2FIPH7DuLepTT",
+              "messageID": "msg_171543194001Y95s7SKFXjpnrF",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "text",
+              "text": "Now let me rerun the test suite to confirm the fix.\n\n",
+              "time": {
+                "start": 1792902707529,
+                "end": 1792902715396
+              }
+            }
+          },
+          {
+            "type": "tool_use",
+            "timestamp": 1792902715578,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "type": "tool",
+              "tool": "bash",
+              "callID": "cDCLXw5vpw3d74IeVfEIMzx2Ue02a6JE",
+              "state": {
+                "status": "completed",
+                "input": {
+                  "command": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider"
+                },
+                "output": ".                                                                        [100%]\n1 passed in 0.00s\n",
+                "metadata": {
+                  "output": ".                                                                        [100%]\n1 passed in 0.00s\n",
+                  "exit": 0,
+                  "truncated": false
+                },
+                "title": "/Users/johnbenjamincastrosanabria/Developer/ornith/benchmarks/.venv/bin/python -m pytest -q -p no:cacheprovider",
+                "time": {
+                  "start": 1792902715206,
+                  "end": 1792902715574
+                }
+              },
+              "id": "prt_17154423f001QwnwuumZoo2ZDY",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "messageID": "msg_171543194001Y95s7SKFXjpnrF"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902715578,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_1715458b7001BLw7wDUxYySXx0",
+              "reason": "tool-calls",
+              "messageID": "msg_171543194001Y95s7SKFXjpnrF",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4780,
+                "input": 20,
+                "output": 89,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 4671
+                }
+              },
+              "cost": 0
+            }
+          },
+          {
+            "type": "step_start",
+            "timestamp": 1792902716080,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171545aae001IDeWv0u6D0Cno0",
+              "messageID": "msg_1715458b9001Yy0FOHEeMrzb51",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1792902735555,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_171546eb1001hN5HYsAM7OJjoa",
+              "messageID": "msg_1715458b9001Yy0FOHEeMrzb51",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "text",
+              "text": "The test suite now passes.\n\n## Summary\n\n**Cause of failure:** The function `increment` in `math_ops.py` was decrementing its argument instead of incrementing it:\n\n```python\ndef increment(n):\n    return n - 1   # bug: subtracts instead of adds\n```\n\nThis caused `increment(3)` to return `2` instead of the expected `4`, failing the assertion.\n\n**Fix:** Changed the return statement to add `1` instead of subtracting it:\n\n```python\ndef increment(n):\n    return n + 1\n```\n\n**Result:** Reran the suite \u2014 `1 passed`.",
+              "time": {
+                "start": 1792902721201,
+                "end": 1792902735533
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1792902735555,
+            "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+            "part": {
+              "id": "prt_17154a6b0001mO7Nw3KMYaNZm9",
+              "reason": "stop",
+              "messageID": "msg_1715458b9001Yy0FOHEeMrzb51",
+              "sessionID": "ses_e8ead7e03fferISMm7mkYUx2Qm",
+              "type": "step-finish",
+              "tokens": {
+                "total": 4999,
+                "input": 34,
+                "output": 186,
+                "reasoning": 0,
+                "cache": {
+                  "write": 0,
+                  "read": 4779
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "memory_samples": [
+          {
+            "utc": "2026-10-25T04:29:54.494788+00:00",
+            "disk_free_bytes": 25258307584,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    42241.\nPages active:                                 154792.\nPages inactive:                               160398.\nPages speculative:                               106.\nPages throttled:                                   0.\nPages wired down:                             530408.\nPages purgeable:                                1724.\n\"Translation faults\":                      130757948.\nPages copy-on-write:                         5937311.\nPages zero filled:                         114435851.\nPages reactivated:                          21633737.\nPages purged:                                6075596.\nFile-backed pages:                            165496.\nAnonymous pages:                              149800.\nPages stored in compressor:                   287247.\nPages occupied by compressor:                 124240.\nDecompressions:                             16741892.\nCompressions:                               22258433.\nPageins:                                     9661614.\nPageouts:                                      69079.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 35%",
+            "elapsed_s": 0.010024874998634914,
+            "server_rss_kib": "6976192"
+          },
+          {
+            "utc": "2026-10-25T04:29:59.509346+00:00",
+            "disk_free_bytes": 25247514624,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4605.\nPages active:                                 160127.\nPages inactive:                               158316.\nPages speculative:                               813.\nPages throttled:                                   0.\nPages wired down:                             530561.\nPages purgeable:                                 202.\n\"Translation faults\":                      130923404.\nPages copy-on-write:                         5944584.\nPages zero filled:                         114548302.\nPages reactivated:                          21691356.\nPages purged:                                6076467.\nFile-backed pages:                            119263.\nAnonymous pages:                              199993.\nPages stored in compressor:                   325724.\nPages occupied by compressor:                 157763.\nDecompressions:                             16746181.\nCompressions:                               22302311.\nPageins:                                     9666286.\nPageouts:                                      69093.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%",
+            "elapsed_s": 5.028558124999108,
+            "server_rss_kib": "7204880"
+          },
+          {
+            "utc": "2026-10-25T04:30:04.526433+00:00",
+            "disk_free_bytes": 25246388224,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    18301.\nPages active:                                 147374.\nPages inactive:                               144263.\nPages speculative:                              1517.\nPages throttled:                                   0.\nPages wired down:                             530482.\nPages purgeable:                                3816.\n\"Translation faults\":                      130952928.\nPages copy-on-write:                         5946680.\nPages zero filled:                         114565354.\nPages reactivated:                          21693409.\nPages purged:                                6076479.\nFile-backed pages:                            114770.\nAnonymous pages:                              178384.\nPages stored in compressor:                   337017.\nPages occupied by compressor:                 170248.\nDecompressions:                             16749748.\nCompressions:                               22317118.\nPageins:                                     9667685.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 10.040173875000619,
+            "server_rss_kib": "6990288"
+          },
+          {
+            "utc": "2026-10-25T04:30:09.536773+00:00",
+            "disk_free_bytes": 25246158848,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    13605.\nPages active:                                 149555.\nPages inactive:                               144733.\nPages speculative:                              4129.\nPages throttled:                                   0.\nPages wired down:                             530499.\nPages purgeable:                                2788.\n\"Translation faults\":                      130976130.\nPages copy-on-write:                         5950139.\nPages zero filled:                         114570888.\nPages reactivated:                          21693409.\nPages purged:                                6076479.\nFile-backed pages:                            118756.\nAnonymous pages:                              179661.\nPages stored in compressor:                   335009.\nPages occupied by compressor:                 169664.\nDecompressions:                             16751735.\nCompressions:                               22317118.\nPageins:                                     9670706.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 15.051198791999923,
+            "server_rss_kib": "6990288"
+          },
+          {
+            "utc": "2026-10-25T04:30:14.548216+00:00",
+            "disk_free_bytes": 25246121984,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    14621.\nPages active:                                 148649.\nPages inactive:                               144620.\nPages speculative:                              4143.\nPages throttled:                                   0.\nPages wired down:                             530497.\nPages purgeable:                                1638.\n\"Translation faults\":                      130994305.\nPages copy-on-write:                         5953671.\nPages zero filled:                         114575502.\nPages reactivated:                          21693409.\nPages purged:                                6076743.\nFile-backed pages:                            118796.\nAnonymous pages:                              178616.\nPages stored in compressor:                   334951.\nPages occupied by compressor:                 169655.\nDecompressions:                             16751803.\nCompressions:                               22317118.\nPageins:                                     9670831.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 20.062831833998644,
+            "server_rss_kib": "6990288"
+          },
+          {
+            "utc": "2026-10-25T04:30:19.562165+00:00",
+            "disk_free_bytes": 25246113792,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    14616.\nPages active:                                 148750.\nPages inactive:                               144606.\nPages speculative:                              4158.\nPages throttled:                                   0.\nPages wired down:                             530420.\nPages purgeable:                                1634.\n\"Translation faults\":                      131011264.\nPages copy-on-write:                         5957047.\nPages zero filled:                         114579774.\nPages reactivated:                          21693409.\nPages purged:                                6076743.\nFile-backed pages:                            118834.\nAnonymous pages:                              178680.\nPages stored in compressor:                   334864.\nPages occupied by compressor:                 169635.\nDecompressions:                             16751881.\nCompressions:                               22317118.\nPageins:                                     9670961.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 25.076164209000126,
+            "server_rss_kib": "6990288"
+          },
+          {
+            "utc": "2026-10-25T04:30:24.572593+00:00",
+            "disk_free_bytes": 25284280320,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8964.\nPages active:                                 152036.\nPages inactive:                               145414.\nPages speculative:                              6137.\nPages throttled:                                   0.\nPages wired down:                             530418.\nPages purgeable:                                1688.\n\"Translation faults\":                      131037314.\nPages copy-on-write:                         5960668.\nPages zero filled:                         114585245.\nPages reactivated:                          21693443.\nPages purged:                                6076743.\nFile-backed pages:                            122695.\nAnonymous pages:                              180892.\nPages stored in compressor:                   333211.\nPages occupied by compressor:                 169216.\nDecompressions:                             16753535.\nCompressions:                               22317118.\nPageins:                                     9673562.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 30.087080917001003,
+            "server_rss_kib": "6990288"
+          },
+          {
+            "utc": "2026-10-25T04:30:29.588067+00:00",
+            "disk_free_bytes": 25284263936,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8650.\nPages active:                                 152649.\nPages inactive:                               145875.\nPages speculative:                              6344.\nPages throttled:                                   0.\nPages wired down:                             530417.\nPages purgeable:                                1688.\n\"Translation faults\":                      131056478.\nPages copy-on-write:                         5964047.\nPages zero filled:                         114589658.\nPages reactivated:                          21693443.\nPages purged:                                6076743.\nFile-backed pages:                            123008.\nAnonymous pages:                              181860.\nPages stored in compressor:                   332212.\nPages occupied by compressor:                 168250.\nDecompressions:                             16754537.\nCompressions:                               22317118.\nPageins:                                     9673884.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 35.102095875001396,
+            "server_rss_kib": "7005680"
+          },
+          {
+            "utc": "2026-10-25T04:30:34.600144+00:00",
+            "disk_free_bytes": 25285431296,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7601.\nPages active:                                 154437.\nPages inactive:                               147036.\nPages speculative:                              6681.\nPages throttled:                                   0.\nPages wired down:                             530462.\nPages purgeable:                                1692.\n\"Translation faults\":                      131076946.\nPages copy-on-write:                         5967565.\nPages zero filled:                         114594156.\nPages reactivated:                          21693448.\nPages purged:                                6076746.\nFile-backed pages:                            123935.\nAnonymous pages:                              184219.\nPages stored in compressor:                   329841.\nPages occupied by compressor:                 165968.\nDecompressions:                             16756890.\nCompressions:                               22317118.\nPageins:                                     9674729.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 40.11515587499889,
+            "server_rss_kib": "7041488"
+          },
+          {
+            "utc": "2026-10-25T04:30:39.612330+00:00",
+            "disk_free_bytes": 25285218304,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8907.\nPages active:                                 154310.\nPages inactive:                               150578.\nPages speculative:                              2721.\nPages throttled:                                   0.\nPages wired down:                             529791.\nPages purgeable:                                1709.\n\"Translation faults\":                      131095363.\nPages copy-on-write:                         5970983.\nPages zero filled:                         114597494.\nPages reactivated:                          21693495.\nPages purged:                                6076754.\nFile-backed pages:                            126752.\nAnonymous pages:                              180857.\nPages stored in compressor:                   329379.\nPages occupied by compressor:                 165878.\nDecompressions:                             16757024.\nCompressions:                               22317118.\nPageins:                                     9679465.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%",
+            "elapsed_s": 45.127226333999715,
+            "server_rss_kib": "7041520"
+          },
+          {
+            "utc": "2026-10-25T04:30:44.633069+00:00",
+            "disk_free_bytes": 25284165632,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     6192.\nPages active:                                 157215.\nPages inactive:                               153440.\nPages speculative:                              2806.\nPages throttled:                                   0.\nPages wired down:                             529790.\nPages purgeable:                                1703.\n\"Translation faults\":                      131119557.\nPages copy-on-write:                         5974541.\nPages zero filled:                         114604105.\nPages reactivated:                          21693495.\nPages purged:                                6076754.\nFile-backed pages:                            126950.\nAnonymous pages:                              186511.\nPages stored in compressor:                   326131.\nPages occupied by compressor:                 162742.\nDecompressions:                             16760266.\nCompressions:                               22317118.\nPageins:                                     9679714.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%",
+            "elapsed_s": 50.14764791700145,
+            "server_rss_kib": "7091456"
+          },
+          {
+            "utc": "2026-10-25T04:30:49.643864+00:00",
+            "disk_free_bytes": 25284128768,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     4944.\nPages active:                                 157883.\nPages inactive:                               154936.\nPages speculative:                              2105.\nPages throttled:                                   0.\nPages wired down:                             529694.\nPages purgeable:                                1725.\n\"Translation faults\":                      131140111.\nPages copy-on-write:                         5978061.\nPages zero filled:                         114608143.\nPages reactivated:                          21693495.\nPages purged:                                6076775.\nFile-backed pages:                            127051.\nAnonymous pages:                              187873.\nPages stored in compressor:                   325640.\nPages occupied by compressor:                 162623.\nDecompressions:                             16760757.\nCompressions:                               22317118.\nPageins:                                     9680829.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 31%",
+            "elapsed_s": 55.15946450000047,
+            "server_rss_kib": "7091520"
+          },
+          {
+            "utc": "2026-10-25T04:30:54.665015+00:00",
+            "disk_free_bytes": 25283948544,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    12976.\nPages active:                                 151337.\nPages inactive:                               148039.\nPages speculative:                              2496.\nPages throttled:                                   0.\nPages wired down:                             529528.\nPages purgeable:                                1767.\n\"Translation faults\":                      131166793.\nPages copy-on-write:                         5981599.\nPages zero filled:                         114650795.\nPages reactivated:                          21698346.\nPages purged:                                6076789.\nFile-backed pages:                            117704.\nAnonymous pages:                              184168.\nPages stored in compressor:                   329790.\nPages occupied by compressor:                 167809.\nDecompressions:                             16762212.\nCompressions:                               22322733.\nPageins:                                     9685206.\nPageouts:                                      69094.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 60.183962999999494,
+            "server_rss_kib": "7002352"
+          },
+          {
+            "utc": "2026-10-25T04:30:59.681989+00:00",
+            "disk_free_bytes": 25281720320,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5499.\nPages active:                                 150840.\nPages inactive:                               146693.\nPages speculative:                              3351.\nPages throttled:                                   0.\nPages wired down:                             529557.\nPages purgeable:                                4867.\n\"Translation faults\":                      131203131.\nPages copy-on-write:                         5985136.\nPages zero filled:                         114676664.\nPages reactivated:                          21709884.\nPages purged:                                6076793.\nFile-backed pages:                            116691.\nAnonymous pages:                              184193.\nPages stored in compressor:                   335651.\nPages occupied by compressor:                 176245.\nDecompressions:                             16770471.\nCompressions:                               22336960.\nPageins:                                     9691845.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 65.19807333399876,
+            "server_rss_kib": "6824048"
+          },
+          {
+            "utc": "2026-10-25T04:31:04.702341+00:00",
+            "disk_free_bytes": 25281585152,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7681.\nPages active:                                 149233.\nPages inactive:                               144898.\nPages speculative:                              3239.\nPages throttled:                                   0.\nPages wired down:                             529382.\nPages purgeable:                                5992.\n\"Translation faults\":                      131222228.\nPages copy-on-write:                         5988669.\nPages zero filled:                         114685154.\nPages reactivated:                          21711057.\nPages purged:                                6076795.\nFile-backed pages:                            114620.\nAnonymous pages:                              182750.\nPages stored in compressor:                   337798.\nPages occupied by compressor:                 177752.\nDecompressions:                             16770670.\nCompressions:                               22339310.\nPageins:                                     9692044.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 70.21719433399994,
+            "server_rss_kib": "6805680"
+          },
+          {
+            "utc": "2026-10-25T04:31:09.716714+00:00",
+            "disk_free_bytes": 25281540096,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8741.\nPages active:                                 148004.\nPages inactive:                               148024.\nPages speculative:                               158.\nPages throttled:                                   0.\nPages wired down:                             529277.\nPages purgeable:                                8539.\n\"Translation faults\":                      131240662.\nPages copy-on-write:                         5992104.\nPages zero filled:                         114695549.\nPages reactivated:                          21711164.\nPages purged:                                6077187.\nFile-backed pages:                            111176.\nAnonymous pages:                              185010.\nPages stored in compressor:                   338253.\nPages occupied by compressor:                 177981.\nDecompressions:                             16771276.\nCompressions:                               22340292.\nPageins:                                     9692244.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 75.2319227500011,
+            "server_rss_kib": "6804400"
+          },
+          {
+            "utc": "2026-10-25T04:31:14.737226+00:00",
+            "disk_free_bytes": 25281531904,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     9610.\nPages active:                                 148156.\nPages inactive:                               146670.\nPages speculative:                               781.\nPages throttled:                                   0.\nPages wired down:                             529280.\nPages purgeable:                                4329.\n\"Translation faults\":                      131266233.\nPages copy-on-write:                         5995633.\nPages zero filled:                         114702922.\nPages reactivated:                          21711164.\nPages purged:                                6077747.\nFile-backed pages:                            112177.\nAnonymous pages:                              183430.\nPages stored in compressor:                   337053.\nPages occupied by compressor:                 177688.\nDecompressions:                             16772478.\nCompressions:                               22340292.\nPageins:                                     9692956.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 80.25252554200051,
+            "server_rss_kib": "6804464"
+          },
+          {
+            "utc": "2026-10-25T04:31:19.748600+00:00",
+            "disk_free_bytes": 25281679360,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     9943.\nPages active:                                 147712.\nPages inactive:                               146482.\nPages speculative:                              1155.\nPages throttled:                                   0.\nPages wired down:                             529258.\nPages purgeable:                                2592.\n\"Translation faults\":                      131284932.\nPages copy-on-write:                         5999065.\nPages zero filled:                         114706572.\nPages reactivated:                          21711172.\nPages purged:                                6077923.\nFile-backed pages:                            112809.\nAnonymous pages:                              182540.\nPages stored in compressor:                   336835.\nPages occupied by compressor:                 177635.\nDecompressions:                             16772701.\nCompressions:                               22340292.\nPageins:                                     9693656.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 85.26316254199992,
+            "server_rss_kib": "6804464"
+          },
+          {
+            "utc": "2026-10-25T04:31:24.768079+00:00",
+            "disk_free_bytes": 25280630784,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8407.\nPages active:                                 148777.\nPages inactive:                               147026.\nPages speculative:                              1269.\nPages throttled:                                   0.\nPages wired down:                             529264.\nPages purgeable:                                2600.\n\"Translation faults\":                      131307188.\nPages copy-on-write:                         6002783.\nPages zero filled:                         114712520.\nPages reactivated:                          21711178.\nPages purged:                                6077923.\nFile-backed pages:                            113791.\nAnonymous pages:                              183281.\nPages stored in compressor:                   336526.\nPages occupied by compressor:                 177442.\nDecompressions:                             16773017.\nCompressions:                               22340292.\nPageins:                                     9694115.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 90.28149241699793,
+            "server_rss_kib": "6807296"
+          },
+          {
+            "utc": "2026-10-25T04:31:29.788605+00:00",
+            "disk_free_bytes": 25280589824,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8437.\nPages active:                                 148787.\nPages inactive:                               146997.\nPages speculative:                              1271.\nPages throttled:                                   0.\nPages wired down:                             529263.\nPages purgeable:                                2562.\n\"Translation faults\":                      131324947.\nPages copy-on-write:                         6006173.\nPages zero filled:                         114715678.\nPages reactivated:                          21711178.\nPages purged:                                6077923.\nFile-backed pages:                            113799.\nAnonymous pages:                              183256.\nPages stored in compressor:                   336498.\nPages occupied by compressor:                 177430.\nDecompressions:                             16773041.\nCompressions:                               22340292.\nPageins:                                     9694216.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 95.30116374999852,
+            "server_rss_kib": "6807312"
+          },
+          {
+            "utc": "2026-10-25T04:31:34.800240+00:00",
+            "disk_free_bytes": 25280585728,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7762.\nPages active:                                 148931.\nPages inactive:                               147494.\nPages speculative:                              1338.\nPages throttled:                                   0.\nPages wired down:                             529224.\nPages purgeable:                                2558.\n\"Translation faults\":                      131343174.\nPages copy-on-write:                         6009752.\nPages zero filled:                         114718824.\nPages reactivated:                          21711178.\nPages purged:                                6077923.\nFile-backed pages:                            114402.\nAnonymous pages:                              183360.\nPages stored in compressor:                   336409.\nPages occupied by compressor:                 177410.\nDecompressions:                             16773137.\nCompressions:                               22340292.\nPageins:                                     9694821.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 100.3121834170015,
+            "server_rss_kib": "6807312"
+          },
+          {
+            "utc": "2026-10-25T04:31:39.811350+00:00",
+            "disk_free_bytes": 25280274432,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5650.\nPages active:                                 148844.\nPages inactive:                               150674.\nPages speculative:                               323.\nPages throttled:                                   0.\nPages wired down:                             528948.\nPages purgeable:                                2560.\n\"Translation faults\":                      131361671.\nPages copy-on-write:                         6013155.\nPages zero filled:                         114722161.\nPages reactivated:                          21711537.\nPages purged:                                6077935.\nFile-backed pages:                            117356.\nAnonymous pages:                              182485.\nPages stored in compressor:                   337227.\nPages occupied by compressor:                 177746.\nDecompressions:                             16773504.\nCompressions:                               22341536.\nPageins:                                     9699127.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 105.32317154200064,
+            "server_rss_kib": "6807312"
+          },
+          {
+            "utc": "2026-10-25T04:31:44.829489+00:00",
+            "disk_free_bytes": 25280487424,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5628.\nPages active:                                 148913.\nPages inactive:                               150638.\nPages speculative:                               327.\nPages throttled:                                   0.\nPages wired down:                             528943.\nPages purgeable:                                2561.\n\"Translation faults\":                      131379561.\nPages copy-on-write:                         6016703.\nPages zero filled:                         114725147.\nPages reactivated:                          21711537.\nPages purged:                                6077935.\nFile-backed pages:                            117364.\nAnonymous pages:                              182514.\nPages stored in compressor:                   337154.\nPages occupied by compressor:                 177736.\nDecompressions:                             16773584.\nCompressions:                               22341536.\nPageins:                                     9699230.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 30%",
+            "elapsed_s": 110.3409350840011,
+            "server_rss_kib": "6807328"
+          },
+          {
+            "utc": "2026-10-25T04:31:49.841299+00:00",
+            "disk_free_bytes": 25280495616,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5517.\nPages active:                                 150236.\nPages inactive:                               149425.\nPages speculative:                               125.\nPages throttled:                                   0.\nPages wired down:                             528846.\nPages purgeable:                                2559.\n\"Translation faults\":                      131405185.\nPages copy-on-write:                         6020196.\nPages zero filled:                         114735595.\nPages reactivated:                          21711826.\nPages purged:                                6077947.\nFile-backed pages:                            110482.\nAnonymous pages:                              189304.\nPages stored in compressor:                   337863.\nPages occupied by compressor:                 178036.\nDecompressions:                             16773671.\nCompressions:                               22342340.\nPageins:                                     9699453.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 115.35291574999792,
+            "server_rss_kib": "6910512"
+          },
+          {
+            "utc": "2026-10-25T04:31:54.860125+00:00",
+            "disk_free_bytes": 25280483328,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    12743.\nPages active:                                 144712.\nPages inactive:                               143932.\nPages speculative:                                91.\nPages throttled:                                   0.\nPages wired down:                             528794.\nPages purgeable:                                2245.\n\"Translation faults\":                      131424309.\nPages copy-on-write:                         6023726.\nPages zero filled:                         114753738.\nPages reactivated:                          21725104.\nPages purged:                                6077966.\nFile-backed pages:                            108146.\nAnonymous pages:                              180589.\nPages stored in compressor:                   344080.\nPages occupied by compressor:                 181913.\nDecompressions:                             16773772.\nCompressions:                               22348986.\nPageins:                                     9699599.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 120.38341791700077,
+            "server_rss_kib": "6872672"
+          },
+          {
+            "utc": "2026-10-25T04:31:59.887297+00:00",
+            "disk_free_bytes": 25279569920,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     5011.\nPages active:                                 148336.\nPages inactive:                               147453.\nPages speculative:                               249.\nPages throttled:                                   0.\nPages wired down:                             528802.\nPages purgeable:                                2243.\n\"Translation faults\":                      131453429.\nPages copy-on-write:                         6027415.\nPages zero filled:                         114766328.\nPages reactivated:                          21725470.\nPages purged:                                6077976.\nFile-backed pages:                            109236.\nAnonymous pages:                              186802.\nPages stored in compressor:                   344502.\nPages occupied by compressor:                 182334.\nDecompressions:                             16773874.\nCompressions:                               22349523.\nPageins:                                     9700024.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 125.39845174999937,
+            "server_rss_kib": "6971008"
+          },
+          {
+            "utc": "2026-10-25T04:32:04.908128+00:00",
+            "disk_free_bytes": 25279545344,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     6346.\nPages active:                                 146081.\nPages inactive:                               145502.\nPages speculative:                               303.\nPages throttled:                                   0.\nPages wired down:                             528749.\nPages purgeable:                                4618.\n\"Translation faults\":                      131472059.\nPages copy-on-write:                         6030953.\nPages zero filled:                         114774495.\nPages reactivated:                          21727248.\nPages purged:                                6077978.\nFile-backed pages:                            107999.\nAnonymous pages:                              183887.\nPages stored in compressor:                   348929.\nPages occupied by compressor:                 185204.\nDecompressions:                             16773992.\nCompressions:                               22354159.\nPageins:                                     9700225.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 130.41873425000085,
+            "server_rss_kib": "6941936"
+          },
+          {
+            "utc": "2026-10-25T04:32:09.927501+00:00",
+            "disk_free_bytes": 25279639552,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     7400.\nPages active:                                 145507.\nPages inactive:                               145011.\nPages speculative:                               318.\nPages throttled:                                   0.\nPages wired down:                             528748.\nPages purgeable:                                3449.\n\"Translation faults\":                      131489678.\nPages copy-on-write:                         6034367.\nPages zero filled:                         114777637.\nPages reactivated:                          21727250.\nPages purged:                                6077978.\nFile-backed pages:                            108033.\nAnonymous pages:                              182803.\nPages stored in compressor:                   348910.\nPages occupied by compressor:                 185201.\nDecompressions:                             16774016.\nCompressions:                               22354159.\nPageins:                                     9700349.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 135.43819808400076,
+            "server_rss_kib": "6942096"
+          },
+          {
+            "utc": "2026-10-25T04:32:14.947824+00:00",
+            "disk_free_bytes": 25279623168,
+            "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     8575.\nPages active:                                 144426.\nPages inactive:                               144927.\nPages speculative:                               371.\nPages throttled:                                   0.\nPages wired down:                             528745.\nPages purgeable:                                2020.\n\"Translation faults\":                      131508047.\nPages copy-on-write:                         6037885.\nPages zero filled:                         114780569.\nPages reactivated:                          21727250.\nPages purged:                                6078538.\nFile-backed pages:                            108147.\nAnonymous pages:                              181577.\nPages stored in compressor:                   348681.\nPages occupied by compressor:                 185141.\nDecompressions:                             16774253.\nCompressions:                               22354159.\nPageins:                                     9700523.\nPageouts:                                      69104.\nSwapins:                                      162516.\nSwapouts:                                     420975.",
+            "swap": "vm.swapusage: total = 2048.00M  used = 505.94M  free = 1542.06M  (encrypted)",
+            "pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 29%",
+            "elapsed_s": 140.46866295899963,
+            "server_rss_kib": "6942256"
+          }
+        ],
+        "stderr": "",
+        "configuration_sha256": "aaf04d3678dc8ffcaddaa024e98783215ab89808efc597e11532319180bc7abf",
+        "resource_abort": []
+      },
+      "tools": [
+        "bash",
+        "bash",
+        "read",
+        "bash",
+        "edit",
+        "bash"
+      ]
+    }
+  ],
+  "passed": 3
+}

@@ -1,5 +1,7 @@
 # Independent llama.cpp — native conditional phase
 
+Status2026-10-25: executed with the pinned Metal build below. API checks and3/3 real OpenCode tool cycles pass. Three short runs give decode median10.06 t/s and prefill75.52 t/s. The F7 matrix has3/4 passing artifacts and completed agents; C# failed compilation on an invalid ASP.NET Core API call. See `benchmarks/results/tasks-gguf-control-cleared-host-20261024T223257.json` and `docs/RESULTS.md`. These single task runs are exploratory and do not establish superiority over Bonsai or a causal runtime-only difference.
+
 The comparison is justified by the runtime research question. Q4_K_M weights are 5,780,090,816 bytes. The phase was initially blocked because downloading them would leave about6.7 GiB free. The user then freed RAM/disk; the cleared-host baseline shows15.54 GiB free, enough to attempt this phase while preserving8 GiB. It is scheduled after the MLX/Bonsai runs, with no simultaneous loaded models. Installation alone is not an inference result.
 
 Run `scripts/setup_gguf.sh` with lab servers stopped. It uses isolated CMake4.4.4 and an independent llama.cpp checkout pinned to `d327bf1f0780f87b8c01b367b61853b0c291d7c4`, builds only llama-server with Metal and two compilation jobs, then reuses the guarded HF downloader to fetch only Q4_K_M. It preserves unexpected existing checkout/model paths and never changes the Bonsai fork.

@@ -28,7 +28,9 @@ def source_run(work,prompt,kind,model_id,harness='',timeout=1200):
     if kind!='mlx':raise ValueError('Official adaptation fixes the model to Ornith MLX')
     require_space()
     argv=OpencodeSubstrate().run_argv(prompt,pathlib.Path(work),'ornith-mlx/local',agent='ornith-code')
-    result=run(work,prompt,kind,model_id,harness,timeout,argv=argv,read_roots=(DEP,))
+    # Bun resolves --cwd through ancestor directories; their files stay blocked.
+    ancestors=tuple(p for p in DEP.parents if p.is_relative_to(pathlib.Path.home()))
+    result=run(work,prompt,kind,model_id,harness,timeout,argv=argv,read_roots=(DEP,),read_directories=ancestors)
     result['executor']='official-pinned-opencode-source'
     if result.get('resource_abort'):stop();raise SystemExit(75)
     return result
