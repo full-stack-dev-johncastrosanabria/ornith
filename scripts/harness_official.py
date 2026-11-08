@@ -76,14 +76,16 @@ class LocalProposer(Proposer):
         return text,0.0,''
 
 class F7Adapter:
-    def __init__(self,root):
+    def __init__(self,root,editor_timeout=600):
         self.root=root;self.substrate=OpencodeSubstrate()
         channel=ChannelSpec('opencode','ornith-mlx/local',effort='',steps=12,timeout=600)
+        # D037: only the proposer (editor) wall is configurable; selector and solver keep 600 s.
+        proposer=ChannelSpec('opencode','ornith-mlx/local',effort='',steps=12,timeout=editor_timeout)
         self.spec=BenchSpec(name='f7-native-local',runs_root=root/'runs',install_mode='workspace_config',
             prompts=BenchPrompts(work='make small correct programming changes and verify them locally',
                 inv_levers='Edit only always-on text. No scripts, skills, plugins or subagents in this initial run.',
                 dom_levers='Guide file reading, focused edits, test execution and concise completion.'),
-            channels={'proposer':channel,'selector':channel},leak_globs=('tests/**','**/tests/**'))
+            channels={'proposer':proposer,'selector':channel},leak_globs=('tests/**','**/tests/**'))
         base={k:'' for k in self.substrate.surface().always_on}
         base['systemprompt.md']='Read relevant files, make minimal changes, run tests and report their actual results.\n'
         tree.write_tree(self.substrate.surface(),base,self.base_harness(),stubs=False)
@@ -147,7 +149,7 @@ def evaluate(label,harness=''):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true')
     # A cohort suffix runs a fresh paired control+treatment instead of reusing older control rows.
-    ap.add_argument('--cohort',default='');a=ap.parse_args()
+    ap.add_argument('--cohort',default='');ap.add_argument('--editor-timeout',type=int,default=600);a=ap.parse_args()
     suffix='-'+a.cohort if a.cohort else '';control,treatment='official-source-control'+suffix,'official-source-treatment'+suffix
     configure()
     if a.preflight:print('Official source substrate preflight OK; no model call made.');return
@@ -156,13 +158,13 @@ def main():
     with patch.object(smoke_agent,'run',source_run):smoke_agent.main()
     evaluate(control)
     now=datetime.datetime.now().strftime('%Y%m%dT%H%M%S');root=ROOT/'harness2/official/runs'/now
-    adapter=F7Adapter(root);prop=LocalProposer(adapter.spec.channels['proposer'],audit_dir=root/'editor',attempts=1)
+    adapter=F7Adapter(root,a.editor_timeout);prop=LocalProposer(adapter.spec.channels['proposer'],audit_dir=root/'editor',attempts=1)
     t=time.perf_counter()
     # Upstream sequential exposes worker arguments, but run_domain does not forward
     # them. Inject those arguments at dispatch, leaving its algorithm untouched.
     with patch.object(recursion,'run_mode',sequential_dispatch):
         result=run_domain('programming',['DEV'],1,adapter=adapter,prop=prop,runs_root=adapter.spec.runs_root,library_root=root/'library',modes=('seq',))
-    result.update({'classification':'official Harness² core with local macOS/F7/source-launch adapters','optimization_wall_s':time.perf_counter()-t,'editor_calls':len(prop._calls),'root':str(root)})
+    result.update({'classification':'official Harness² core with local macOS/F7/source-launch adapters','optimization_wall_s':time.perf_counter()-t,'editor_calls':len(prop._calls),'editor_timeout_s':a.editor_timeout,'root':str(root)})
     metrics=root/'editor/local-executions.jsonl'
     result['editor_execution_metrics']=[json.loads(line) for line in metrics.read_text().splitlines()] if metrics.exists() else []
     result['solver_execution_metrics']=[]
