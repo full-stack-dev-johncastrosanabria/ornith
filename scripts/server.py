@@ -56,6 +56,8 @@ def start(kind):
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
         cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c',str(profile['context']),'-np','1','--jinja','--temp','0.6','--top-p','0.95','--top-k','0','--min-p','0']
         if kind in ('bonsai','bonsai9'):cmd+=['--reasoning-budget','100','--cache-ram','512']
+    # D032 secondary arm: identical template-level thinking-off intervention on both runtimes.
+    if os.environ.get('LAB_THINKING')=='off':cmd+=['--chat-template-args' if kind in MLX_MODELS else '--chat-template-kwargs','{"enable_thinking":false}']
     try:
         with (ROOT/f'logs/{kind}-server.log').open('ab') as log:
             p=subprocess.Popen(cmd,cwd=ROOT,env=env,stdout=log,stderr=log,start_new_session=True)

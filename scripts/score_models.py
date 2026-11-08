@@ -93,7 +93,7 @@ def main():
     scores=[score(k,a.label) for k in a.kinds];ranked,provisional=rank(scores)
     out={'rule':'D031','label':a.label,'ranking':[s['kind'] for s in ranked],'provisional':provisional,'scores':scores}
     (ROOT/'benchmarks/reports'/f'model-selection-{a.label}.json').write_text(json.dumps(out,indent=2)+'\n')
-    lines=[f'| # | Model | F7 pass | Total s | Decode t/s | Peak footprint | Fail causes |','|---|---|---|---|---|---|---|']
+    lines=[f'Ranking under the fixed profile ({a.label}; 16K/4096 incl. reasoning/.6/.95, Bonsai reasoning-budget 100, others unbounded) — not model capability with unlimited reasoning.','',f'| # | Model | F7 pass | Total s | Decode t/s | Peak footprint | Fail causes |','|---|---|---|---|---|---|---|']
     for i,s in enumerate(ranked+[s for s in scores if not s['complete']],1):
         causes=', '.join(f"{t['task']}:{t['cause']}" for t in s['tasks'] if t['status']!='pass') or '-'
         head=f"| {i} | {s['model']} | {s['passes']}/4 | {s['total_s']:.0f} | " if s['complete'] else f"| N/E | {s['model']} | N/E ({s['n']}/4 scored) | N/E | "

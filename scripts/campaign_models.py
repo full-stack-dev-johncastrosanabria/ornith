@@ -8,6 +8,7 @@ the 8 GiB reserve; their manifests keep the pins for re-download.
 import argparse,datetime,json,os,pathlib,shutil,subprocess,sys,time
 from server import ROOT,STATE,MLX_MODELS,start,stop
 from campaign import existing_tasks
+from score_models import length_steps
 
 # Docker Desktop was closed mid-session; every candidate, Ornith MLX included, reruns under that host state.
 LABEL='oc226-nodocker'
@@ -58,6 +59,19 @@ def main():
                 if remaining:stage(kind,'f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL])
             stop()
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
+            # D032: mechanical trigger — any output-cap-truncated step in the primary cohort runs a thinking-off arm.
+            primary=existing_tasks(kind,LABEL)
+            if ok and len(primary)==len(TASKS) and any(length_steps(r) for r in primary.values()):
+                os.environ['LAB_THINKING']='off'
+                try:
+                    start(kind)
+                    if stage(kind,'nothink-smoke-agent',[PY,'scripts/smoke_agent.py']):
+                        remaining=[t for t in TASKS if t not in existing_tasks(kind,LABEL+'-nothink')]
+                        if remaining:stage(kind,'nothink-f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL+'-nothink'])
+                    else:data['stages'].append({'kind':kind,'name':'nothink-f7','status':'not run: smoke gate failed (integration N/E)'});save()
+                finally:
+                    os.environ.pop('LAB_THINKING',None)
+                    if STATE.exists():stop()
             if kind in EVICT and len(existing_tasks(kind,LABEL))==len(TASKS):evict(kind);data['stages'].append({'kind':kind,'name':'evict','status':'finished'});save()
         data['status']='stages_finished'
     except SystemExit as e:
