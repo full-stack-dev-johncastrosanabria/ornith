@@ -81,6 +81,8 @@ def run(work,prompt,kind,model_id,harness='',timeout=1200,*,argv=None,read_roots
             if (ROOT/'logs/server.json').exists():
                 pid=json.loads((ROOT/'logs/server.json').read_text())['pid']
                 row['server_rss_kib']=subprocess.run(['ps','-p',str(pid),'-o','rss='],capture_output=True,text=True).stdout.strip()
+                # RSS omits Metal/IOKit allocations; top's MEM column is the physical footprint.
+                row['server_footprint']=subprocess.run(['top','-l','1','-pid',str(pid),'-stats','mem'],capture_output=True,text=True).stdout.strip().splitlines()[-1:]
             samples.append(row);done.wait(5)
             if row['disk_free_bytes']<8*1024**3 and p.poll() is None:
                 resource_abort.append('disk below 8 GiB reserve');os.killpg(p.pid,signal.SIGTERM);return

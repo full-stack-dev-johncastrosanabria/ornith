@@ -66,6 +66,13 @@ class ResumeTests(unittest.TestCase):
         rows=[{'status':'fail','acceptance':{'rc':1},'tests_unchanged':True},{'status':'infrastructure','acceptance':{'rc':1},'tests_unchanged':True}]
         self.assertEqual(report.artifact_quality(rows),'0/1')
         self.assertEqual(report.quality(rows),'0/1 scored; 1 infrastructure')
+    def test_rank_is_quality_first_and_flags_close_top_two(self):
+        import score_models
+        s=lambda k,p,t,d:{'kind':k,'complete':True,'passes':p,'total_s':t,'decode_tps':d}
+        ranked,provisional=score_models.rank([s('fast',3,900,15),s('slow',4,2400,4.6),{'kind':'ne','complete':False}])
+        self.assertEqual([r['kind'] for r in ranked],['slow','fast']);self.assertTrue(provisional)
+        ranked,provisional=score_models.rank([s('a',2,900,15),s('b',4,2400,4.6)]);self.assertFalse(provisional)
+        self.assertEqual([r['kind'] for r in score_models.rank([s('a',3,900,9),s('b',3,800,5)])[0]],['b','a'])
     def test_evict_removes_only_the_candidate_cache_repo(self):
         import campaign_models
         with tempfile.TemporaryDirectory() as directory:

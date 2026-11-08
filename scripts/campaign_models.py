@@ -17,6 +17,7 @@ FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/downlo
        'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite']}
 LINKS={'gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx'}
 EVICT={'gguf','qwen','bonsai9','granite'}
+COOLDOWN_S=300
 
 def evict(kind):
     link=ROOT/'models'/LINKS[kind];target=link.resolve()
@@ -39,7 +40,10 @@ def main():
         if p.returncode==75:raise SystemExit(75)
         return p.returncode==0
     try:
-        for kind in a.kinds:
+        for i,kind in enumerate(a.kinds):
+            # Fanless Air: idle cooldown between models so run order does not bias speed; thermal state recorded.
+            if i:time.sleep(COOLDOWN_S)
+            data['stages'].append({'kind':kind,'name':'thermal','cooldown_s':COOLDOWN_S if i else 0,'pmset_therm':subprocess.run(['pmset','-g','therm'],capture_output=True,text=True).stdout.strip()});save()
             if kind in FETCH and not (ROOT/'models'/LINKS[kind]).exists() and not stage(kind,'fetch',FETCH[kind]):continue
             try:
                 if STATE.exists():stop()
