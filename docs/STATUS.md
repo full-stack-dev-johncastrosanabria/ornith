@@ -1,14 +1,15 @@
 # Checkpoint — 2026-11-08, resumed; MLX/GGUF weights externally cleared
 
-The experiment remains **incomplete**. The main runtime/harness matrix (16/16 valid task outcomes) and the micro-rate repetitions stand as measured on 2026-10-25 and are unchanged; see [RESULTS.md](RESULTS.md), [DECISIONS.md](DECISIONS.md) (D001–D028) and git history for the full trail. This checkpoint records the resumed-session state only.
+The experiment remains **incomplete**. The main runtime/harness matrix (16/16 valid task outcomes) and the micro-rate repetitions stand as measured on 2026-10-25 and are unchanged; see [RESULTS.md](RESULTS.md), [DECISIONS.md](DECISIONS.md) (D001–D029) and git history for the full trail. This checkpoint records the resumed-session state only.
 
-## Resume continued (2026-11-08, later) — recovery done, v2.2.6 cohort running
+## Resume continued (2026-11-08, later) — recovery done, v2.2.6 cohort complete, GitHub synced
 
 - **Disk recovered:** with the user's per-item approval, removed only the stale `default-no-608db` Docker workspace + build cache (novahub evaluation, both DB volumes, and the running `rembric` service kept and verified). Free disk 5.3→15→~22 GiB after the model pull. See D028.
 - **Ornith MLX restored + validated:** re-downloaded the pinned revision (size-checked) and confirmed a correct direct HTTP completion. The `models/ornith-mlx` symlink resolves again; GGUF is still absent (one model fits the reserve at a time). 
 - **OpenCode drift handled:** the global binary moved 1.19.4→2.2.6, which broke the agent harness (`--dir`/`--pure` removed; `bash` tool renamed `shell`). Adapted `opencode_local.py`/`smoke_agent.py`/`report.py`; the JSON event schema is unchanged so F7 grading is unaffected. **Smoke re-validated 3/3** under v2.2.6 (read 27.1 s, edit_test 77.1 s, debug 145.7 s). D028.
-- **In progress:** the new OpenCode-2.2.6 F7 cohort (label `oc226-control`, Ornith MLX) is running — explicitly **not comparable** to the historical 1.19.4 numbers. Raw: `benchmarks/results/tasks-mlx-oc226-control-*.json`.
-- **Still blocked:** GitHub push — `github.com` DNS not resolving and the local credential lacks write access; commits remain local.
+- **F7 cohort complete:** the OpenCode-2.2.6 cohort (label `oc226-control`, Ornith MLX) finished 4/4, **2/4 end-to-end pass** — F7-B 985.0 s and F7-D 619.0 s pass; F7-A (.NET) and F7-C (Python) fail by hitting the 1200 s agent timeout (no `resource_abort`, no infra error — real non-completions). Explicitly **not comparable** to the historical 1.19.4 cohort (3/4; distinct OpenCode version, one run per task). The NuGet offline cache (deleted alongside the HF cache) was repopulated from nuget.org to unblock F7-A before the run. Raw: `benchmarks/results/tasks-mlx-oc226-control-20261108T100340.json`. See D029.
+- **GitHub push resolved:** `github.com` DNS resolves again; the 403 was `osxkeychain` serving the stale `jcastros_crnova` token — fixed by using `gh` (owner account `full-stack-dev-johncastrosanabria`) as the git credential helper in this repo's local config. Commits `7dbda81` and `edd144a` pushed; `origin/main` at `edd144a`. See D029.
+- **Deferred to a dedicated session:** the native official-core DEV optimization + held-out source-executor treatment (D026).
 
 ## Infrastructure event (not a quality result)
 
@@ -27,7 +28,7 @@ Free disk at resume was ~5.6 GiB — **below the D003/D008 8 GiB reserve**. Safe
 
 - **Completed this cycle:** the official pinned **source-executor F7 control** (Ornith MLX) — 1/4 artifact acceptance and 1/4 end-to-end pass (F7-D passes at 684.5 s; A/B/C fail at ~400–421 s, all tests immutable, no timeout, no infra error, each truncated at the 4096 output cap). Weaker than the separate global-OpenCode MLX cohort (3/4); distinct executors, not pooled. See [HARNESS2.md](HARNESS2.md) and D026. Raw: `benchmarks/results/tasks-mlx-official-source-control-F7-*.json`.
 - **Synthesis added:** [FINDINGS.md](FINDINGS.md) — the evidence-grounded "best model and configuration for this MacBook Air M3 / 16 GB" answer, with the one-run-per-task and model/runtime/quant-confound caveats intact.
-- **Paused (needs a user disk decision):** DEV optimization and the held-out **source-executor treatment** cannot run until MLX weights are re-downloaded under the 8 GiB reserve. Re-download (~5–6 GiB each) will not fit the current reserve without first freeing space — i.e. the user's Docker decision above, or another large reclaim they approve.
+- **Deferred to a dedicated session:** DEV optimization and the held-out **source-executor treatment** (D026). MLX weights are restored and runnable (D028) and disk headroom is adequate (~20 GiB free), so this is no longer a resource block — it is a long model+agent run left for a focused session.
 - **Deferred (host safety):** running Bonsai 27B now is possible but unwise at ~5.6 GiB free — earlier 27B runs drove swap to 8 GiB and disk to 8.7 GiB; starting from 5.6 GiB risks exhausting the disk. Defer live Bonsai runs until headroom is restored.
 - **Still unexecuted (as before):** three independent repetitions per long F7 task/condition, seed blocks, thermal crossover and long-session soak; official model-backed Harness² benchmark adapters.
 
