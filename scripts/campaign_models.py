@@ -1,4 +1,4 @@
-"""D030 model-selection cohort: one candidate at a time on global OpenCode, label oc226-control.
+"""D030 model-selection cohort: one candidate at a time on global OpenCode, label oc226-nodocker.
 
 Per kind: fetch pinned weights, start, API smoke, agent smoke 3/3 (hard gate: failure is
 integration N/E, F7 is not run), micro bench, F7 A-D, stop, MLX direct bench. Resumable:
@@ -9,7 +9,8 @@ import argparse,datetime,json,os,pathlib,shutil,subprocess,sys,time
 from server import ROOT,STATE,MLX_MODELS,start,stop
 from campaign import existing_tasks
 
-LABEL='oc226-control'
+# Docker Desktop was closed mid-session; every candidate, Ornith MLX included, reruns under that host state.
+LABEL='oc226-nodocker'
 TASKS=['F7-A','F7-B','F7-C','F7-D']
 PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
 FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
@@ -29,6 +30,7 @@ def main():
     subprocess.Popen(['/usr/bin/caffeinate','-i','-w',str(os.getpid())],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     checkpoint=ROOT/f"logs/campaign-models-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
     data={'protocol':'D030','label':LABEL,'pid':os.getpid(),'profile':json.loads((ROOT/'runtimes/profile.json').read_text()),'stages':[],'status':'running'}
+    data['docker_vm_running_at_start']=bool(subprocess.run(['pgrep','-f','Virtualization.VirtualMachine'],capture_output=True).stdout)
     def save():checkpoint.write_text(json.dumps(data,indent=2)+'\n')
     def stage(kind,name,cmd):
         row={'kind':kind,'name':name,'command':cmd,'started':time.time(),'status':'running'};data['stages'].append(row);save();print(kind,name,flush=True)
