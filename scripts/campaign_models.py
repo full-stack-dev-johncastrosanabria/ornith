@@ -6,7 +6,7 @@ completed F7 tasks are skipped. Measured candidates in EVICT are removed afterwa
 the 8 GiB reserve; their manifests keep the pins for re-download.
 """
 import argparse,datetime,json,os,pathlib,shutil,subprocess,sys,time
-from server import ROOT,STATE,MLX_MODELS,start,stop
+from server import ROOT,STATE,MLX_MODELS,VENDOR_SAMPLING,start,stop
 from campaign import existing_tasks
 from score_models import length_steps
 
@@ -19,8 +19,14 @@ FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/downlo
        'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
 LINKS={'gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
 EVICT={'gguf','qwen','bonsai9','granite','gemma','sera8'}
-# D035: Gemma's template already defaults to enable_thinking=false, so the D032 arm would repeat the primary run.
+# D035/D036: Gemma's template defaults to enable_thinking=false, so its reasoning arm turns thinking on instead.
 THINKING_OFF_BY_DEFAULT={'gemma'}
+
+def reasoning_arm(kind,primary):
+    """Mechanical secondary arm: 'on' for thinking-off-by-default models (D036), 'off' after a cap hit (D032)."""
+    if len(primary)!=len(TASKS):return None
+    if kind in THINKING_OFF_BY_DEFAULT:return 'on'
+    return 'off' if any(length_steps(r) for r in primary.values()) else None
 COOLDOWN_S=300
 
 def evict(kind):
@@ -62,18 +68,20 @@ def main():
                 if remaining:stage(kind,'f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL])
             stop()
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
-            # D032: mechanical trigger — any output-cap-truncated step in the primary cohort runs a thinking-off arm.
-            primary=existing_tasks(kind,LABEL)
-            if ok and kind not in THINKING_OFF_BY_DEFAULT and len(primary)==len(TASKS) and any(length_steps(r) for r in primary.values()):
-                os.environ['LAB_THINKING']='off'
+            mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok else None
+            if mode:
+                # D036: a thinking-on arm uses the publisher's recommended sampling when one is pinned.
+                vendor=mode=='on' and kind in VENDOR_SAMPLING
+                tag='vendor' if vendor else {'off':'nothink','on':'think'}[mode];os.environ['LAB_THINKING']=mode
+                if vendor:os.environ['LAB_SAMPLING']='vendor'
                 try:
                     start(kind)
-                    if stage(kind,'nothink-smoke-agent',[PY,'scripts/smoke_agent.py']):
-                        remaining=[t for t in TASKS if t not in existing_tasks(kind,LABEL+'-nothink')]
-                        if remaining:stage(kind,'nothink-f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL+'-nothink'])
-                    else:data['stages'].append({'kind':kind,'name':'nothink-f7','status':'not run: smoke gate failed (integration N/E)'});save()
+                    if stage(kind,f'{tag}-smoke-agent',[PY,'scripts/smoke_agent.py']):
+                        remaining=[t for t in TASKS if t not in existing_tasks(kind,f'{LABEL}-{tag}')]
+                        if remaining:stage(kind,f'{tag}-f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',f'{LABEL}-{tag}'])
+                    else:data['stages'].append({'kind':kind,'name':f'{tag}-f7','status':'not run: smoke gate failed (integration N/E)'});save()
                 finally:
-                    os.environ.pop('LAB_THINKING',None)
+                    os.environ.pop('LAB_THINKING',None);os.environ.pop('LAB_SAMPLING',None)
                     if STATE.exists():stop()
             if kind in EVICT and len(existing_tasks(kind,LABEL))==len(TASKS):evict(kind);data['stages'].append({'kind':kind,'name':'evict','status':'finished'});save()
         data['status']='stages_finished'

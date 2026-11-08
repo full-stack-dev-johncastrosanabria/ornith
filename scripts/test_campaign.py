@@ -92,4 +92,20 @@ class ResumeTests(unittest.TestCase):
             if kind in campaign_models.FETCH:self.assertIn(kind,campaign_models.LINKS);self.assertIn(kind,campaign_models.EVICT)
         self.assertEqual(len(set(server.PORTS.values())),len(server.PORTS))
 
+    def test_reasoning_arm_is_mechanical(self):
+        import campaign_models as c
+        capped={'type':'step_finish','part':{'reason':'length','tokens':{'output':4096}}}
+        full=lambda ev:{t:{'agent':{'events':ev}} for t in c.TASKS}
+        self.assertEqual(c.reasoning_arm('gemma',full([])),'on')
+        self.assertEqual(c.reasoning_arm('mlx',full([capped])),'off')
+        self.assertIsNone(c.reasoning_arm('mlx',full([])))
+        self.assertIsNone(c.reasoning_arm('gemma',{'F7-A':{'agent':{'events':[]}}}))
+    def test_vendor_sampling_only_applies_to_its_arm_and_kind(self):
+        import opencode_local
+        agent=lambda k:opencode_local.configuration(k,'m')[0]['agent']['ornith-code']
+        self.assertEqual(agent('gemma')['temperature'],.6)
+        with patch.dict(opencode_local.os.environ,{'LAB_SAMPLING':'vendor'}):
+            self.assertEqual((agent('gemma')['temperature'],agent('gemma')['top_p']),(1.0,.95))
+            self.assertEqual(agent('mlx')['temperature'],.6)
+
 if __name__=='__main__':unittest.main()

@@ -7,7 +7,7 @@ JSONL event schema (step_start/text/tool_use/step_finish, tool state.status, ste
 is unchanged from v1, so downstream parsing/grading is unaffected. Runs under v2 are a new cohort,
 not comparable to the historical OpenCode 1.19.4 measurements."""
 import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
-from server import PORTS
+from server import PORTS,VENDOR_SAMPLING
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def first_tool_latency(events,launch_ms):
@@ -26,6 +26,8 @@ def configuration(kind,model_id,harness=''):
     prompt='You are a local programming agent. Work only in the current workspace. Read relevant files, make minimal changes, run the available tests, and report actual results. Never modify acceptance tests. Never use the network. Do not delegate.'
     cfg={'$schema':'https://opencode.ai/config.json','model':ref,'small_model':ref,'enabled_providers':[provider],'autoupdate':False,'share':'disabled','snapshot':False,'plugin':[],'mcp':{},'lsp':False,'formatter':False,'permission':permissions,'compaction':{'auto':True,'prune':True,'reserved':1536},'provider':{provider:{'npm':'@ai-sdk/openai-compatible','name':provider,'options':{'baseURL':f'http://127.0.0.1:{port}/v1','apiKey':'local-only'},'models':{'local':{'id':model_id,'name':model_id,'tool_call':True,'limit':{'context':8192,'output':1536}}}}},'default_agent':'ornith-code','agent':{'ornith-code':{'description':'Local workspace coding agent','mode':'primary','model':ref,'temperature':.6,'top_p':.95,'steps':12,'prompt':prompt+('\n'+harness if harness else ''),'permission':permissions},'title':{'disable':True},'summary':{'disable':True}}}
     cfg['provider'][provider]['models']['local']['limit']={'context':profile['context'],'output':profile['output']}
+    if os.environ.get('LAB_SAMPLING')=='vendor' and kind in VENDOR_SAMPLING:
+        cfg['agent']['ornith-code'].update({k:VENDOR_SAMPLING[kind][k] for k in ('temperature','top_p')})
     return cfg,ref
 
 def sandbox(work,state):

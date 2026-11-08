@@ -18,6 +18,8 @@ BONSAI = pathlib.Path.home()/'Library/Mobile Documents/com~apple~CloudDocs/bonsa
 PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088, 'gemma':8089, 'sera8':8090}
 # MLX candidates share the runtime and adapter; only the pinned weights differ.
 MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx', 'gemma':'gemma-4-12b-mlx'}
+# D036: publisher-recommended sampling (pinned generation_config.json), used only in the vendor arm.
+VENDOR_SAMPLING = {'gemma':{'temperature':1.0,'top_p':0.95,'top_k':64}}
 
 def active():
     # 8080 belongs to an unrelated existing service, outside this laboratory.
@@ -56,8 +58,13 @@ def start(kind):
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
         cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c',str(profile['context']),'-np','1','--jinja','--temp','0.6','--top-p','0.95','--top-k','0','--min-p','0']
         if kind in ('bonsai','bonsai9'):cmd+=['--reasoning-budget','100','--cache-ram','512']
-    # D032 secondary arm: identical template-level thinking-off intervention on both runtimes.
-    if os.environ.get('LAB_THINKING')=='off':cmd+=['--chat-template-args' if kind in MLX_MODELS else '--chat-template-kwargs','{"enable_thinking":false}']
+    vendor=VENDOR_SAMPLING.get(kind) if os.environ.get('LAB_SAMPLING')=='vendor' else None
+    if vendor:
+        cmd[cmd.index('--temp')+1]=str(vendor['temperature']);cmd[cmd.index('--top-p')+1]=str(vendor['top_p'])
+        if '--top-k' in cmd:cmd[cmd.index('--top-k')+1]=str(vendor['top_k'])
+        else:cmd+=['--top-k',str(vendor['top_k'])]
+    # D032/D036 reasoning arms: the same template-level switch on both runtimes.
+    if os.environ.get('LAB_THINKING') in ('off','on'):cmd+=['--chat-template-args' if kind in MLX_MODELS else '--chat-template-kwargs',json.dumps({'enable_thinking':os.environ['LAB_THINKING']=='on'})]
     try:
         with (ROOT/f'logs/{kind}-server.log').open('ab') as log:
             p=subprocess.Popen(cmd,cwd=ROOT,env=env,stdout=log,stderr=log,start_new_session=True)
