@@ -4,7 +4,7 @@ from server import ROOT,STATE,active,stop
 from memory import require_space
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--after-pid',required=True,type=int);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--after-pid',required=True,type=int);ap.add_argument('--cohort',default='');a=ap.parse_args()
     while True:
         command=subprocess.run(['ps','-p',str(a.after_pid),'-o','command='],capture_output=True,text=True).stdout
         if not any(str(ROOT/'scripts'/name) in command for name in ['campaign_gguf.sh','campaign.py']):break
@@ -18,7 +18,7 @@ def main():
     def save():checkpoint.write_text(json.dumps(d,indent=2)+'\n')
     py=str(ROOT/'harness2/.venv/bin/python');started=False
     try:
-        for name,cmd in [('setup',[py,'scripts/setup_harness_official.py']),('preflight',[py,'scripts/harness_official.py','--preflight']),('start',[py,'scripts/server.py','start','mlx']),('api',[py,'scripts/smoke_api.py']),('official-core',[py,'scripts/harness_official.py'])]:
+        for name,cmd in [('setup',[py,'scripts/setup_harness_official.py']),('preflight',[py,'scripts/harness_official.py','--preflight']),('start',[py,'scripts/server.py','start','mlx']),('api',[py,'scripts/smoke_api.py']),('official-core',[py,'scripts/harness_official.py']+(['--cohort',a.cohort] if a.cohort else []))]:
             row={'name':name,'status':'running','started':time.time()};d['stages'].append(row);save()
             with (ROOT/f'logs/official-{name}.log').open('w') as log:p=subprocess.run(cmd,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
             row.update({'rc':p.returncode,'wall_s':time.time()-row['started'],'status':'finished' if p.returncode==0 else 'failed'});save()

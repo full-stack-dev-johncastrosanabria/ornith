@@ -1,7 +1,7 @@
 """Launch interactive OpenCode in the same isolated native sandbox."""
 import argparse,json,os,pathlib,shutil
 from opencode_local import ROOT,prepare
-ap=argparse.ArgumentParser();ap.add_argument('kind',choices=['mlx','gguf','bonsai']);ap.add_argument('workspace',nargs='?',type=pathlib.Path);a=ap.parse_args()
+ap=argparse.ArgumentParser();ap.add_argument('kind',choices=['mlx','gguf','bonsai','qwen','granite','bonsai9']);ap.add_argument('workspace',nargs='?',type=pathlib.Path);a=ap.parse_args()
 s=json.loads((ROOT/'logs/server.json').read_text())
 if s['kind']!=a.kind:raise SystemExit('Stop the current owned server and start the requested model first.')
 work=(a.workspace or ROOT/f'benchmarks/work/interactive-{a.kind}').resolve();work.mkdir(parents=True,exist_ok=True)

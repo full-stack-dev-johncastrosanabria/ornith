@@ -3,10 +3,11 @@
 Enforces one pinned model and an exact tokenized 8192 input+output budget.
 All generation, Metal kernels, reasoning and tool parsing remain upstream.
 """
-import logging,pathlib,json,importlib.metadata
+import logging,os,pathlib,json,importlib.metadata
 from mlx_lm import server
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-MODEL=ROOT/'models/ornith-mlx'
+# server.py pins the candidate via LAB_MODEL; default stays the original Ornith pin.
+MODEL=pathlib.Path(os.environ.get('LAB_MODEL',ROOT/'models/ornith-mlx'))
 if importlib.metadata.version('mlx-lm')!='0.32.2':raise RuntimeError('Local adapter requires the verified MLX-LM 0.32.2 version.')
 CONTEXT=json.loads((ROOT/'runtimes/profile.json').read_text())['context']
 _tokenize=server.ResponseGenerator._tokenize
@@ -23,7 +24,7 @@ def tokenize(self,tokenizer,request,args):
 def generate(self,request,generation_args,progress_callback=None):
     selected=generation_args.model.model
     if selected!='default_model' and pathlib.Path(selected).resolve()!=MODEL.resolve():
-        raise ValueError('Only the pinned local Ornith model is permitted')
+        raise ValueError('Only the pinned local model is permitted')
     return _generate(self,request,generation_args,progress_callback)
 
 server.ResponseGenerator._tokenize=tokenize

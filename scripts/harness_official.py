@@ -145,13 +145,16 @@ def evaluate(label,harness=''):
         if row['status']=='infrastructure':raise RuntimeError('Official evaluation interrupted by infrastructure; evidence at '+str(p))
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true')
+    # A cohort suffix runs a fresh paired control+treatment instead of reusing older control rows.
+    ap.add_argument('--cohort',default='');a=ap.parse_args()
+    suffix='-'+a.cohort if a.cohort else '';control,treatment='official-source-control'+suffix,'official-source-treatment'+suffix
     configure()
     if a.preflight:print('Official source substrate preflight OK; no model call made.');return
     if json.loads(STATE.read_text())['kind']!='mlx':raise RuntimeError('Start Ornith MLX alone first')
     # Same pinned source executor in smoke, control, probes and held-out treatment.
     with patch.object(smoke_agent,'run',source_run):smoke_agent.main()
-    evaluate('official-source-control')
+    evaluate(control)
     now=datetime.datetime.now().strftime('%Y%m%dT%H%M%S');root=ROOT/'harness2/official/runs'/now
     adapter=F7Adapter(root);prop=LocalProposer(adapter.spec.channels['proposer'],audit_dir=root/'editor',attempts=1)
     t=time.perf_counter()
@@ -177,12 +180,12 @@ def main():
             if hp.exists():chosen.append(hp)
     if result['failed'] or len(chosen)!=1:raise RuntimeError('Official run did not produce one validated changed harness; inspect '+str(output))
     guidance=text_harness(chosen[0]);(root/'frozen-guidance.txt').write_text(guidance)
-    evaluate('official-source-treatment',guidance)
-    comparison={'classification':result['classification'],'optimization_wall_s':result['optimization_wall_s'],'optimization_result':str(output),'conditions':{}}
-    for label in ['official-source-control','official-source-treatment']:
+    evaluate(treatment,guidance)
+    comparison={'classification':result['classification'],'cohort':a.cohort,'optimization_wall_s':result['optimization_wall_s'],'optimization_result':str(output),'conditions':{}}
+    for label in [control,treatment]:
         rows=[json.loads(p.read_text())['rows'][0] for p in sorted((ROOT/'benchmarks/results').glob(f'tasks-mlx-{label}-F7-*.json'))]
         if any(r['status'] not in ('pass','fail') for r in rows):raise RuntimeError('Incomplete official condition: '+label)
         comparison['conditions'][label]={'artifact_passes':sum(bool(r.get('artifact_acceptance')) for r in rows),'agent_completions':sum(r['status']=='pass' for r in rows),'n':len(rows),'tasks':[{'task':r['task'],'status':r['status'],'wall_s':r.get('agent',{}).get('wall_s')} for r in rows]}
-    (ROOT/'benchmarks/reports/harness-official-comparison.json').write_text(json.dumps(comparison,indent=2)+'\n')
+    (ROOT/'benchmarks/reports'/f'harness-official-comparison{suffix}.json').write_text(json.dumps(comparison,indent=2)+'\n')
     print(output,flush=True)
 if __name__=='__main__':main()

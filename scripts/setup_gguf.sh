@@ -15,6 +15,7 @@ if [[ ! -d "$SRC/.git" ]]; then
 fi
 [[ $(git -C "$SRC" rev-parse HEAD) == "$REV" && -z $(git -C "$SRC" status --porcelain) ]] || { echo 'Preserving unexpected or modified llama.cpp checkout; inspect it first.'; exit 1; }
 GGUF_CMAKE="$ROOT/runtimes/gguf/.venv/bin/cmake"
-"$GGUF_CMAKE" -S "$SRC" -B "$SRC/build" -DGGML_METAL=ON -DCMAKE_BUILD_TYPE=Release -DLLAMA_BUILD_TESTS=OFF
-"$GGUF_CMAKE" --build "$SRC/build" --config Release --target llama-server -j 2
+# The original build linked Homebrew openssl@3, removed by a later cleanup; HTTPS is unused on loopback.
+"$GGUF_CMAKE" -S "$SRC" -B "$SRC/build-nossl" -DGGML_METAL=ON -DCMAKE_BUILD_TYPE=Release -DLLAMA_BUILD_TESTS=OFF -DLLAMA_OPENSSL=OFF
+"$GGUF_CMAKE" --build "$SRC/build-nossl" --config Release --target llama-server -j 2
 "$ROOT/runtimes/mlx/.venv/bin/python" scripts/download_model.py --gguf

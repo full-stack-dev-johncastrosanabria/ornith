@@ -66,5 +66,15 @@ class ResumeTests(unittest.TestCase):
         rows=[{'status':'fail','acceptance':{'rc':1},'tests_unchanged':True},{'status':'infrastructure','acceptance':{'rc':1},'tests_unchanged':True}]
         self.assertEqual(report.artifact_quality(rows),'0/1')
         self.assertEqual(report.quality(rows),'0/1 scored; 1 infrastructure')
+    def test_evict_removes_only_the_candidate_cache_repo(self):
+        import campaign_models
+        with tempfile.TemporaryDirectory() as directory:
+            home=pathlib.Path(directory);hub=home/'.cache/huggingface/hub'
+            snap=hub/'models--org--cand/snapshots/rev';snap.mkdir(parents=True);keep=hub/'models--org--other';keep.mkdir()
+            models=home/'lab/models';models.mkdir(parents=True);(models/'qwen3.5-9b-mlx').symlink_to(snap,target_is_directory=True)
+            with patch.object(campaign_models,'ROOT',home/'lab'),patch.object(pathlib.Path,'home',return_value=home):campaign_models.evict('qwen')
+            self.assertFalse((hub/'models--org--cand').exists());self.assertTrue(keep.exists());self.assertFalse((models/'qwen3.5-9b-mlx').is_symlink())
+            (models/'qwen3.5-9b-mlx').symlink_to(home,target_is_directory=True)
+            with patch.object(campaign_models,'ROOT',home/'lab'),self.assertRaises(StopIteration):campaign_models.evict('qwen')
 
 if __name__=='__main__':unittest.main()

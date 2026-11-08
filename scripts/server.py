@@ -15,12 +15,14 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 STATE = ROOT/'logs/server.json'
 LOCK = ROOT/'logs/inference.lock'
 BONSAI = pathlib.Path.home()/'Library/Mobile Documents/com~apple~CloudDocs/bonsai/bonsai-demo'
-PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085}
+PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088}
+# MLX candidates share the runtime and adapter; only the pinned weights differ.
+MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx'}
 
 def active():
     # 8080 belongs to an unrelated existing service, outside this laboratory.
     # Do not send experimental traffic there or stop its owner.
-    for port in [8082,8083,8084,8085,11434,1234]:
+    for port in [8082,8083,8084,8085,8086,8087,8088,11434,1234]:
         with socket.socket() as s:
             s.settimeout(.2)
             if s.connect_ex(('127.0.0.1',port)) == 0:
@@ -39,18 +41,21 @@ def start(kind):
     env=os.environ.copy();env['HF_HUB_OFFLINE']='1';env['HF_HUB_DISABLE_TELEMETRY']='1'
     port=PORTS[kind]
     profile=json.loads((ROOT/'runtimes/profile.json').read_text())
-    if kind=='mlx':
-        model=ROOT/'models/ornith-mlx'
+    if kind in MLX_MODELS:
+        model=ROOT/'models'/MLX_MODELS[kind]
         if not model.exists():LOCK.unlink();raise RuntimeError('Run download_model.py first.')
+        env['LAB_MODEL']=str(model)
         cmd=[str(ROOT/'runtimes/mlx/.venv/bin/python'),str(ROOT/'scripts/mlx_server.py'),'--model',str(model),'--host','127.0.0.1','--port',str(port),'--temp','0.6','--top-p','0.95','--max-tokens','1024','--decode-concurrency','1','--prompt-concurrency','1','--prompt-cache-size','1','--prompt-cache-bytes','536870912']
     else:
         if kind=='bonsai':
             binary=BONSAI/'bin/mac/llama-server';model=BONSAI/'models/bonsai2-gguf/27B/Ternary-Bonsai-2-27B-PTQ1_0.gguf'
+        elif kind=='bonsai9':
+            binary=BONSAI/'bin/mac/llama-server';model=ROOT/'models/bonsai2-9b.gguf'
         else:
-            binary=ROOT/'runtimes/gguf/llama.cpp/build/bin/llama-server';model=ROOT/'models/ornith-gguf.gguf'
+            binary=ROOT/'runtimes/gguf/llama.cpp/build-nossl/bin/llama-server';model=ROOT/'models/ornith-gguf.gguf'
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
         cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c',str(profile['context']),'-np','1','--jinja','--temp','0.6','--top-p','0.95','--top-k','0','--min-p','0']
-        if kind=='bonsai':cmd+=['--reasoning-budget','100','--cache-ram','512']
+        if kind in ('bonsai','bonsai9'):cmd+=['--reasoning-budget','100','--cache-ram','512']
     try:
         with (ROOT/f'logs/{kind}-server.log').open('ab') as log:
             p=subprocess.Popen(cmd,cwd=ROOT,env=env,stdout=log,stderr=log,start_new_session=True)

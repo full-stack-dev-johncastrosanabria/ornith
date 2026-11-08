@@ -19,7 +19,7 @@ def first_tool_latency(events,launch_ms):
 
 def configuration(kind,model_id,harness=''):
     profile=json.loads((ROOT/'runtimes/profile.json').read_text())
-    provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf'}[kind]
+    provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf','qwen':'qwen-mlx','granite':'granite-mlx','bonsai9':'bonsai9-gguf'}[kind]
     port=PORTS[kind]
     ref=provider+'/local'
     permissions={'*':'deny',**{t:'allow' for t in ['read','glob','grep','edit','bash','shell']},'external_directory':'deny'}
