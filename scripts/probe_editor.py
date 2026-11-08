@@ -53,6 +53,6 @@ def main():
          'edit_or_write_calls':sum(x.get('tool') in ('edit','write') for x in tools),'harness_files_changed':changed,
          'per_step_tokens':[{'input':x['tokens'].get('input',0),'cache_read':x['tokens'].get('cache',{}).get('read',0),'output':x['tokens'].get('output',0),'reasoning':x['tokens'].get('reasoning',0)} for x in steps],
          'max_step_context':max((x['tokens'].get('input',0)+x['tokens'].get('cache',{}).get('read',0)+x['tokens'].get('output',0) for x in steps),default=None),
-         'answer_written':(work/'output/answer.md').exists(),'workspace':str(work),'state':result['state'],'started_utc':datetime.datetime.utcfromtimestamp(started).isoformat()+'Z'}
+         'errors':[e.get('error') for e in ev if e.get('type')=='error'],'answer_written':(work/'output/answer.md').exists(),'workspace':str(work),'state':result['state'],'started_utc':datetime.datetime.utcfromtimestamp(started).isoformat()+'Z'}
     p=ROOT/'benchmarks/results'/f"probe-editor-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json";p.write_text(json.dumps(out,indent=2)+'\n');print(p);print(json.dumps({k:v for k,v in out.items() if k!='per_step_tokens'},indent=2))
 if __name__=='__main__':main()

@@ -1,7 +1,7 @@
 # Ornith local laboratory
 
 - Native macOS Apple Silicon only. No Linux, containers, VMs or cloud inference, optimization or evaluation.
-- **Exception, user-authorized 2026-11-08 (D040):** Claude (cloud) may act only as the Harness² *editor*, in a separately labelled arm. It sees DEV material only (DEV task, DEV rollouts, current harness text) — never F7 held-out tasks, solutions, hidden rubrics, secrets or other repositories. Every solver inference, DEV/F7 run and score stays local. Report it as "cloud-assisted optimization, local inference", never as official or local-only Harness². This exception covers no other cloud use.
+- **Exception, user-authorized 2026-11-08 (D040):** Claude (cloud) may act only as the Harness² *editor*, in a separately labelled arm. It sees DEV material only (DEV task, DEV rollouts, current harness text) — never F7 held-out tasks, solutions, hidden rubrics, secrets or other repositories. Every solver inference, DEV/F7 run and score stays local. Report it as "cloud-assisted optimization, local inference", never as official or local-only Harness². **Extension, user-authorized 2026-11-08 (D041):** a fresh Claude subagent may also write the *blind control* guidance — it sees only a generic work description, the base harness text and a target length (no DEV task, rollouts or results, no F7) — reported as its own arm. This exception covers no other cloud use.
 - Preserve Bonsai and all global configurations. Work exclusively inside this laboratory.
 - One loaded inference model at a time. Use scripts/server.py and stop it before switching.
 - Downloads require a live space check and at least 8 GiB remaining free.

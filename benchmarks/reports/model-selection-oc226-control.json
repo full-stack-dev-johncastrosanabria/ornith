@@ -1,0 +1,83 @@
+{
+  "rule": "D031",
+  "label": "oc226-control",
+  "ranking": [
+    "mlx"
+  ],
+  "provisional": false,
+  "scores": [
+    {
+      "kind": "mlx",
+      "model": "Ornith 1.5 9B MLX 4-bit",
+      "complete": true,
+      "n": 4,
+      "passes": 2,
+      "total_s": 4005.566140500999,
+      "decode_tps": null,
+      "peak_rss": "3.33 GiB peak RSS",
+      "swap": "N/E",
+      "tasks": [
+        {
+          "task": "F7-A",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1200.8414750839997,
+          "headroom": -0.0007012292366663786,
+          "cap_hits": 2,
+          "tools": 8,
+          "practices": null,
+          "evidence": "tasks-mlx-oc226-control-20261108T100340.json"
+        },
+        {
+          "task": "F7-B",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 985.2459038749994,
+          "headroom": 0.17896174677083387,
+          "cap_hits": 0,
+          "tools": 9,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 15,
+            "lines_removed": 4,
+            "lint_introduced": -1,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-mlx-oc226-control-20261108T100340.json"
+        },
+        {
+          "task": "F7-C",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1200.451863667,
+          "headroom": -0.00037655305583328413,
+          "cap_hits": 1,
+          "tools": 7,
+          "practices": null,
+          "evidence": "tasks-mlx-oc226-control-20261108T100340.json"
+        },
+        {
+          "task": "F7-D",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 619.026897875,
+          "headroom": 0.4841442517708333,
+          "cap_hits": 0,
+          "tools": 12,
+          "practices": {
+            "files_changed": 2,
+            "files_added": [],
+            "lines_added": 2,
+            "lines_removed": 2,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-mlx-oc226-control-20261108T100340.json"
+        }
+      ]
+    }
+  ]
+}

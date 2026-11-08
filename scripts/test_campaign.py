@@ -108,4 +108,11 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual((agent('gemma')['temperature'],agent('gemma')['top_p']),(1.0,.95))
             self.assertEqual(agent('mlx')['temperature'],.6)
 
+    def test_cloud_editor_parse_whitelist_and_scan(self):
+        import cloud_editor_arm as c
+        out="<<<EDIT context/harness/systemprompt.md>>>\nA\nB\n<<<END EDIT>>>\n<<<EDIT context/harness/scripts/x.py>>>\nz\n<<<END EDIT>>>\n<<<ANSWER>>>\nok\n<<<END ANSWER>>>"
+        edits,answers,outside,bad=c.parse(out)
+        self.assertEqual((edits['systemprompt.md'],answers,outside,bad),('A\nB',['ok'],'',['scripts/x.py']))
+        self.assertTrue(c.scan("call normalize(x) on ['a', 'b']")[0]);self.assertEqual(c.scan('Normalize paths first'),({},1))
+
 if __name__=='__main__':unittest.main()

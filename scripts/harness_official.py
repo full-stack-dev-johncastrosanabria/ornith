@@ -134,9 +134,9 @@ class F7Adapter:
         row=self._row(run_dir)
         return {'artifact_acceptance':row.get('artifact_acceptance'),'agent_status':row['status']}
 
-def evaluate(label,harness=''):
+def evaluate(label,harness='',tasks=('F7-A','F7-B','F7-C','F7-D')):
     completed=existing_tasks('mlx',label)
-    for tid in ['F7-A','F7-B','F7-C','F7-D']:
+    for tid in tasks:
         p=ROOT/'benchmarks/results'/f'tasks-mlx-{label}-{tid}.json'
         if tid in completed:continue
         if p.exists():p.rename(p.with_name('infrastructure-'+uuid.uuid4().hex[:8]+'-'+p.name))
