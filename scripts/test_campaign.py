@@ -84,4 +84,12 @@ class ResumeTests(unittest.TestCase):
             (models/'qwen3.5-9b-mlx').symlink_to(home,target_is_directory=True)
             with patch.object(campaign_models,'ROOT',home/'lab'),self.assertRaises(StopIteration):campaign_models.evict('qwen')
 
+    def test_every_candidate_is_wired_end_to_end(self):
+        import campaign_models,opencode_local,score_models
+        for kind in score_models.KINDS:
+            self.assertIn(kind,server.PORTS);self.assertIn(kind,score_models.NAMES)
+            self.assertTrue(opencode_local.configuration(kind,'m')[1].endswith('/local'))
+            if kind in campaign_models.FETCH:self.assertIn(kind,campaign_models.LINKS);self.assertIn(kind,campaign_models.EVICT)
+        self.assertEqual(len(set(server.PORTS.values())),len(server.PORTS))
+
 if __name__=='__main__':unittest.main()

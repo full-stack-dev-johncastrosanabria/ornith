@@ -6,10 +6,12 @@ Best practices are descriptive only (passed tasks, violations introduced vs the 
 """
 import argparse,difflib,json,pathlib,re,statistics,subprocess
 from report import RESULTS,ROOT,group,memory
+from server import MLX_MODELS
 
-KINDS=['mlx','gguf','qwen','bonsai9','granite','bonsai']
+KINDS=['mlx','bonsai','gguf','qwen','bonsai9','granite','gemma','sera8']
 NAMES={'mlx':'Ornith 1.5 9B MLX 4-bit','gguf':'Ornith 1.5 9B GGUF Q4_K_M','qwen':'Qwen3.5-9B MLX 4-bit',
-       'bonsai9':'Ternary-Bonsai-2-9B PTQ1_0','granite':'Granite 4.1 8B MLX 4-bit','bonsai':'Bonsai 2 27B PTQ1_0'}
+       'bonsai9':'Ternary-Bonsai-2-9B PTQ1_0','granite':'Granite 4.1 8B MLX 4-bit','bonsai':'Bonsai 2 27B PTQ1_0',
+       'gemma':'Gemma 4 12B MLX 4-bit','sera8':'SERA-8B GGUF Q4_K_M'}
 CAP=4096;TIMEOUT=1200
 SKIP={'tests','bin','obj','__pycache__','.pytest_cache','.ruff_cache','output'}
 RUFF=str(ROOT/'runtimes/score/.venv/bin/ruff')
@@ -58,7 +60,7 @@ def practices(row):
             'tests_unchanged':row.get('tests_unchanged')}
 
 def decode(kind,label):
-    if kind in ('mlx','qwen','granite'):
+    if kind in MLX_MODELS:
         rows=[json.loads(p.read_text()) for p in sorted(RESULTS.glob(f'micro-{kind}-direct-*.json'))]
         rows=[d for d in rows if d.get('kind')==kind]
         return rows[-1]['medians']['decode_tps'] if rows else None

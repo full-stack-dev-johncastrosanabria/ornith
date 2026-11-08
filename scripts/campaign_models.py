@@ -15,9 +15,12 @@ LABEL='oc226-nodocker'
 TASKS=['F7-A','F7-B','F7-C','F7-D']
 PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
 FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
-       'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite']}
-LINKS={'gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx'}
-EVICT={'gguf','qwen','bonsai9','granite'}
+       'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite'],
+       'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
+LINKS={'gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
+EVICT={'gguf','qwen','bonsai9','granite','gemma','sera8'}
+# D035: Gemma's template already defaults to enable_thinking=false, so the D032 arm would repeat the primary run.
+THINKING_OFF_BY_DEFAULT={'gemma'}
 COOLDOWN_S=300
 
 def evict(kind):
@@ -27,7 +30,7 @@ def evict(kind):
     shutil.rmtree(repo);link.unlink()
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('kinds',nargs='+',choices=['gguf','qwen','bonsai9','granite','bonsai','mlx']);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('kinds',nargs='+',choices=['gguf','qwen','bonsai9','granite','bonsai','mlx','gemma','sera8']);a=ap.parse_args()
     lock=ROOT/'logs/campaign.lock';fd=os.open(lock,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600);os.close(fd)
     subprocess.Popen(['/usr/bin/caffeinate','-i','-w',str(os.getpid())],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     checkpoint=ROOT/f"logs/campaign-models-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
@@ -61,7 +64,7 @@ def main():
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
             # D032: mechanical trigger — any output-cap-truncated step in the primary cohort runs a thinking-off arm.
             primary=existing_tasks(kind,LABEL)
-            if ok and len(primary)==len(TASKS) and any(length_steps(r) for r in primary.values()):
+            if ok and kind not in THINKING_OFF_BY_DEFAULT and len(primary)==len(TASKS) and any(length_steps(r) for r in primary.values()):
                 os.environ['LAB_THINKING']='off'
                 try:
                     start(kind)

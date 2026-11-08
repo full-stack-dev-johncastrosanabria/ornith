@@ -19,6 +19,9 @@ CANDIDATES = {
     'qwen': ('mlx-community/Qwen3.5-9B-MLX-4bit', '938d8919941c6e7efd3c7150eff7fe9d12afa631', PATTERNS, 'qwen3.5-9b-mlx'),
     'granite': ('mlx-community/granite-4.1-8b-4bit', '08fb1e272f7bd49fa83ce279bbdc496c980380ac', PATTERNS, 'granite-4.1-8b-mlx'),
     'bonsai9': ('prism-ml/Ternary-Bonsai-2-9B-gguf', '82265ccc78ddaac4700286a35e9badcc32376dd9', ['Ternary-Bonsai-2-9B-PTQ1_0.gguf'], 'bonsai2-9b.gguf'),
+    'gemma': ('lmstudio-community/gemma-4-12B-it-MLX-4bit', 'f45bda5639cf187cd5f127a5484813f5f1e3a6ad', PATTERNS, 'gemma-4-12b-mlx'),
+    # SERA-8B (GLM-4.6 teacher) has no MLX 4-bit build; only the -GA variant does.
+    'sera8': ('bartowski/allenai_SERA-8B-GGUF', '4c69384f86828c5f54a5ac3116450ecafdd099c8', ['allenai_SERA-8B-Q4_K_M.gguf'], 'sera-8b.gguf'),
 }
 
 def main():

@@ -15,14 +15,14 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 STATE = ROOT/'logs/server.json'
 LOCK = ROOT/'logs/inference.lock'
 BONSAI = pathlib.Path.home()/'Library/Mobile Documents/com~apple~CloudDocs/bonsai/bonsai-demo'
-PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088}
+PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088, 'gemma':8089, 'sera8':8090}
 # MLX candidates share the runtime and adapter; only the pinned weights differ.
-MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx'}
+MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx', 'gemma':'gemma-4-12b-mlx'}
 
 def active():
     # 8080 belongs to an unrelated existing service, outside this laboratory.
     # Do not send experimental traffic there or stop its owner.
-    for port in [8082,8083,8084,8085,8086,8087,8088,11434,1234]:
+    for port in [8082,8083,8084,8085,8086,8087,8088,8089,8090,11434,1234]:
         with socket.socket() as s:
             s.settimeout(.2)
             if s.connect_ex(('127.0.0.1',port)) == 0:
@@ -52,7 +52,7 @@ def start(kind):
         elif kind=='bonsai9':
             binary=BONSAI/'bin/mac/llama-server';model=ROOT/'models/bonsai2-9b.gguf'
         else:
-            binary=ROOT/'runtimes/gguf/llama.cpp/build-nossl/bin/llama-server';model=ROOT/'models/ornith-gguf.gguf'
+            binary=ROOT/'runtimes/gguf/llama.cpp/build-nossl/bin/llama-server';model=ROOT/'models'/('sera-8b.gguf' if kind=='sera8' else 'ornith-gguf.gguf')
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
         cmd=[str(binary),'-m',str(model),'--alias',kind,'--host','127.0.0.1','--port',str(port),'-ngl','99','-fa','on','-c',str(profile['context']),'-np','1','--jinja','--temp','0.6','--top-p','0.95','--top-k','0','--min-p','0']
         if kind in ('bonsai','bonsai9'):cmd+=['--reasoning-budget','100','--cache-ram','512']
