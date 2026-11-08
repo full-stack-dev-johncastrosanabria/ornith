@@ -1,0 +1,36 @@
+{
+  "decision": "D041",
+  "arm": "editor",
+  "label": "cloud-editor-treatment-c20261108",
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "tool_calls": [
+    {
+      "name": "Read",
+      "input": {
+        "file_path": "/Users/johnbenjamincastrosanabria/Developer/ornith/harness2/official/cloud-editor/editor/input.md"
+      }
+    }
+  ],
+  "permitted_tools": true,
+  "input_delivered_verbatim": true,
+  "input_sha256": "99e7c64657ae1e6b1c3c37d6eab544db3dfd57c857a6cc179e4347bea5744db4",
+  "edited": [
+    "guardrails.md",
+    "systemprompt.md",
+    "tool_descriptions/tool_guidance.md"
+  ],
+  "outside_whitelist": [],
+  "answer_blocks": 1,
+  "text_outside_blocks_chars": 0,
+  "reject_hits": {
+    "normalize\\.py": 3,
+    "test_normalize": 2
+  },
+  "word_normalize_count": 3,
+  "guidance_chars": 3638,
+  "guidance_sha256": "a0974e89a9517faf362d0492b06c6e53b142669dbf79f891f147ac09cbee02a2",
+  "target_chars": null,
+  "status": "contaminated: DEV-specific strings"
+}
