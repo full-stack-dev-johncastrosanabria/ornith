@@ -72,6 +72,7 @@ def main():
                 if remaining:stage(kind,'f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL])
             stop()
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
+            if (ROOT/'logs/campaign.pause').exists():data.update(status='paused',remaining=a.kinds[i:],paused_before=f'{kind} reasoning arm');save();return
             mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok else None
             if mode:
                 # D036: a thinking-on arm uses the publisher's recommended sampling when one is pinned.

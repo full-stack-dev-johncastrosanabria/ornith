@@ -31,6 +31,24 @@ class ResumeTests(unittest.TestCase):
                 server.stop()
             self.assertEqual(sleep.call_count,1)
             self.assertFalse(state.exists());self.assertFalse(lock.exists())
+    def test_stop_accepts_an_exited_zombie_of_another_parent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state=pathlib.Path(directory)/'server.json';lock=pathlib.Path(directory)/'lock';lock.touch()
+            state.write_text(json.dumps({'pid':123456,'port':8085,'cmd':['/mock/llama-server']}))
+            replies=[SimpleNamespace(stdout='/mock/llama-server'),SimpleNamespace(stdout='Z')]
+            with patch.object(server,'STATE',state),patch.object(server,'LOCK',lock),patch.object(server.subprocess,'run',side_effect=replies),patch.object(server.os,'killpg'),patch.object(server.os,'waitpid',side_effect=ChildProcessError),patch.object(server.socket,'socket') as sock,patch.object(server.time,'sleep') as sleep:
+                sock.return_value.__enter__.return_value.connect_ex.return_value=1
+                server.stop()
+            self.assertEqual(sleep.call_count,0);self.assertFalse(state.exists())
+    def test_failed_timeout_restart_keeps_the_measured_row(self):
+        import bench_tasks
+        timed_out={'events':[{'type':'step_finish','part':{}}],'timeout':True,'wall_s':1200}
+        with tempfile.TemporaryDirectory() as directory:
+            root=pathlib.Path(directory);fixture=root/'benchmarks/fixtures/F7-B';(fixture/'tests').mkdir(parents=True);(fixture/'TASK.md').write_text('task')
+            (root/'benchmarks/fixtures/manifest.json').write_text(json.dumps({'tasks':[{'task':'F7-B','command':'true'}]}))
+            with patch.object(bench_tasks,'ROOT',root),patch.object(bench_tasks,'grade',return_value={'rc':1}),patch.object(bench_tasks,'snapshot',return_value={}),patch.object(bench_tasks,'run',return_value=timed_out),patch.object(server,'stop',side_effect=RuntimeError('zombie')):
+                row=bench_tasks.task('F7-B',{'kind':'mlx','model_id':'m'},label='t')
+        self.assertEqual((row['status'],row['timeout_recovery']['server_restarted']),('fail',False))
     def test_infrastructure_interruptions_remain_pending(self):
         with tempfile.TemporaryDirectory() as directory:
             root=pathlib.Path(directory);results=root/'benchmarks/results';results.mkdir(parents=True)

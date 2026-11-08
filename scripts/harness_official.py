@@ -111,7 +111,7 @@ class F7Adapter:
         with patch.object(bench_tasks,'run',source_run):
             row=bench_tasks.task(task_id,s,text_harness(harness_dir or self.base_harness()),label='official-dev',timeout=timeout or 600)
         resultfile.write_text(json.dumps(row,indent=2)+'\n')
-        if row['status']=='infrastructure':raise RuntimeError('Infrastructure failure: '+str(resultfile))
+        if row['status']=='infrastructure' or row.get('timeout_recovery',{}).get('server_restarted') is False:raise RuntimeError('Infrastructure failure: '+str(resultfile))
         return out
     def _row(self,run_dir):return json.loads((run_dir/'result.json').read_text())
     def delivered(self,run_dir):return bool(self.deliverable_files(run_dir))
@@ -144,7 +144,7 @@ def evaluate(label,harness='',tasks=('F7-A','F7-B','F7-C','F7-D')):
             row=bench_tasks.task(tid,json.loads(STATE.read_text()),harness,label=label)
         p.write_text(json.dumps({'label':label,'executor':'official-pinned-opencode-source','rows':[row]},indent=2)+'\n')
         print(tid,row['status'],flush=True)
-        if row['status']=='infrastructure':raise RuntimeError('Official evaluation interrupted by infrastructure; evidence at '+str(p))
+        if row['status']=='infrastructure' or row.get('timeout_recovery',{}).get('server_restarted') is False:raise RuntimeError('Official evaluation interrupted by infrastructure; evidence at '+str(p))
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true')

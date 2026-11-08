@@ -35,6 +35,21 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     if result.get('resource_abort'):
         from server import stop
         stop()
+    row=finish(task_id,s,label,spec,work,before_hashes,baseline,memory,result)
+    if result['timeout'] and not result.get('resource_abort'):
+        # A disconnected client is not proof that native generation stopped.
+        # Restart only our owned model before another task, keeping all parameters.
+        from server import stop,start
+        recovery=time.perf_counter()
+        try:stop();start(s['kind'])
+        except Exception as error:
+            # D044: the measurement is complete; a failed restart must not discard it (callers stop after saving).
+            row['timeout_recovery']={'server_restarted':False,'error':str(error)};return row
+        row['timeout_recovery']={'server_restarted':True,'wall_s':time.perf_counter()-recovery,'included_in_agent_wall':False}
+    return row
+
+def finish(task_id,s,label,spec,work,before_hashes,baseline,memory,result):
+    """Grade a finished run and build its row; also rebuilds a row from persisted evidence (D044)."""
     final=grade(work,spec['command']);unchanged=before_hashes==hashes(work)
     tools=[e for e in result['events'] if e.get('type')=='tool_use'];finished=[e.get('part',{}) for e in result['events'] if e.get('type')=='step_finish']
     first_tool_s=None
@@ -48,12 +63,6 @@ def task(task_id,s,harness='',label='control',timeout=1200):
     status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if infrastructure else 'fail')
     launch_tool_s=first_tool_latency(result['events'],result.get('started_epoch_ms'))
     row={'task':task_id,'label':label,'status':status,'server_at_start':dict(s),'workspace':str(work),'baseline':baseline,'acceptance':final,'artifact_acceptance':final['rc']==0 and unchanged,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
-    if result['timeout']:
-        # A disconnected client is not proof that native generation stopped.
-        # Restart only our owned model before another task, keeping all parameters.
-        from server import stop,start
-        recovery=time.perf_counter();stop();start(s['kind'])
-        row['timeout_recovery']={'server_restarted':True,'wall_s':time.perf_counter()-recovery,'included_in_agent_wall':False}
     return row
 
 def main():
@@ -65,4 +74,5 @@ def main():
         s=json.loads((ROOT/'logs/server.json').read_text())
         row=task(t,s,guidance,a.label,a.timeout);out['rows'].append(row);p.write_text(json.dumps(out,indent=2)+'\n');print(t,row['status'],row.get('agent',{}).get('wall_s'),p,flush=True)
         if row.get('resource_abort'):raise SystemExit(75)
+        if row.get('timeout_recovery',{}).get('server_restarted') is False:raise SystemExit('Server restart after a timeout failed; row saved')
 if __name__=='__main__':main()

@@ -100,7 +100,8 @@ def stop():
             except ChildProcessError:pass
             state=subprocess.run(['ps','-p',str(pid),'-o','stat='],capture_output=True,text=True).stdout.strip()
             with socket.socket() as c:
-                if c.connect_ex(('127.0.0.1',s['port']))!=0 and not state:break
+                # D044: an exited server stays a zombie (Z) until its parent, maybe another process, reaps it.
+                if c.connect_ex(('127.0.0.1',s['port']))!=0 and (not state or state.startswith('Z')):break
             time.sleep(.5)
         else:raise RuntimeError('Server process or port still active; manual inspection required.')
     STATE.unlink();LOCK.unlink(missing_ok=True);print('Owned server stopped.')
