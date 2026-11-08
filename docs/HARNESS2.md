@@ -63,3 +63,18 @@ Six no-model checks in `scripts/test_harness_official.py` pass, including a real
 The native follow-on controller `scripts/campaign_official.py --after-pid GGUF_CONTROLLER_PID` waits for the queued GGUF phase, checks absence of another server, locks the laboratory and runs setup/preflight/API/official-core stages with separate logs. Resource or integration failures leave raw evidence and stop the affected phase. See `logs/official-campaign-*.json`, `logs/official-*.log`, `benchmarks/results/harness-official-local-*.json`, and `benchmarks/reports/harness-official-comparison.json` when produced.
 
 The first real source smoke stopped before inference with Bun's `CouldntReadCurrentDirectory`. The local launch boundary now permits directory reads on literal checkout ancestors, including the home directory itself; child files and subdirectories remain denied unless separately allowed. No source-checkout write permission was added. Native pinned-source startup and isolated config validation pass, and private-file/outside-write probes remain denied (`benchmarks/results/official-source-launch-check.json`). After this correction,3/3 real model-backed source cycles passed in59.8/130.3/186.1 s (`benchmarks/results/smoke-agent-mlx-20261025T090125.json`). This establishes source-executor integration, not an optimization benefit. The controller then starts its separate F7 source control, DEV optimization and held-out treatment.
+
+### Source-executor F7 control, measured (Ornith MLX)
+
+The fresh source-executor F7 **control** completed on the official pinned OpenCode source under native Seatbelt, Ornith 1.5 9B MLX 4-bit, fixed16K/4096/.6/.95 profile. Raw evidence: `benchmarks/results/tasks-mlx-official-source-control-F7-{A,B,C,D}.json` (`executor=official-pinned-opencode-source`).
+
+| Task | Outcome | Artifact acceptance | Tests immutable | Agent wall s | Tool calls | Finish |
+|---|---|---|---|---|---|---|
+| F7-A | fail | False | True |413.4 |7 | hit output cap (`length`) |
+| F7-B | fail | False | True |400.1 |5 | hit output cap (`length`) |
+| F7-C | fail | False | True |421.3 |5 | hit output cap (`length`) |
+| F7-D | pass | True | True |684.5 |13 | clean `stop` |
+
+Measured source-executor control: **1/4 artifact acceptance and1/4 end-to-end pass (F7-D)**. All four agents reached a natural finish — no1200 s timeout and no infrastructure error — and all acceptance tests stayed immutable. The three failures (A/B/C) each hit the4096 output-token cap at least once (`finish_reason=length`); the output cap is the leading suspected limiter on this path and is held fixed, not tuned, for the pending treatment. This source-executor control is weaker than the separate global-OpenCode MLX cohort (3/4 artifacts) on the same model and profile; the two executors are distinct harness paths and are not pooled. One run per task is exploratory, not a conclusive source-vs-global claim.
+
+DEV optimization and the held-out source-executor **treatment** remain **pending**: after this control completed, the shared Hugging Face cache (`~/.cache/huggingface`) was cleared externally, so both Ornith MLX and GGUF weights are absent and the `models/` symlinks dangle (see STATUS and D026). The source-executor treatment cannot run until the MLX weights are re-downloaded under the8GiB reserve. Bonsai's separate iCloud weights are unaffected.

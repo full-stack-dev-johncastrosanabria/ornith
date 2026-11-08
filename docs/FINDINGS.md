@@ -1,0 +1,48 @@
+# Best model and configuration for this hardware
+
+Hardware under test: **MacBook Air M3, 16 GB unified memory, macOS 27.3, 228 GB SSD**, native Apple Silicon only (no container/VM/cloud inference).
+
+This is an **evidence-grounded synthesis**, not a new measurement. Every number below is from the versioned JSON in `benchmarks/results/` as summarized in [RESULTS.md](RESULTS.md); the reading discipline of that report carries over — one long run per F7 task/condition is **exploratory**, decode t/s is **not** agent productivity, and Bonsai-vs-Ornith confounds model, runtime and quantization. See [STATUS.md](STATUS.md) for current blockers.
+
+## Bottom line
+
+| Use case on this M3 / 16 GB | Pick | Why (measured) |
+|---|---|---|
+| **Hardest / correctness-critical coding** | **Bonsai 2 27B** (ternary PTQ1_0, llama.cpp Metal) | Only condition passing **4/4** F7 tasks incl. the C# task, tests immutable. Accept slow decode and run on a cleared host. |
+| **Best all-round local coder** | **Ornith 1.5 9B GGUF Q4_K_M** (llama.cpp Metal) | **3/4** artifacts **and 3/4** end-to-end completions, decode 10.06 t/s, fastest median completed wall (518 s), RSS 6.37 GiB. |
+| **Interactive / lowest latency / lowest memory** | **Ornith 1.5 9B MLX 4-bit** | Fastest decode **15.43 t/s**, prefill 83 t/s, lightest **3.79 GiB** RSS. Weaker on hard tasks (3/4 artifacts, 2/4 completions; one 1200 s timeout) — give it a longer timeout. |
+
+No single configuration dominates on this evidence. Correctness favors the 27B model; speed and footprint favor the 9B MLX build; the 9B GGUF build is the best balance of completions, decode speed and memory.
+
+## Per-model evidence (cleared-host cohort)
+
+| Model / runtime | Decode t/s | Prefill t/s | Peak server RSS | F7 artifacts | F7 completions | Median wall (completed) |
+|---|---|---|---|---|---|---|
+| Bonsai 2 27B ternary / llama.cpp | 4.65 (4.24–5.61) | 22.05 | 7.27 GiB | **4/4** | **4/4** | 578 s (401–629) |
+| Ornith 9B MLX 4-bit / MLX-LM | **15.43** (14.73–15.50) | **83.02** | **3.79 GiB** | 3/4 | 2/4 | 996 s (n=2) |
+| Ornith 9B GGUF Q4_K_M / llama.cpp | 10.06 (9.71–10.07) | 75.52 | 6.37 GiB | 3/4 | 3/4 | 518 s (n=3) |
+
+Memory headroom matters on 16 GB: the 27B model's 7.27 GiB resident set fits but is the heaviest, and in earlier memory-congested conditions 27B runs drove system swap high — run it only on a cleared host. The 9B MLX build (3.79 GiB) is the comfortable default; the 9B GGUF build had one task (F7-A) spike system swap to 6.5 GiB, so leave margin.
+
+## Fixed configuration that held across the final matrix
+
+Context **16384**, output cap **4096**, temperature **0.6**, top_p **0.95**, concurrency **1**, KV quantization **none**, **one loaded model at a time** (switch via `scripts/server.py`, stop before switching). Bonsai matches MLX sampling with top-k/min-p filters disabled, `--reasoning-budget 100 --cache-ram 512`. These were frozen after a context-only stability probe (D012/D013); they are the profile all final numbers above were measured under.
+
+## Harness findings
+
+- **Global OpenCode integration** is the validated path for Ornith and backs the 3/4 (MLX) and 3/4 (GGUF) results above.
+- **Local Propose–Probe–Compose** reproduction showed **no demonstrated benefit** (2/4 artifacts, 2/4 completions; regressed on F7-C vs. the 3/4 MLX control) and its 1562.9 s optimization cost is separate. Keep it frozen; do not tune on held-out outcomes.
+- **Official pinned source-executor** (MLX, same profile) F7 control = **1/4** this cycle; the three failures each truncated at the 4096 output cap (`finish_reason=length`), making the output cap the leading suspected limiter on that path. Its optimization treatment is pending (and currently blocked — see below). Distinct from the global-OpenCode cohort; not pooled.
+
+## Caveats (do not over-read)
+
+- One long run per F7 task/condition. Rankings are exploratory, not conclusive; controlled repetitions, seed blocks, thermal crossover and long-session soak are **not** executed.
+- Decode/prefill t/s are native-runtime counters and do **not** by themselves predict agent task productivity.
+- Bonsai vs. Ornith mixes model, runtime (llama.cpp vs. MLX) and quantization (ternary vs. 4-bit vs. Q4_K_M); differences cannot be attributed to any one factor.
+- Ornith MLX and GGUF cannot be re-run right now — their weights were cleared externally (D027). These findings use the data already on disk.
+
+## What would most strengthen this
+
+1. Re-download the pinned MLX and GGUF revisions (manifests retain them) once ≥8 GiB free is restored, then run ≥3 repetitions per F7 task per model to turn single-run rankings into ranges.
+2. Finish the official source-executor DEV optimization + held-out treatment to test whether a guidance change lifts the 1/4 control.
+3. A long-session thermal-crossover run to check whether the 9B MLX decode-speed lead holds under sustained load on the Air's passive cooling.

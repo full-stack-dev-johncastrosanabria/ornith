@@ -1,6 +1,6 @@
 # Ornith on native macOS
 
-Local experimental laboratory for Ornith 1.5 9B, MLX-LM, OpenCode, Bonsai 2 27B and Harness² methodology. **Experiment in progress: do not interpret setup/demo success as model superiority.** See [results](docs/RESULTS.md), [protocol](docs/EXPERIMENT.md), [architecture](docs/ARCHITECTURE.md), [baseline](docs/BASELINE.md) and [Harness² compatibility](docs/HARNESS2.md).
+Local experimental laboratory for Ornith 1.5 9B, MLX-LM, OpenCode, Bonsai 2 27B and Harness² methodology. **Experiment in progress: do not interpret setup/demo success as model superiority.** See [findings](docs/FINDINGS.md), [results](docs/RESULTS.md), [protocol](docs/EXPERIMENT.md), [architecture](docs/ARCHITECTURE.md), [baseline](docs/BASELINE.md) and [Harness² compatibility](docs/HARNESS2.md).
 
 ## Run locally
 
