@@ -1,4 +1,11 @@
-"""Isolated OpenCode v1 launcher, enforced native macOS workspace/network sandbox."""
+"""Isolated OpenCode launcher (v2.2.6 flags), enforced native macOS workspace/network sandbox.
+
+OpenCode v2 dropped v1's `--dir`/`--pure`; the working directory is the process cwd and
+isolation is via `--standalone` (private server, not the shared background service) plus `--auto`
+(non-interactive; still bound by the config's deny-by-default permissions). The `--format json`
+JSONL event schema (step_start/text/tool_use/step_finish, tool state.status, step tokens/reason)
+is unchanged from v1, so downstream parsing/grading is unaffected. Runs under v2 are a new cohort,
+not comparable to the historical OpenCode 1.19.4 measurements."""
 import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
 from server import PORTS
 ROOT=pathlib.Path(__file__).resolve().parents[1]
@@ -15,7 +22,7 @@ def configuration(kind,model_id,harness=''):
     provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf'}[kind]
     port=PORTS[kind]
     ref=provider+'/local'
-    permissions={'*':'deny',**{t:'allow' for t in ['read','glob','grep','edit','bash']},'external_directory':'deny'}
+    permissions={'*':'deny',**{t:'allow' for t in ['read','glob','grep','edit','bash','shell']},'external_directory':'deny'}
     prompt='You are a local programming agent. Work only in the current workspace. Read relevant files, make minimal changes, run the available tests, and report actual results. Never modify acceptance tests. Never use the network. Do not delegate.'
     cfg={'$schema':'https://opencode.ai/config.json','model':ref,'small_model':ref,'enabled_providers':[provider],'autoupdate':False,'share':'disabled','snapshot':False,'plugin':[],'mcp':{},'lsp':False,'formatter':False,'permission':permissions,'compaction':{'auto':True,'prune':True,'reserved':1536},'provider':{provider:{'npm':'@ai-sdk/openai-compatible','name':provider,'options':{'baseURL':f'http://127.0.0.1:{port}/v1','apiKey':'local-only'},'models':{'local':{'id':model_id,'name':model_id,'tool_call':True,'limit':{'context':8192,'output':1536}}}}},'default_agent':'ornith-code','agent':{'ornith-code':{'description':'Local workspace coding agent','mode':'primary','model':ref,'temperature':.6,'top_p':.95,'steps':12,'prompt':prompt+('\n'+harness if harness else ''),'permission':permissions},'title':{'disable':True},'summary':{'disable':True}}}
     cfg['provider'][provider]['models']['local']['limit']={'context':profile['context'],'output':profile['output']}
@@ -64,7 +71,7 @@ def run(work,prompt,kind,model_id,harness='',timeout=1200,*,argv=None,read_roots
     if read_directories:
         profile.write_text(profile.read_text()+''.join('(allow file-read-data (literal '+json.dumps(str(pathlib.Path(p).resolve()))+'))\n' for p in read_directories))
     env['BUN_INSTALL_CACHE_DIR']=str(state/'cache/bun')
-    cmd=['/usr/bin/sandbox-exec','-f',str(profile)]+(argv or [shutil.which('opencode'),'run',prompt,'--dir',str(work),'--agent','ornith-code','--model',ref,'--format','json','--title','local-lab','--pure'])
+    cmd=['/usr/bin/sandbox-exec','-f',str(profile)]+(argv or [shutil.which('opencode'),'run',prompt,'--agent','ornith-code','--model',ref,'--format','json','--title','local-lab','--standalone','--auto'])
     started_epoch_ms=int(time.time()*1000)
     t=time.perf_counter();events=[];timed_out=False;samples=[];resource_abort=[];done=threading.Event()
     def sample():

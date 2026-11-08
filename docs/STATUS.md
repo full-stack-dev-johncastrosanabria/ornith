@@ -1,6 +1,14 @@
 # Checkpoint — 2026-11-08, resumed; MLX/GGUF weights externally cleared
 
-The experiment remains **incomplete**. The main runtime/harness matrix (16/16 valid task outcomes) and the micro-rate repetitions stand as measured on 2026-10-25 and are unchanged; see [RESULTS.md](RESULTS.md), [DECISIONS.md](DECISIONS.md) (D001–D027) and git history for the full trail. This checkpoint records the resumed-session state only.
+The experiment remains **incomplete**. The main runtime/harness matrix (16/16 valid task outcomes) and the micro-rate repetitions stand as measured on 2026-10-25 and are unchanged; see [RESULTS.md](RESULTS.md), [DECISIONS.md](DECISIONS.md) (D001–D028) and git history for the full trail. This checkpoint records the resumed-session state only.
+
+## Resume continued (2026-11-08, later) — recovery done, v2.2.6 cohort running
+
+- **Disk recovered:** with the user's per-item approval, removed only the stale `default-no-608db` Docker workspace + build cache (novahub evaluation, both DB volumes, and the running `rembric` service kept and verified). Free disk 5.3→15→~22 GiB after the model pull. See D028.
+- **Ornith MLX restored + validated:** re-downloaded the pinned revision (size-checked) and confirmed a correct direct HTTP completion. The `models/ornith-mlx` symlink resolves again; GGUF is still absent (one model fits the reserve at a time). 
+- **OpenCode drift handled:** the global binary moved 1.19.4→2.2.6, which broke the agent harness (`--dir`/`--pure` removed; `bash` tool renamed `shell`). Adapted `opencode_local.py`/`smoke_agent.py`/`report.py`; the JSON event schema is unchanged so F7 grading is unaffected. **Smoke re-validated 3/3** under v2.2.6 (read 27.1 s, edit_test 77.1 s, debug 145.7 s). D028.
+- **In progress:** the new OpenCode-2.2.6 F7 cohort (label `oc226-control`, Ornith MLX) is running — explicitly **not comparable** to the historical 1.19.4 numbers. Raw: `benchmarks/results/tasks-mlx-oc226-control-*.json`.
+- **Still blocked:** GitHub push — `github.com` DNS not resolving and the local credential lacks write access; commits remain local.
 
 ## Infrastructure event (not a quality result)
 

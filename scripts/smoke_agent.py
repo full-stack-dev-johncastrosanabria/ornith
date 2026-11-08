@@ -23,7 +23,7 @@ def main():
         if cycle=='read':ok=any(t.get('tool')=='read' and t.get('state',{}).get('status')=='completed' for t in tools) and 'NATIVE-M3-4829' in ''.join(texts);acceptance=None
         else:
             acceptance=grade(work,f'{py} -m pytest -q -p no:cacheprovider')
-            shell=any(t.get('tool')=='bash' and t.get('state',{}).get('status')=='completed' for t in tools)
+            shell=any(t.get('tool') in ('bash','shell') and t.get('state',{}).get('status')=='completed' for t in tools)
             ok=acceptance['rc']==0 and before==hashes(work) and shell
         row={'cycle':cycle,'pass':ok and not result['timeout'],'acceptance':acceptance,'agent':result,'tools':[t.get('tool') for t in tools]};rows.append(row)
         dest.write_text(json.dumps({'server':s,'rows':rows,'passed':sum(x['pass'] for x in rows)},indent=2)+'\n');print(cycle,row['pass'],result['wall_s'],dest,flush=True)

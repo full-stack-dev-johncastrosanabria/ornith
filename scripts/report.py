@@ -43,7 +43,7 @@ def execution_stats(row):
     events=row.get('agent',{}).get('events',[]);test_runs=0;test_retries=0;previous_failed=False;failed_commands=0
     for e in events:
         part=e.get('part',{});state=part.get('state',{})
-        if e.get('type')!='tool_use' or part.get('tool')!='bash':continue
+        if e.get('type')!='tool_use' or part.get('tool') not in ('bash','shell'):continue
         code=state.get('metadata',{}).get('exit');failed_commands+=code is not None and code!=0
         command=state.get('input',{}).get('command','')
         if re.search(r'\bpytest\b|\bdotnet\s+test\b',command):
