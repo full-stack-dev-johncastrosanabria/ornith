@@ -51,9 +51,13 @@ def main():
         return p.returncode==0
     try:
         for i,kind in enumerate(a.kinds):
-            # Fanless Air: idle cooldown between models so run order does not bias speed; thermal state recorded.
-            if i:time.sleep(COOLDOWN_S)
-            data['stages'].append({'kind':kind,'name':'thermal','cooldown_s':COOLDOWN_S if i else 0,'pmset_therm':subprocess.run(['pmset','-g','therm'],capture_output=True,text=True).stdout.strip()});save()
+            # D043 operator pause: `touch logs/campaign.pause` stops the campaign cleanly before the next model.
+            if (ROOT/'logs/campaign.pause').exists():data.update(status='paused',remaining=a.kinds[i:]);save();return
+            # Fanless Air: idle cooldown before every model, the first of a resumed run included, so run order and
+            # pause-time use do not bias speed; host state is recorded per model, not only at campaign start.
+            time.sleep(COOLDOWN_S)
+            data['stages'].append({'kind':kind,'name':'thermal','cooldown_s':COOLDOWN_S,'pmset_therm':subprocess.run(['pmset','-g','therm'],capture_output=True,text=True).stdout.strip(),
+                                   'docker_vm_running':bool(subprocess.run(['pgrep','-f','Virtualization.VirtualMachine'],capture_output=True).stdout),'loadavg':os.getloadavg()});save()
             if kind in FETCH and not (ROOT/'models'/LINKS[kind]).exists() and not stage(kind,'fetch',FETCH[kind]):continue
             try:
                 if STATE.exists():stop()
