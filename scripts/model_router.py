@@ -1,6 +1,6 @@
 """D054 daily-use router: one local OpenAI-compatible endpoint for OpenCode. It loads the requested model on
 demand with the measured lab profile (server.start/stop, one model at a time) and unloads it after IDLE_S idle."""
-import http.client,json,signal,subprocess,threading,time
+import http.client,json,os,signal,subprocess,threading,time
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 import memory
 from server import PORTS,ROOT,STATE,start,stop
@@ -80,6 +80,8 @@ def main():
     # D055: daily use keeps 3 GiB free (user decision). Set here, not at import, so only the router process
     # changes it; lab scripts and tests keep the 8 GiB reserve.
     memory.RESERVE=3*1024**3
+    # D057: daily use runs a 24K context (output stays 4096); server.start() reads it through LAB_PROFILE.
+    os.environ['LAB_PROFILE']='runtimes/profile-daily.json'
     adopt();signal.signal(signal.SIGTERM,shutdown)
     threading.Thread(target=idle,daemon=True).start()
     ThreadingHTTPServer(('127.0.0.1',ROUTER_PORT),Handler).serve_forever()
