@@ -168,4 +168,14 @@ class RouterTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):m.ensure('gguf')
         m.busy[0]=0;m.mine[0]=None
 
+    def test_router_adopts_only_the_server_it_recorded(self):
+        import model_router as m
+        with tempfile.TemporaryDirectory() as d:
+            own=pathlib.Path(d)/'owned';m.mine[0]=None
+            with patch.object(m,'OWN',own),patch.object(m,'state',lambda:{'kind':'gguf','pid':7,'port':8083}),patch.object(m,'alive',lambda pid:True):
+                m.adopt();self.assertIsNone(m.mine[0])  # no record: a lab or manual server is not ours
+                own.write_text('8');m.adopt();self.assertIsNone(m.mine[0])
+                own.write_text('7');m.adopt();self.assertEqual(m.mine[0],7)
+        m.mine[0]=None
+
 if __name__=='__main__':unittest.main()

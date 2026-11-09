@@ -1,14 +1,16 @@
 """D054 daily-use router: one local OpenAI-compatible endpoint for OpenCode. It loads the requested model on
 demand with the measured lab profile (server.start/stop, one model at a time) and unloads it after IDLE_S idle."""
-import http.client,json,subprocess,threading,time
+import http.client,json,signal,subprocess,threading,time
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
-from server import PORTS,STATE,start,stop
+from server import PORTS,ROOT,STATE,start,stop
 
 ROUTER_PORT=8099
 MODELS={'ornith-1.5-9b-q4km':'gguf','bonsai-2-27b-ptq10':'bonsai'}
 IDLE_S=900
 assert all(k in PORTS for k in MODELS.values())
 switch=threading.Lock();last=[time.time()];busy=[0];mine=[None]
+# Ownership survives a router restart (crash, KeepAlive, code update) so a model it loaded is never orphaned.
+OWN=ROOT/'logs/model-router.owned-pid'
 
 def state():return json.loads(STATE.read_text()) if STATE.exists() else None
 def alive(pid):return subprocess.run(['/bin/ps','-p',str(pid)],capture_output=True).returncode==0
@@ -21,15 +23,15 @@ def ensure(kind):
         # left by a reboot or logout, and stop() only cleans its files.
         if s and s['pid']!=mine[0] and alive(s['pid']):raise RuntimeError('Another lab server is running; stop it first.')
         if s and busy[0]>1:raise RuntimeError('The other model is still answering; retry when it finishes.')
-        if s:stop()
-        start(kind);s=state();mine[0]=s['pid'];return s
+        if s:stop();OWN.unlink(missing_ok=True)
+        start(kind);s=state();mine[0]=s['pid'];OWN.write_text(str(s['pid']));return s
 
 def idle():
     while True:
         time.sleep(30)
         with switch:
             s=state()
-            if s and s['pid']==mine[0] and busy[0]==0 and time.time()-last[0]>IDLE_S:stop();mine[0]=None
+            if s and s['pid']==mine[0] and busy[0]==0 and time.time()-last[0]>IDLE_S:stop();mine[0]=None;OWN.unlink(missing_ok=True)
 
 class Handler(BaseHTTPRequestHandler):
     def reply(self,code,data):
@@ -54,7 +56,18 @@ class Handler(BaseHTTPRequestHandler):
             if not sent:self.reply(503,json.dumps({'error':str(e) or 'disk reserve'}).encode())
         finally:busy[0]-=1;last[0]=time.time()
 
+def adopt():
+    s=state()
+    if s and OWN.exists() and OWN.read_text()==str(s['pid']) and alive(s['pid']):mine[0]=s['pid']
+
+def shutdown(*_):
+    # launchctl bootout/kickstart and logout send SIGTERM: unload our model instead of leaving it running.
+    s=state()
+    if s and s['pid']==mine[0]:stop();OWN.unlink(missing_ok=True)
+    raise SystemExit(0)
+
 def main():
+    adopt();signal.signal(signal.SIGTERM,shutdown)
     threading.Thread(target=idle,daemon=True).start()
     ThreadingHTTPServer(('127.0.0.1',ROUTER_PORT),Handler).serve_forever()
 
