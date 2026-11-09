@@ -4,7 +4,7 @@ Hardware under test: **MacBook Air M3, 16 GB unified memory, macOS 27.3, 228 GB 
 
 This is an **evidence-grounded synthesis**, not a new measurement. Every number below is from the versioned JSON in `benchmarks/results/` as summarized in [RESULTS.md](RESULTS.md); the reading discipline of that report carries over — one long run per F7 task/condition is **exploratory**, decode t/s is **not** agent productivity, and Bonsai-vs-Ornith confounds model, runtime and quantization. See [STATUS.md](STATUS.md) for current blockers.
 
-## Candidate cohort `oc226-nodocker` (2026-11-08/09) — provisional, supersedes nothing below yet
+## Candidate cohort `oc226-nodocker` (2026-11-08/09) — final for this cohort (D049)
 
 Global OpenCode 2.2.6 executor, fixed profile (16K context, 4096 output incl. reasoning, temp 0.6, top_p 0.95, 12 steps, 1200 s per F7 task), Docker closed, 300 s cooldown per model; ranking rule D031 (passes first, then total F7 agent time, then decode). Source: `benchmarks/reports/model-selection-oc226-nodocker.json`, decisions D045–D049.
 
@@ -17,7 +17,14 @@ Global OpenCode 2.2.6 executor, fixed profile (16K context, 4096 output incl. re
 | 5 | Ornith 1.5 9B MLX 4-bit | 2/4 | 3850 | 17.07 | 7.93 GiB | F7-A timeout, F7-B incorrect (cap hit); no-thinking arm also 2/4 in 725 s |
 | N/E | Granite 4.1 8B, Gemma 4 12B, SERA-8B | N/E | N/E | N/E | N/E | agent smoke gate failed (integration N/E, not zero; D047, D048, D049) |
 
-**No winner yet:** the top two tie on passes, so D031 requires a full repeat cohort of both (`oc226-nodocker-r2`, pre-registered in D049); the final order uses passes, then time, summed over both cohorts. \*Footprint is approximate across runtimes: llama.cpp maps weights from file and clean file-backed pages may be omitted (Bonsai 27B's file is 5.5 GiB). The sections below are the earlier cleared-host cohort under a different executor and are kept as history; they are not comparable row-for-row.
+**D049 repeat (`oc226-nodocker-r2`, 2026-11-09 02:4x–03:5x) and verdict.** Both models repeated the full stages under the same profile and host state (llama.cpp binary hash unchanged after the GGUF re-fetch):
+
+| Model | Cohort 1 | Cohort 2 (r2) | Combined (D049 rule) | Decode t/s (r2) |
+|---|---|---|---|---|
+| **Ornith 1.5 9B GGUF Q4_K_M** | 4/4, 1922 s | 4/4, 1420 s | **8/8, 3342 s** | 11.15 |
+| Bonsai 2 27B PTQ1_0 | 4/4, 2113 s | 4/4, 1919 s | 8/8, 4032 s | 4.94 |
+
+**Winner under the pre-registered rule: Ornith 1.5 9B GGUF Q4_K_M (llama.cpp Metal).** No quality difference is detectable at n = 8 (both 8/8); the order rests on time — GGUF was faster in both cohorts (−17 % summed) and decodes ~2.3× faster. Bonsai 2 27B is an equally correct alternative on these tasks at a lower physical footprint\*. Among MLX builds, Qwen3.5-9B and Ornith MLX reached 2/4. \*Footprint is approximate across runtimes: llama.cpp maps weights from file and clean file-backed pages may be omitted (Bonsai 27B's file is 5.5 GiB). The sections below are the earlier cleared-host cohort under a different executor and are kept as history; they are not comparable row-for-row.
 
 ## Bottom line
 
