@@ -101,6 +101,18 @@ class ResumeTests(unittest.TestCase):
             self.assertFalse((hub/'models--org--cand').exists());self.assertTrue(keep.exists());self.assertFalse((models/'qwen3.5-9b-mlx').is_symlink())
             (models/'qwen3.5-9b-mlx').symlink_to(home,target_is_directory=True)
             with patch.object(campaign_models,'ROOT',home/'lab'),self.assertRaises(StopIteration):campaign_models.evict('qwen')
+    def test_evict_frees_shared_blobs_but_keeps_ones_other_repos_use(self):
+        import campaign_models
+        with tempfile.TemporaryDirectory() as directory:
+            home=pathlib.Path(directory);hub=home/'.cache/huggingface/hub';store=hub/'blobs/ab';store.mkdir(parents=True)
+            own=store/'own';own.write_text('w');common=store/'common';common.write_text('c')
+            for repo,names in (('models--org--cand',('own','common')),('models--org--other',('common',))):
+                snap=hub/repo/'snapshots/rev';snap.mkdir(parents=True);(hub/repo/'blobs').mkdir()
+                for n in names:(hub/repo/'blobs'/n).symlink_to(f'../../blobs/ab/{n}');(snap/f'{n}.gguf').symlink_to(f'../../blobs/{n}')
+            models=home/'lab/models';models.mkdir(parents=True);(models/'sera-8b.gguf').symlink_to(hub/'models--org--cand/snapshots/rev/own.gguf')
+            with patch.object(campaign_models,'ROOT',home/'lab'),patch.object(pathlib.Path,'home',return_value=home):campaign_models.evict('sera8')
+            self.assertEqual((own.exists(),common.exists(),(hub/'models--org--cand').exists(),(hub/'models--org--other').exists()),(False,True,False,True))
+            self.assertFalse((models/'sera-8b.gguf').is_symlink())
 
     def test_every_candidate_is_wired_end_to_end(self):
         import campaign_models,opencode_local,score_models

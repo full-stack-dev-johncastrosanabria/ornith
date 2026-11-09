@@ -17,7 +17,7 @@ PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/
 FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
        'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite'],
        'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
-LINKS={'gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
+LINKS={'mlx':'ornith-mlx','gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
 EVICT={'gguf','qwen','bonsai9','granite','gemma','sera8'}
 # D035/D036: Gemma's template defaults to enable_thinking=false, so its reasoning arm turns thinking on instead.
 THINKING_OFF_BY_DEFAULT={'gemma'}
@@ -30,9 +30,15 @@ def reasoning_arm(kind,primary):
 COOLDOWN_S=300
 
 def evict(kind):
-    link=ROOT/'models'/LINKS[kind];target=link.resolve()
-    repo=next(p for p in [target,*target.parents] if p.name.startswith('models--'))
-    assert repo.parent==(pathlib.Path.home()/'.cache/huggingface/hub').resolve(),repo
+    link=ROOT/'models'/LINKS[kind];hub=(pathlib.Path.home()/'.cache/huggingface/hub').resolve()
+    # D046: follow one hop only; the shared-blob hub layout symlinks repo blobs into hub/blobs, where the weights live.
+    first=pathlib.Path(os.path.normpath(link.parent/os.readlink(link)))
+    repo=next(p for p in [first,*first.parents] if p.name.startswith('models--'))
+    assert repo.parent.resolve()==hub,repo
+    blobs=lambda r:{b.resolve() for b in (r/'blobs').glob('*') if b.is_symlink()}
+    shared=set().union(*(blobs(r) for r in hub.glob('models--*') if r.name!=repo.name))
+    for b in blobs(repo)-shared:
+        if hub/'blobs' in b.parents:b.unlink()
     shutil.rmtree(repo);link.unlink()
 
 def main():
