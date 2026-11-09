@@ -18,7 +18,8 @@ FETCH={'mlx':[MLXPY,'scripts/download_model.py'],'gguf':['/bin/zsh','scripts/set
        'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite'],
        'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
 LINKS={'mlx':'ornith-mlx','gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
-EVICT={'mlx','gguf','qwen','bonsai9','granite','gemma','sera8'}
+KEEP={'gguf'}  # D053: the D050 winner stays on disk for daily OpenCode use
+EVICT={'mlx','qwen','bonsai9','granite','gemma','sera8'}
 # D035/D036: Gemma's template defaults to enable_thinking=false, so its reasoning arm turns thinking on instead.
 THINKING_OFF_BY_DEFAULT={'gemma'}
 

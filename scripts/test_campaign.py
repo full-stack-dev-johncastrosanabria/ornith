@@ -119,7 +119,7 @@ class ResumeTests(unittest.TestCase):
         for kind in score_models.KINDS:
             self.assertIn(kind,server.PORTS);self.assertIn(kind,score_models.NAMES)
             self.assertTrue(opencode_local.configuration(kind,'m')[1].endswith('/local'))
-            if kind in campaign_models.FETCH:self.assertIn(kind,campaign_models.LINKS);self.assertIn(kind,campaign_models.EVICT)
+            if kind in campaign_models.FETCH:self.assertIn(kind,campaign_models.LINKS);self.assertIn(kind,campaign_models.EVICT|campaign_models.KEEP)
         self.assertEqual(len(set(server.PORTS.values())),len(server.PORTS))
 
     def test_reasoning_arm_is_mechanical(self):
