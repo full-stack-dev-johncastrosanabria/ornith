@@ -11,7 +11,7 @@ from campaign import existing_tasks
 from score_models import length_steps
 
 # Docker Desktop was closed mid-session; every candidate, Ornith MLX included, reruns under that host state.
-LABEL='oc226-nodocker'
+LABEL=os.environ.get('LAB_LABEL','oc226-nodocker')  # D049: the D031 repeat cohort runs under its own label
 TASKS=['F7-A','F7-B','F7-C','F7-D']
 PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
 FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
@@ -79,7 +79,7 @@ def main():
             stop()
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
             if (ROOT/'logs/campaign.pause').exists():data.update(status='paused',remaining=a.kinds[i:],paused_before=f'{kind} reasoning arm');save();return
-            mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok else None
+            mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok and LABEL=='oc226-nodocker' else None  # D049: repeats are primary-arm only
             if mode:
                 # D036: a thinking-on arm uses the publisher's recommended sampling when one is pinned.
                 vendor=mode=='on' and kind in VENDOR_SAMPLING
