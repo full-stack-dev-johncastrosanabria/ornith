@@ -151,4 +151,21 @@ class ResumeTests(unittest.TestCase):
         self.assertEqual((edits['systemprompt.md'],answers,outside,bad),('A\nB',['ok'],'',['scripts/x.py']))
         self.assertTrue(c.scan("call normalize(x) on ['a', 'b']")[0]);self.assertEqual(c.scan('Normalize paths first'),({},1))
 
+class RouterTests(unittest.TestCase):
+    def test_router_never_touches_a_live_foreign_server_but_clears_stale_state(self):
+        import model_router as m
+        calls=[];m.mine[0]=None;m.busy[0]=1
+        states=iter([{'kind':'gguf','pid':1,'port':8083},{'kind':'bonsai','pid':2,'port':8085}])
+        with patch.object(m,'state',lambda:next(states)),patch.object(m,'alive',lambda pid:True):
+            with self.assertRaises(RuntimeError):m.ensure('bonsai')
+        states=iter([{'kind':'gguf','pid':1,'port':8083},{'kind':'bonsai','pid':2,'port':8085}])
+        with patch.object(m,'state',lambda:next(states)),patch.object(m,'alive',lambda pid:False),\
+             patch.object(m,'stop',lambda:calls.append('stop')),patch.object(m,'start',lambda k:calls.append(k)):
+            self.assertEqual(m.ensure('bonsai')['pid'],2)
+        self.assertEqual(calls,['stop','bonsai']);self.assertEqual(m.mine[0],2)
+        m.busy[0]=2  # the loaded model is still streaming another request: do not swap under it
+        with patch.object(m,'state',lambda:{'kind':'bonsai','pid':2,'port':8085}):
+            with self.assertRaises(RuntimeError):m.ensure('gguf')
+        m.busy[0]=0;m.mine[0]=None
+
 if __name__=='__main__':unittest.main()

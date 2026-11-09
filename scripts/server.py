@@ -14,7 +14,9 @@ from memory import require_space
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 STATE = ROOT/'logs/server.json'
 LOCK = ROOT/'logs/inference.lock'
-BONSAI = pathlib.Path.home()/'Library/Mobile Documents/com~apple~CloudDocs/bonsai/bonsai-demo'
+# D054: models and the Bonsai runtime live outside iCloud so they are always on disk (same bytes as measured).
+LOCAL = pathlib.Path.home()/'Developer/LocalLLMs'
+BONSAI_BIN = LOCAL/'bin/bonsai-llama.cpp-mac/llama-server'
 PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088, 'gemma':8089, 'sera8':8090}
 # MLX candidates share the runtime and adapter; only the pinned weights differ.
 MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx', 'gemma':'gemma-4-12b-mlx'}
@@ -53,9 +55,9 @@ def start(kind):
         cmd=[str(ROOT/'runtimes/mlx/.venv/bin/python'),str(ROOT/'scripts/mlx_server.py'),'--model',str(model),'--host','127.0.0.1','--port',str(port),'--temp','0.6','--top-p','0.95','--max-tokens','1024','--decode-concurrency','1','--prompt-concurrency','1','--prompt-cache-size','1','--prompt-cache-bytes','536870912']
     else:
         if kind=='bonsai':
-            binary=BONSAI/'bin/mac/llama-server';model=BONSAI/'models/bonsai2-gguf/27B/Ternary-Bonsai-2-27B-PTQ1_0.gguf'
+            binary=BONSAI_BIN;model=LOCAL/'bonsai-2-27b/Ternary-Bonsai-2-27B-PTQ1_0.gguf'
         elif kind=='bonsai9':
-            binary=BONSAI/'bin/mac/llama-server';model=ROOT/'models/bonsai2-9b.gguf'
+            binary=BONSAI_BIN;model=ROOT/'models/bonsai2-9b.gguf'
         else:
             binary=ROOT/'runtimes/gguf/llama.cpp/build-nossl/bin/llama-server';model=ROOT/'models'/('sera-8b.gguf' if kind=='sera8' else 'ornith-gguf.gguf')
         if not binary.exists() or not model.exists():LOCK.unlink();raise RuntimeError('Missing local binary/weights; no automatic download.')
