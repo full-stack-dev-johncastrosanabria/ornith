@@ -152,9 +152,14 @@ class ResumeTests(unittest.TestCase):
         self.assertTrue(c.scan("call normalize(x) on ['a', 'b']")[0]);self.assertEqual(c.scan('Normalize paths first'),({},1))
 
 class RouterTests(unittest.TestCase):
+    def setUp(self):
+        # never touch the live router's ownership file
+        import model_router as m;self.tmp=tempfile.TemporaryDirectory();self.own=patch.object(m,'OWN',pathlib.Path(self.tmp.name)/'owned');self.own.start()
+    def tearDown(self):self.own.stop();self.tmp.cleanup()
+
     def test_router_never_touches_a_live_foreign_server_but_clears_stale_state(self):
         import model_router as m
-        calls=[];m.mine[0]=None;m.busy[0]=1
+        calls=[];m.mine[0]=None;m.inflight.clear()
         states=iter([{'kind':'gguf','pid':1,'port':8083},{'kind':'bonsai','pid':2,'port':8085}])
         with patch.object(m,'state',lambda:next(states)),patch.object(m,'alive',lambda pid:True):
             with self.assertRaises(RuntimeError):m.ensure('bonsai')
@@ -163,10 +168,13 @@ class RouterTests(unittest.TestCase):
              patch.object(m,'stop',lambda:calls.append('stop')),patch.object(m,'start',lambda k:calls.append(k)):
             self.assertEqual(m.ensure('bonsai')['pid'],2)
         self.assertEqual(calls,['stop','bonsai']);self.assertEqual(m.mine[0],2)
-        m.busy[0]=2  # the loaded model is still streaming another request: do not swap under it
+        self.assertEqual(m.inflight,{'bonsai':1})
         with patch.object(m,'state',lambda:{'kind':'bonsai','pid':2,'port':8085}):
-            with self.assertRaises(RuntimeError):m.ensure('gguf')
-        m.busy[0]=0;m.mine[0]=None
+            with self.assertRaises(RuntimeError):m.ensure('gguf')  # bonsai still streaming: no swap under it
+            m.inflight['bonsai']=0
+            self.assertEqual(m.ensure('bonsai')['pid'],2)  # requests for the loaded model never block each other
+        self.assertEqual(m.inflight,{'bonsai':1})
+        m.inflight.clear();m.mine[0]=None
 
     def test_router_adopts_only_the_server_it_recorded(self):
         import model_router as m
@@ -176,6 +184,10 @@ class RouterTests(unittest.TestCase):
                 m.adopt();self.assertIsNone(m.mine[0])  # no record: a lab or manual server is not ours
                 own.write_text('8');m.adopt();self.assertIsNone(m.mine[0])
                 own.write_text('7');m.adopt();self.assertEqual(m.mine[0],7)
+            m.mine[0]=None;calls=[]
+            with patch.object(m,'OWN',own),patch.object(m,'state',lambda:{'kind':'gguf','pid':7,'port':8083}),patch.object(m,'stop',lambda:calls.append('stop')):
+                own.write_text('starting');m.adopt()  # a load cut short by a restart is unloaded, not adopted
+            self.assertEqual(calls,['stop']);self.assertIsNone(m.mine[0]);self.assertFalse(own.exists())
         m.mine[0]=None
 
 if __name__=='__main__':unittest.main()
