@@ -4,6 +4,21 @@ Hardware under test: **MacBook Air M3, 16 GB unified memory, macOS 27.3, 228 GB 
 
 This is an **evidence-grounded synthesis**, not a new measurement. Every number below is from the versioned JSON in `benchmarks/results/` as summarized in [RESULTS.md](RESULTS.md); the reading discipline of that report carries over — one long run per F7 task/condition is **exploratory**, decode t/s is **not** agent productivity, and Bonsai-vs-Ornith confounds model, runtime and quantization. See [STATUS.md](STATUS.md) for current blockers.
 
+## Candidate cohort `oc226-nodocker` (2026-11-08/09) — provisional, supersedes nothing below yet
+
+Global OpenCode 2.2.6 executor, fixed profile (16K context, 4096 output incl. reasoning, temp 0.6, top_p 0.95, 12 steps, 1200 s per F7 task), Docker closed, 300 s cooldown per model; ranking rule D031 (passes first, then total F7 agent time, then decode). Source: `benchmarks/reports/model-selection-oc226-nodocker.json`, decisions D045–D049.
+
+| # | Model | F7 pass | Total F7 s | Decode t/s | Peak footprint* | Fail causes |
+|---|---|---|---|---|---|---|
+| 1 | Ornith 1.5 9B GGUF Q4_K_M | 4/4 | 1922 | 10.73 | 5.13 GiB | — (F7-D re-run after a disk-reserve infrastructure stop, D046) |
+| 2 | Bonsai 2 27B PTQ1_0 | 4/4 | 2113 | 4.52 | 2.40 GiB | — |
+| 3 | Ternary-Bonsai-2-9B PTQ1_0 | 3/4 | 718 | 14.99 | 1.59 GiB | F7-A incorrect |
+| 4 | Qwen3.5-9B MLX 4-bit | 2/4 | 1636 | 13.35 | 8.05 GiB | F7-A, F7-C incorrect |
+| 5 | Ornith 1.5 9B MLX 4-bit | 2/4 | 3850 | 17.07 | 7.93 GiB | F7-A timeout, F7-B incorrect (cap hit); no-thinking arm also 2/4 in 725 s |
+| N/E | Granite 4.1 8B, Gemma 4 12B, SERA-8B | N/E | N/E | N/E | N/E | agent smoke gate failed (integration N/E, not zero; D047, D048, D049) |
+
+**No winner yet:** the top two tie on passes, so D031 requires a full repeat cohort of both (`oc226-nodocker-r2`, pre-registered in D049); the final order uses passes, then time, summed over both cohorts. \*Footprint is approximate across runtimes: llama.cpp maps weights from file and clean file-backed pages may be omitted (Bonsai 27B's file is 5.5 GiB). The sections below are the earlier cleared-host cohort under a different executor and are kept as history; they are not comparable row-for-row.
+
 ## Bottom line
 
 | Use case on this M3 / 16 GB | Pick | Why (measured) |
