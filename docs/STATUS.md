@@ -1,3 +1,12 @@
+# Current state — 2026-11-09 07:00 (unattended run D045–D052 complete)
+
+- **Model selection done:** candidate cohort `oc226-nodocker` (8 models) + D031 top-two repeat `oc226-nodocker-r2`. **Winner (D050): Ornith 1.5 9B GGUF Q4_K_M** on llama.cpp Metal with the fixed 16K/4096 profile — 8/8 F7 in 3342 s vs Bonsai 2 27B 8/8 in 4032 s (tied on quality, decided on time). Ranking and evidence: [FINDINGS.md](FINDINGS.md).
+- **Runtime tuning (D051/D052):** 24K/8192 arm adopted no change (GGUF N/E memory gate, Bonsai-2-9B worse, Qwen N/E smoke, Ornith MLX 3/4 vs 2/4 not detectable).
+- **Open, user decision:** D033 Harness² arm is N/E (no feasible editor at 16K; cloud-editor line closed in D042).
+- **Host:** no server, lock or pause file; winner weights on disk (`models/ornith-gguf.gguf`), other candidates evicted (re-fetchable at pinned revisions); ~13 GiB free.
+
+The sections below are earlier checkpoints, kept as history.
+
 # Checkpoint — 2026-11-08, resumed; MLX/GGUF weights externally cleared
 
 The experiment remains **incomplete**. The main runtime/harness matrix (16/16 valid task outcomes) and the micro-rate repetitions stand as measured on 2026-10-25 and are unchanged; see [RESULTS.md](RESULTS.md), [DECISIONS.md](DECISIONS.md) (D001–D029) and git history for the full trail. This checkpoint records the resumed-session state only.
