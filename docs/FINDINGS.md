@@ -24,9 +24,11 @@ Global OpenCode 2.2.6 executor, fixed profile (16K context, 4096 output incl. re
 | **Ornith 1.5 9B GGUF Q4_K_M** | 4/4, 1922 s | 4/4, 1420 s | **8/8, 3342 s** | 11.15 |
 | Bonsai 2 27B PTQ1_0 | 4/4, 2113 s | 4/4, 1919 s | 8/8, 4032 s | 4.94 |
 
-**Winner under the pre-registered rule: Ornith 1.5 9B GGUF Q4_K_M (llama.cpp Metal).** No quality difference is detectable at n = 8 (both 8/8); the order rests on time — GGUF was faster in both cohorts (−17 % summed) and decodes ~2.3× faster. Bonsai 2 27B is an equally correct alternative on these tasks at a lower physical footprint\*. Among MLX builds, Qwen3.5-9B and Ornith MLX reached 2/4. \*Footprint is approximate across runtimes: llama.cpp maps weights from file and clean file-backed pages may be omitted (Bonsai 27B's file is 5.5 GiB). The sections below are the earlier cleared-host cohort under a different executor and are kept as history; they are not comparable row-for-row.
+**Winner under the pre-registered rule: Ornith 1.5 9B GGUF Q4_K_M (llama.cpp Metal).** No quality difference is detectable at n = 8 (both 8/8); the order rests on time — GGUF was faster in both cohorts (−17 % summed) and decodes ~2.3× faster. Bonsai 2 27B is an equally correct alternative on these tasks at a lower physical footprint\*. Among MLX builds, Qwen3.5-9B and Ornith MLX reached 2/4. \*Footprint is approximate across runtimes: llama.cpp maps weights from file and clean file-backed pages may be omitted (Bonsai 27B's file is 5.5 GiB).
 
-## Bottom line
+**Best practices on the 16 passed tasks (descriptive, D031; does not change the winner):** both models changed 1–2 existing files per task with small diffs (2–18 lines, no files added), left every acceptance test unchanged, introduced 0 ruff violations (Bonsai r2 F7-B removed one) and 0 `dotnet format` violations on F7-A; no output-cap hits; time headroom 39–82 % of the 1200 s limit. Source: `practices`/`headroom` in `benchmarks/reports/model-selection-oc226-nodocker{,-r2}.json`. The sections below are the earlier cleared-host cohort under a different executor and are kept as history; they are not comparable row-for-row.
+
+## Bottom line (earlier cleared-host cohort, historical — superseded by the section above)
 
 | Use case on this M3 / 16 GB | Pick | Why (measured) |
 |---|---|---|
