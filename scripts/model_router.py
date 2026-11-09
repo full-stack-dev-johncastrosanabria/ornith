@@ -2,6 +2,7 @@
 demand with the measured lab profile (server.start/stop, one model at a time) and unloads it after IDLE_S idle."""
 import http.client,json,signal,subprocess,threading,time
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
+import memory
 from server import PORTS,ROOT,STATE,start,stop
 
 ROUTER_PORT=8099
@@ -52,8 +53,10 @@ class Handler(BaseHTTPRequestHandler):
                 if k.lower() not in ('transfer-encoding','connection','content-length'):self.send_header(k,v)
             self.send_header('Connection','close');self.end_headers()
             while chunk:=r.read1(65536):self.wfile.write(chunk);self.wfile.flush()
-        except (Exception,SystemExit) as e:  # require_space() exits 75 when the disk reserve is low
-            if not sent:self.reply(503,json.dumps({'error':str(e) or 'disk reserve'}).encode())
+        except (Exception,SystemExit) as e:
+            # require_space() raises SystemExit(75) when the disk is under the reserve.
+            msg=f'Less than {memory.RESERVE//1024**3} GiB free on disk; free space and retry.' if isinstance(e,SystemExit) else str(e)
+            if not sent:self.reply(503,json.dumps({'error':msg}).encode())
         finally:busy[0]-=1;last[0]=time.time()
 
 def adopt():
@@ -67,6 +70,9 @@ def shutdown(*_):
     raise SystemExit(0)
 
 def main():
+    # D055: daily use keeps 3 GiB free (user decision). Set here, not at import, so only the router process
+    # changes it; lab scripts and tests keep the 8 GiB reserve.
+    memory.RESERVE=3*1024**3
     adopt();signal.signal(signal.SIGTERM,shutdown)
     threading.Thread(target=idle,daemon=True).start()
     ThreadingHTTPServer(('127.0.0.1',ROUTER_PORT),Handler).serve_forever()
