@@ -6,7 +6,7 @@ completed F7 tasks are skipped. Measured candidates in EVICT are removed afterwa
 the 8 GiB reserve; their manifests keep the pins for re-download.
 """
 import argparse,datetime,json,os,pathlib,shutil,subprocess,sys,time
-from server import ROOT,STATE,MLX_MODELS,VENDOR_SAMPLING,start,stop
+from server import ROOT,STATE,MLX_MODELS,VENDOR_SAMPLING,start,stop,load_profile
 from campaign import existing_tasks
 from score_models import length_steps
 
@@ -14,11 +14,11 @@ from score_models import length_steps
 LABEL=os.environ.get('LAB_LABEL','oc226-nodocker')  # D049: the D031 repeat cohort runs under its own label
 TASKS=['F7-A','F7-B','F7-C','F7-D']
 PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
-FETCH={'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
+FETCH={'mlx':[MLXPY,'scripts/download_model.py'],'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
        'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite'],
        'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
 LINKS={'mlx':'ornith-mlx','gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
-EVICT={'gguf','qwen','bonsai9','granite','gemma','sera8'}
+EVICT={'mlx','gguf','qwen','bonsai9','granite','gemma','sera8'}
 # D035/D036: Gemma's template defaults to enable_thinking=false, so its reasoning arm turns thinking on instead.
 THINKING_OFF_BY_DEFAULT={'gemma'}
 
@@ -46,7 +46,7 @@ def main():
     lock=ROOT/'logs/campaign.lock';fd=os.open(lock,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600);os.close(fd)
     subprocess.Popen(['/usr/bin/caffeinate','-i','-w',str(os.getpid())],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     checkpoint=ROOT/f"logs/campaign-models-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
-    data={'protocol':'D030','label':LABEL,'pid':os.getpid(),'profile':json.loads((ROOT/'runtimes/profile.json').read_text()),'stages':[],'status':'running'}
+    data={'protocol':'D030','label':LABEL,'pid':os.getpid(),'profile':load_profile(),'stages':[],'status':'running'}
     data['docker_vm_running_at_start']=bool(subprocess.run(['pgrep','-f','Virtualization.VirtualMachine'],capture_output=True).stdout)
     def save():checkpoint.write_text(json.dumps(data,indent=2)+'\n')
     def stage(kind,name,cmd):

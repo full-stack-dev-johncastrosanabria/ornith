@@ -6,13 +6,13 @@ Best practices are descriptive only (passed tasks, violations introduced vs the 
 """
 import argparse,difflib,json,pathlib,re,statistics,subprocess
 from report import RESULTS,ROOT,group,memory
-from server import MLX_MODELS
+from server import MLX_MODELS,load_profile
 
 KINDS=['mlx','bonsai','gguf','qwen','bonsai9','granite','gemma','sera8']
 NAMES={'mlx':'Ornith 1.5 9B MLX 4-bit','gguf':'Ornith 1.5 9B GGUF Q4_K_M','qwen':'Qwen3.5-9B MLX 4-bit',
        'bonsai9':'Ternary-Bonsai-2-9B PTQ1_0','granite':'Granite 4.1 8B MLX 4-bit','bonsai':'Bonsai 2 27B PTQ1_0',
        'gemma':'Gemma 4 12B MLX 4-bit','sera8':'SERA-8B GGUF Q4_K_M'}
-CAP=4096;TIMEOUT=1200
+PROFILE=load_profile();CAP=PROFILE['output'];TIMEOUT=1200
 SKIP={'tests','bin','obj','__pycache__','.pytest_cache','.ruff_cache','output'}
 RUFF=str(ROOT/'runtimes/score/.venv/bin/ruff')
 
@@ -95,7 +95,7 @@ def main():
     scores=[score(k,a.label) for k in a.kinds];ranked,provisional=rank(scores)
     out={'rule':'D031','label':a.label,'ranking':[s['kind'] for s in ranked],'provisional':provisional,'scores':scores}
     (ROOT/'benchmarks/reports'/f'model-selection-{a.label}.json').write_text(json.dumps(out,indent=2)+'\n')
-    lines=[f'Ranking under the fixed profile ({a.label}; 16K/4096 incl. reasoning/.6/.95, Bonsai reasoning-budget 100, others unbounded) — not model capability with unlimited reasoning.','',f'| # | Model | F7 pass | Total s | Decode t/s | Peak footprint | Fail causes |','|---|---|---|---|---|---|---|']
+    lines=[f'Ranking under the fixed profile ({a.label}; {PROFILE["context"]//1024}K/{CAP} incl. reasoning/.6/.95, Bonsai reasoning-budget 100, others unbounded) — not model capability with unlimited reasoning.','',f'| # | Model | F7 pass | Total s | Decode t/s | Peak footprint | Fail causes |','|---|---|---|---|---|---|---|']
     for i,s in enumerate(ranked+[s for s in scores if not s['complete']],1):
         causes=', '.join(f"{t['task']}:{t['cause']}" for t in s['tasks'] if t['status']!='pass') or '-'
         head=f"| {i} | {s['model']} | {s['passes']}/4 | {s['total_s']:.0f} | " if s['complete'] else f"| N/E | {s['model']} | N/E ({s['n']}/4 scored) | N/E | "

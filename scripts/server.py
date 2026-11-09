@@ -21,6 +21,9 @@ MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.
 # D036: publisher-recommended sampling (pinned generation_config.json), used only in the vendor arm.
 VENDOR_SAMPLING = {'gemma':{'temperature':1.0,'top_p':0.95,'top_k':64}}
 
+# D051: LAB_PROFILE selects an alternative pre-registered profile (e.g. the D033 cap8k arm) for every reader.
+def load_profile():return json.loads((ROOT/os.environ.get('LAB_PROFILE','runtimes/profile.json')).read_text())
+
 def active():
     # 8080 belongs to an unrelated existing service, outside this laboratory.
     # Do not send experimental traffic there or stop its owner.
@@ -42,7 +45,7 @@ def start(kind):
     os.close(fd)
     env=os.environ.copy();env['HF_HUB_OFFLINE']='1';env['HF_HUB_DISABLE_TELEMETRY']='1'
     port=PORTS[kind]
-    profile=json.loads((ROOT/'runtimes/profile.json').read_text())
+    profile=load_profile()
     if kind in MLX_MODELS:
         model=ROOT/'models'/MLX_MODELS[kind]
         if not model.exists():LOCK.unlink();raise RuntimeError('Run download_model.py first.')

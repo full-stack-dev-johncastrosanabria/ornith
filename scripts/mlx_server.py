@@ -9,7 +9,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 # server.py pins the candidate via LAB_MODEL; default stays the original Ornith pin.
 MODEL=pathlib.Path(os.environ.get('LAB_MODEL',ROOT/'models/ornith-mlx'))
 if importlib.metadata.version('mlx-lm')!='0.32.2':raise RuntimeError('Local adapter requires the verified MLX-LM 0.32.2 version.')
-CONTEXT=json.loads((ROOT/'runtimes/profile.json').read_text())['context']
+CONTEXT=json.loads((ROOT/os.environ.get('LAB_PROFILE','runtimes/profile.json')).read_text())['context']
 _tokenize=server.ResponseGenerator._tokenize
 _generate=server.ResponseGenerator.generate
 

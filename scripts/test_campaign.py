@@ -138,6 +138,12 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual((agent('gemma')['temperature'],agent('gemma')['top_p']),(1.0,.95))
             self.assertEqual(agent('mlx')['temperature'],.6)
 
+    def test_lab_profile_reaches_the_opencode_limits(self):
+        import opencode_local
+        limit=lambda:opencode_local.configuration('gguf','m')[0]['provider']['ornith-gguf']['models']['local']['limit']
+        self.assertEqual(limit(),{'context':16384,'output':4096})
+        with patch.dict(opencode_local.os.environ,{'LAB_PROFILE':'runtimes/profile-cap8k.json'}):self.assertEqual(limit(),{'context':24576,'output':8192})
+
     def test_cloud_editor_parse_whitelist_and_scan(self):
         import cloud_editor_arm as c
         out="<<<EDIT context/harness/systemprompt.md>>>\nA\nB\n<<<END EDIT>>>\n<<<EDIT context/harness/scripts/x.py>>>\nz\n<<<END EDIT>>>\n<<<ANSWER>>>\nok\n<<<END ANSWER>>>"

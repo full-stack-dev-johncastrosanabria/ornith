@@ -7,7 +7,7 @@ JSONL event schema (step_start/text/tool_use/step_finish, tool state.status, ste
 is unchanged from v1, so downstream parsing/grading is unaffected. Runs under v2 are a new cohort,
 not comparable to the historical OpenCode 1.19.4 measurements."""
 import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
-from server import PORTS,VENDOR_SAMPLING
+from server import PORTS,VENDOR_SAMPLING,load_profile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def first_tool_latency(events,launch_ms):
@@ -18,7 +18,7 @@ def first_tool_latency(events,launch_ms):
     return (min(starts)-launch_ms)/1000
 
 def configuration(kind,model_id,harness=''):
-    profile=json.loads((ROOT/'runtimes/profile.json').read_text())
+    profile=load_profile()
     provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf','qwen':'qwen-mlx','granite':'granite-mlx','bonsai9':'bonsai9-gguf','gemma':'gemma-mlx','sera8':'sera8-gguf'}[kind]
     port=PORTS[kind]
     ref=provider+'/local'
