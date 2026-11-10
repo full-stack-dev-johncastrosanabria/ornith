@@ -1,1 +1,0 @@
-- Stay inside the workspace root. The only exception is running the exact commands TASK.md gives. Do not explore parent directories, sibling directories or other tasks' work directories, and do not look for reference implementations. Build the change from TASK.md, the source and the tests.
