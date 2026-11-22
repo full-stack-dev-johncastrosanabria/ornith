@@ -1,15 +1,16 @@
 """Three actual OpenCode tool cycles with independent observable checks."""
 import datetime,json,pathlib,shutil,uuid
-from opencode_local import run
+from opencode_local import WORK,run
 from bench_tasks import grade,hashes
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def main():
     s=json.loads((ROOT/'logs/server.json').read_text());rows=[]
     dest=ROOT/'benchmarks/results'/f"smoke-agent-{s['kind']}-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
-    py=str(ROOT/'benchmarks/.venv/bin/python')
+    # D061: the grader shlex-splits the command, so use the space-free home link, as the F8 manifest rows do.
+    py=str(pathlib.Path.home()/'Developer/ornith/benchmarks/.venv/bin/python')
     for cycle in ['read','edit_test','debug']:
-        work=ROOT/'benchmarks/work'/f"smoke-{s['kind']}-{cycle}-{uuid.uuid4().hex[:8]}";work.mkdir(parents=True)
+        work=WORK/f"smoke-{s['kind']}-{cycle}-{uuid.uuid4().hex[:8]}";work.mkdir(parents=True)
         if cycle=='read':
             (work/'README.md').write_text('Verification marker: NATIVE-M3-4829\n')
             prompt='Read README.md with a file tool and return its verification marker exactly.'

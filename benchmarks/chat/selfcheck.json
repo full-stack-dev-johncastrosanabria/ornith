@@ -1,0 +1,34 @@
+{
+ "P1": {
+  "good": "Aquí tienes:\n\n```python\nimport re\ndef parse_duration(s: str) -> int:\n    t = re.sub(r'\\s+', ' ', s.strip())\n    m = re.fullmatch(r'(?:(\\d+)h)? ?(?:(\\d+)m)? ?(?:(\\d+)s)?', t)\n    if not t or not m:\n        raise ValueError(s)\n    h, mi, se = (int(x) if x else 0 for x in m.groups())\n    return h * 3600 + mi * 60 + se\n```\n",
+  "bad": "Aquí tienes:\n\n```python\nimport re\ndef parse_duration(s):\n    return sum(int(n) * {'h': 3600, 'm': 60, 's': 1}[u] for n, u in re.findall(r'(\\d+)([hms])', s))\n```\n"
+ },
+ "P2": {
+  "good": "Aquí tienes:\n\n```python\nimport math\ndef paginate(items, page, per_page):\n    if per_page < 1 or page < 1:\n        raise ValueError(\"bad page or per_page\")\n    total_pages = math.ceil(len(items) / per_page)\n    if page > total_pages:\n        return [], total_pages\n    start = (page - 1) * per_page\n    return items[start:start + per_page], total_pages\n```\n",
+  "bad": "Aquí tienes:\n\n```python\ndef paginate(items, page, per_page):\n    \"\"\"Devuelve (elementos_de_la_página, total_de_páginas). page empieza en 1.\"\"\"\n    if per_page < 1:\n        raise ValueError(\"per_page debe ser >= 1\")\n    total_pages = len(items) // per_page\n    start = page * per_page\n    return items[start:start + per_page], total_pages\n```\n"
+ },
+ "P3": {
+  "good": "Aquí tienes:\n\n```python\ndef merge_intervals(intervals):\n    for a, b in intervals:\n        if a > b:\n            raise ValueError(\"start > end\")\n    out = []\n    for a, b in sorted(intervals):\n        if out and a <= out[-1][1]:\n            out[-1] = (out[-1][0], max(out[-1][1], b))\n        else:\n            out.append((a, b))\n    return out\n```\n",
+  "bad": "Aquí tienes:\n\n```python\ndef merge_intervals(intervals):\n    for a, b in intervals:\n        if a > b:\n            raise ValueError(\"start > end\")\n    out = []\n    for a, b in intervals:\n        if out and a <= out[-1][1]:\n            out[-1] = (out[-1][0], max(out[-1][1], b))\n        else:\n            out.append((a, b))\n    return out\n```\n"
+ },
+ "C1": {
+  "good": "Aquí tienes:\n\n```csharp\nusing System.Globalization;\nusing System.Text;\npublic static class Slug {\n  public static string Make(string title) {\n    if (title == null) throw new ArgumentNullException(nameof(title));\n    var sb = new StringBuilder(); bool dash = false;\n    foreach (var c in title.Normalize(NormalizationForm.FormD).ToLowerInvariant()) {\n      if (CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.NonSpacingMark) continue;\n      if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) { if (dash && sb.Length > 0) sb.Append('-'); sb.Append(c); dash = false; }\n      else dash = true;\n    }\n    return sb.ToString();\n  }\n}\n```\n",
+  "bad": "Aquí tienes:\n\n```csharp\nusing System.Text.RegularExpressions;\npublic static class Slug { public static string Make(string title) => Regex.Replace(title.ToLowerInvariant(), \"[^a-z0-9]+\", \"-\").Trim('-'); }\n```\n"
+ },
+ "C2": {
+  "good": "Aquí tienes:\n\n```csharp\npublic record Order(string Customer, decimal Amount, bool Cancelled);\npublic static class OrderStats {\n  public static Dictionary<string, decimal> TotalsByCustomer(IEnumerable<Order> orders) =>\n    orders.Where(o => !o.Cancelled).GroupBy(o => o.Customer, StringComparer.OrdinalIgnoreCase)\n      .ToDictionary(g => g.First().Customer, g => g.Sum(o => o.Amount));\n}\n```\n",
+  "bad": "Aquí tienes:\n\n```csharp\npublic record Order(string Customer, decimal Amount, bool Cancelled);\n\npublic static class OrderStats\n{\n    // Total por cliente sin contar los pedidos cancelados.\n    // El cliente no distingue mayúsculas: \"ACME\" y \"acme\" son el mismo cliente.\n    // La clave del diccionario es el nombre tal como aparece en el primer pedido no cancelado de ese cliente.\n    // Los clientes sin pedidos no cancelados no aparecen.\n    public static Dictionary<string, decimal> TotalsByCustomer(IEnumerable<Order> orders)\n    {\n        return orders\n            .GroupBy(o => o.Customer)\n            .ToDictionary(g => g.Key, g => g.Sum(o => o.Amount));\n    }\n}\n```\n"
+ },
+ "C3": {
+  "good": "Aquí tienes:\n\n```csharp\nusing System.Text;\npublic static class Csv {\n  public static List<string> ParseLine(string line) {\n    var r = new List<string>(); var sb = new StringBuilder(); bool q = false;\n    for (int i = 0; i < line.Length; i++) {\n      char c = line[i];\n      if (q) {\n        if (c == '\"') { if (i + 1 < line.Length && line[i + 1] == '\"') { sb.Append('\"'); i++; } else q = false; }\n        else sb.Append(c);\n      } else if (c == '\"') q = true;\n      else if (c == ',') { r.Add(sb.ToString()); sb.Clear(); }\n      else sb.Append(c);\n    }\n    if (q) throw new FormatException(\"unterminated quote\");\n    r.Add(sb.ToString()); return r;\n  }\n}\n```\n",
+  "bad": "Aquí tienes:\n\n```csharp\npublic static class Csv { public static List<string> ParseLine(string line) => line.Split(',').ToList(); }\n```\n"
+ },
+ "S1": {
+  "good": "Aquí tienes:\n\n```sql\nSELECT c.country AS country, COUNT(DISTINCT c.id) AS customers, ROUND(SUM(o.total), 2) AS revenue\nFROM orders o JOIN customers c ON c.id = o.customer_id\nWHERE o.status <> 'cancelled' AND o.created_at >= '2025-01-01' AND o.created_at < '2026-01-01'\nGROUP BY c.country HAVING SUM(o.total) > 100\nORDER BY revenue DESC, country ASC;\n```\n",
+  "bad": "Aquí tienes:\n\n```sql\nSELECT c.country AS country, COUNT(DISTINCT c.id) AS customers, ROUND(SUM(o.total), 2) AS revenue\nFROM orders o JOIN customers c ON c.id = o.customer_id\nWHERE o.created_at >= '2025-01-01' AND o.created_at < '2026-01-01'\nGROUP BY c.country HAVING SUM(o.total) > 100\nORDER BY revenue DESC, country ASC;\n```\n"
+ },
+ "E1": {
+  "good": "Aquí tienes:\n\n```text\nTrue 2 [20, 20, 20]\n```\nEl valor por defecto es la misma lista y las lambdas leen i al final.",
+  "bad": "Aquí tienes:\n\n```text\nFalse 1 [0, 10, 20]\n```\n"
+ }
+}

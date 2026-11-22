@@ -6,7 +6,8 @@ import memory
 from server import PORTS,ROOT,STATE,start,stop
 
 ROUTER_PORT=8099
-MODELS={'ornith-1.5-9b-q4km':'gguf','bonsai-2-27b-ptq10':'bonsai'}
+# D061 (o): Bonsai-2-9B added for daily use at the user's request after the oc232 cohort.
+MODELS={'ornith-1.5-9b-q4km':'gguf','bonsai-2-27b-ptq10':'bonsai','bonsai-2-9b-ptq10':'bonsai9'}
 IDLE_S=900
 assert all(k in PORTS for k in MODELS.values())
 # inflight counts proxied requests per kind, so requests waiting for the *new* model never block a swap.

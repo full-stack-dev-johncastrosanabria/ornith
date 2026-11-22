@@ -9,6 +9,8 @@ not comparable to the historical OpenCode 1.19.4 measurements."""
 import argparse,json,os,pathlib,shutil,signal,subprocess,time,uuid,threading
 from server import PORTS,VENDOR_SAMPLING,load_profile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
+# D061: task workspaces live on the internal disk; the space in '/Volumes/Disco 2' made OpenCode block every unquoted `cd <workspace>`.
+WORK=pathlib.Path.home()/'Developer/ornith-work'
 
 def first_tool_latency(events,launch_ms):
     if type(launch_ms) not in (int,float):return None
@@ -19,13 +21,15 @@ def first_tool_latency(events,launch_ms):
 
 def configuration(kind,model_id,harness=''):
     profile=load_profile()
-    provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf','qwen':'qwen-mlx','granite':'granite-mlx','bonsai9':'bonsai9-gguf','gemma':'gemma-mlx','sera8':'sera8-gguf'}[kind]
+    provider={'mlx':'ornith-mlx','gguf':'ornith-gguf','bonsai':'bonsai-gguf','qwen':'qwen-mlx','granite':'granite-mlx','bonsai9':'bonsai9-gguf','gemma':'gemma-mlx','sera8':'sera8-gguf','gptoss':'gptoss-mlx'}[kind]
     port=PORTS[kind]
     ref=provider+'/local'
     permissions={'*':'deny',**{t:'allow' for t in ['read','glob','grep','edit','bash','shell']},'external_directory':'deny'}
     prompt='You are a local programming agent. Work only in the current workspace. Read relevant files, make minimal changes, run the available tests, and report actual results. Never modify acceptance tests. Never use the network. Do not delegate.'
     cfg={'$schema':'https://opencode.ai/config.json','model':ref,'small_model':ref,'enabled_providers':[provider],'autoupdate':False,'share':'disabled','snapshot':False,'plugin':[],'mcp':{},'lsp':False,'formatter':False,'permission':permissions,'compaction':{'auto':True,'prune':True,'reserved':1536},'provider':{provider:{'npm':'@ai-sdk/openai-compatible','name':provider,'options':{'baseURL':f'http://127.0.0.1:{port}/v1','apiKey':'local-only'},'models':{'local':{'id':model_id,'name':model_id,'tool_call':True,'limit':{'context':8192,'output':1536}}}}},'default_agent':'ornith-code','agent':{'ornith-code':{'description':'Local workspace coding agent','mode':'primary','model':ref,'temperature':.6,'top_p':.95,'steps':int(os.environ.get('LAB_AGENT_STEPS','12')),'prompt':prompt+('\n'+harness if harness else ''),'permission':permissions},'title':{'disable':True},'summary':{'disable':True}}}
     cfg['provider'][provider]['models']['local']['limit']={'context':profile['context'],'output':profile['output']}
+    # D061 pilot 2: OpenCode 2.3.2 caps the compaction summary at `reserved`; 1536 (left from the 1536-output baseline) cut a summary and ended F8-A.
+    cfg['compaction']['reserved']=profile['output']
     if os.environ.get('LAB_SAMPLING')=='vendor' and kind in VENDOR_SAMPLING:
         cfg['agent']['ornith-code'].update({k:VENDOR_SAMPLING[kind][k] for k in ('temperature','top_p')})
     return cfg,ref
@@ -33,10 +37,14 @@ def configuration(kind,model_id,harness=''):
 def sandbox(work,state):
     # macOS Seatbelt: deny home data outside explicit paths; no external network.
     home=pathlib.Path.home();q=lambda s:json.dumps(str(s))
-    reads=[work,state,ROOT/'opencode/configs',ROOT/'runtimes/mlx/.venv',ROOT/'harness2/.venv',ROOT/'benchmarks/.venv',home/'.local/share/uv/python',home/'.nuget/packages']
+    reads=[work,state,ROOT/'opencode/configs',ROOT/'runtimes/mlx/.venv',ROOT/'harness2/.venv',ROOT/'benchmarks/.venv',home/'.local/share/uv/python',home/'.nuget/packages',
+           # D061: Node for F8-D, JUnit jars for F8-E.
+           home/'.local/share/fnm/node-versions/v26.13.0/installation',ROOT/'runtimes/java-junit']
     profile='(version 1)\n(allow default)\n(deny network*)\n'
     profile+='(allow network-outbound (remote ip "localhost:*"))\n(allow network-inbound (local ip "localhost:*"))\n(allow network-bind (local ip "localhost:*"))\n'
     profile+=f'(deny file-read-data (subpath {q(home)}))\n'
+    # D059: the lab moved out of home (Disco 2); keep its results, fixtures and notes unreadable too.
+    profile+=f'(deny file-read-data (subpath {q(ROOT.resolve())}))\n'
     for p in reads:profile+=f'(allow file-read-data (subpath {q(p.resolve())}))\n'
     profile+=f'(allow file-read-data (literal {q(ROOT/"AGENTS.md")}))\n'
     profile+='(deny file-write*)\n'
@@ -48,7 +56,7 @@ def sandbox(work,state):
 
 def prepare(work,kind,model_id,harness=''):
     work=pathlib.Path(work).resolve()
-    if not work.is_relative_to(ROOT/'benchmarks/work'):raise ValueError('Workspace must be inside benchmarks/work')
+    if not (work.is_relative_to(WORK) or work.is_relative_to(ROOT/'benchmarks/work')):raise ValueError('Workspace must be inside the lab work directory')
     state=ROOT/'opencode/state'/uuid.uuid4().hex
     for d in ['config','data','cache','state','tmp']: (state/d).mkdir(parents=True,exist_ok=True)
     # Empty isolated NuGet state has nothing to migrate. Its sentinel avoids the
@@ -90,7 +98,8 @@ def run(work,prompt,kind,model_id,harness='',timeout=1200,*,argv=None,read_roots
                 resource_abort.append('disk below 8 GiB reserve');os.killpg(p.pid,signal.SIGTERM);return
     sampler=threading.Thread(target=sample,daemon=True)
     with (state/'stdout.jsonl').open('w') as out,(state/'stderr.log').open('w') as err:
-        p=subprocess.Popen(cmd,cwd=work,env=env,stdout=out,stderr=err,start_new_session=True)
+        # `opencode run` appends piped stdin to the prompt (D061: an inherited launcher heredoc leaked into a smoke prompt).
+        p=subprocess.Popen(cmd,cwd=work,env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
         sampler.start()
         (state/'process.json').write_text(json.dumps({'pid':p.pid,'pgid':p.pid,'argv':cmd},indent=2)+'\n')
         try:p.wait(timeout=timeout)

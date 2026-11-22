@@ -1,0 +1,414 @@
+{
+  "server": {
+    "kind": "gptoss",
+    "pid": 40876,
+    "port": 8091,
+    "cmd": [
+      "/Users/johnbenjamincastrosanabria/Developer/gpt-oss-20b-MXFP4-Q8/.venv/bin/python",
+      "/Users/johnbenjamincastrosanabria/Developer/gpt-oss-20b-MXFP4-Q8/mlx_api.py",
+      "--model",
+      "/Volumes/Disco 2/Models/gpt-oss-20b-MXFP4-Q8",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8091",
+      "--prefill-step-size",
+      "128",
+      "--decode-concurrency",
+      "1",
+      "--prompt-concurrency",
+      "1",
+      "--prompt-cache-size",
+      "1",
+      "--prompt-cache-bytes",
+      "128M"
+    ],
+    "started": 1795026820.605639,
+    "profile": {
+      "context": 16384,
+      "output": 4096,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "concurrency": 1,
+      "kv_quantization": null,
+      "stage": "fixed final profile after context-only stability validation"
+    },
+    "model_id": "gpt-oss-20b-coding",
+    "models": [
+      "gpt-oss-20b-coding"
+    ]
+  },
+  "models_response": {
+    "object": "list",
+    "data": [
+      {
+        "id": "gpt-oss-20b-coding",
+        "object": "model"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "test": "conversation",
+      "wall_s": 71.5351277919981,
+      "response": {
+        "id": "chatcmpl-1e862e52-4d34-41fc-8908-afef84144bb7",
+        "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+        "object": "chat.completion",
+        "model": "gpt-oss-20b-coding",
+        "created": 1795026822,
+        "choices": [
+          {
+            "index": 0,
+            "finish_reason": "stop",
+            "message": {
+              "role": "assistant",
+              "content": "42"
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 81,
+          "completion_tokens": 34,
+          "total_tokens": 115,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "test": "streaming_reasoning",
+      "response": {
+        "wall_s": 2.8295228339993628,
+        "ttft_s": 2.464692792000278,
+        "first_tool_delta_s": null,
+        "content": "13\u202f\u00d7\u202f7\u202f=\u202f91.",
+        "reasoning": "",
+        "usage": {
+          "prompt_tokens": 80,
+          "completion_tokens": 45,
+          "total_tokens": 125,
+          "prompt_tokens_details": {
+            "cached_tokens": 64
+          }
+        },
+        "timings": {},
+        "tool_calls_deltas": [],
+        "events": [
+          {
+            "s": 2.464692792000278,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "13"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.5021863340007258,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "\u202f"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.5396060000020952,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "\u00d7"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.574660624999524,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "\u202f"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.6104375419999997,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "7"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.6453816249995725,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "\u202f"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.68153708400132,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "="
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.7182866250004736,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "\u202f"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.756448416999774,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "91"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.7921957920007117,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": null,
+                  "delta": {
+                    "role": "assistant",
+                    "content": "."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.829401417002373,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion.chunk",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [
+                {
+                  "index": 0,
+                  "finish_reason": "stop",
+                  "delta": {
+                    "role": "assistant"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "s": 2.82942712500153,
+            "event": {
+              "id": "chatcmpl-c252e672-bc56-4b02-9901-9e4b9881912a",
+              "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+              "object": "chat.completion",
+              "model": "gpt-oss-20b-coding",
+              "created": 1795026894,
+              "choices": [],
+              "usage": {
+                "prompt_tokens": 80,
+                "completion_tokens": 45,
+                "total_tokens": 125,
+                "prompt_tokens_details": {
+                  "cached_tokens": 64
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test": "tool_roundtrip",
+      "wall_s": 1.7739639999999781,
+      "response": {
+        "id": "chatcmpl-308321c0-6576-48b3-977f-7d1b3473ad90",
+        "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+        "object": "chat.completion",
+        "model": "gpt-oss-20b-coding",
+        "created": 1795026897,
+        "choices": [
+          {
+            "index": 0,
+            "finish_reason": "tool_calls",
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "function": {
+                    "name": "add",
+                    "arguments": "{\"a\": 19, \"b\": 23}"
+                  },
+                  "type": "function",
+                  "id": "d48a5f88-1b7c-456d-8422-b48a75905876"
+                }
+              ]
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 147,
+          "completion_tokens": 35,
+          "total_tokens": 182,
+          "prompt_tokens_details": {
+            "cached_tokens": 59
+          }
+        }
+      },
+      "parsed_tool_calls": 1,
+      "executed": true,
+      "followup": {
+        "id": "chatcmpl-c9bda524-c854-4c6e-88b4-0a2abc5ff1d4",
+        "system_fingerprint": "0.32.2-0.32.4-macOS-27.3-arm64-arm-64bit-applegpu_g15g",
+        "object": "chat.completion",
+        "model": "gpt-oss-20b-coding",
+        "created": 1795026898,
+        "choices": [
+          {
+            "index": 0,
+            "finish_reason": "stop",
+            "message": {
+              "role": "assistant",
+              "content": "The sum of 19 and 23 is **42**."
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 189,
+          "completion_tokens": 97,
+          "total_tokens": 286,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      },
+      "followup_wall_s": 4.504186375001154
+    }
+  ],
+  "checks": {
+    "conversation": true,
+    "streaming": true,
+    "tool_roundtrip": true
+  },
+  "pass": true
+}

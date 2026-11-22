@@ -1,7 +1,7 @@
 """Fresh F7 runs with protected public tests and independent external acceptance."""
-import argparse,datetime,hashlib,json,os,pathlib,shutil,subprocess,time,uuid
+import argparse,datetime,hashlib,json,os,pathlib,re,shutil,subprocess,time,uuid
 from memory import snapshot
-from opencode_local import run,prepare,first_tool_latency
+from opencode_local import WORK,run,prepare,first_tool_latency
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 
 def hashes(work):
@@ -15,16 +15,20 @@ def grade(work,command):
         return {'rc':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'wall_s':time.perf_counter()-t,'isolation':'native sandbox, independent grading state'}
     except subprocess.TimeoutExpired as e:return {'rc':124,'stdout':str(e.stdout),'stderr':'external grader timeout','wall_s':time.perf_counter()-t}
 
+def restore(work):
+    """Dependencies restored by the trusted orchestrator before any local-model execution (.NET fixtures, D061: F7-A and F8-G)."""
+    if not (work/'tests/Acceptance.csproj').exists():return None
+    p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj','--source',str(pathlib.Path.home()/'.nuget/packages'),'-p:NuGetAudit=false'],cwd=work,capture_output=True,text=True,timeout=240)
+    return p.stdout+p.stderr if p.returncode else None
+
 def task(task_id,s,harness='',label='control',timeout=1200):
     fixture=ROOT/'benchmarks/fixtures'/task_id
     manifest=json.loads((ROOT/'benchmarks/fixtures/manifest.json').read_text());spec=next(t for t in manifest['tasks'] if t['task']==task_id)
-    work=ROOT/'benchmarks/work'/f"{s['kind']}-{label}-{task_id}-{uuid.uuid4().hex[:8]}";shutil.copytree(fixture,work)
-    # Dependencies restored by the trusted orchestrator before any local-model execution.
-    if task_id=='F7-A':
-        p=subprocess.run(['dotnet','restore','tests/Acceptance.csproj','--source',str(pathlib.Path.home()/'.nuget/packages'),'-p:NuGetAudit=false'],cwd=work,capture_output=True,text=True,timeout=240)
-        if p.returncode:return {'task':task_id,'status':'infrastructure','restore':p.stdout+p.stderr,'workspace':str(work)}
+    work=WORK/f"{s['kind']}-{label}-{task_id}-{uuid.uuid4().hex[:8]}";shutil.copytree(fixture,work)
+    error=restore(work)
+    if error:return {'task':task_id,'status':'infrastructure','restore':error,'workspace':str(work)}
     before_hashes=hashes(work);baseline=grade(work,spec['command'])
-    if task_id=='F7-A':
+    if (work/'tests/Acceptance.csproj').exists():
         # Preflight compilation must not pollute the model's initially clean task
         # with hundreds of generated files. Keep only restored NuGet assets.
         for part in ['src','tests']:
@@ -48,6 +52,11 @@ def task(task_id,s,harness='',label='control',timeout=1200):
         row['timeout_recovery']={'server_restarted':True,'wall_s':time.perf_counter()-recovery,'included_in_agent_wall':False}
     return row
 
+def context_overflow(event):
+    """The request outgrew the context window: ContextOverflowError, or an APIError whose message says so."""
+    error=event.get('error',{})
+    return error.get('name')=='ContextOverflowError' or (error.get('name')=='APIError' and bool(re.search(r'context|n_ctx|too long|exceed',json.dumps(error.get('data',error)),re.I)))
+
 def finish(task_id,s,label,spec,work,before_hashes,baseline,memory,result):
     """Grade a finished run and build its row; also rebuilds a row from persisted evidence (D044)."""
     final=grade(work,spec['command']);unchanged=before_hashes==hashes(work)
@@ -59,10 +68,14 @@ def finish(task_id,s,label,spec,work,before_hashes,baseline,memory,result):
     errors=[e for e in result['events'] if e.get('type')=='error']
     if result.get('resource_abort'):
         return {'task':task_id,'label':label,'status':'infrastructure','artifact_acceptance':final['rc']==0 and unchanged,'acceptance':final,'tests_unchanged':unchanged,'agent':result,'resource_abort':result['resource_abort'],'workspace':str(work)}
-    infrastructure=not result['events'] or any(e.get('error',{}).get('name') in ['APIError','ProviderModelNotFoundError','ContextOverflowError'] for e in errors)
+    infra=[e for e in errors if e.get('error',{}).get('name') in ['APIError','ProviderModelNotFoundError','ContextOverflowError']]
+    overflow=any(context_overflow(e) for e in errors)
+    # D061: from the oc232 cohorts on, outgrowing the window is the model's own context use, scored as a failure, not N/E.
+    if label.startswith('oc232'):infra=[e for e in infra if not context_overflow(e)]
+    infrastructure=not result['events'] or bool(infra)
     status='pass' if final['rc']==0 and unchanged and not result['timeout'] else ('infrastructure' if infrastructure else 'fail')
     launch_tool_s=first_tool_latency(result['events'],result.get('started_epoch_ms'))
-    row={'task':task_id,'label':label,'status':status,'server_at_start':dict(s),'workspace':str(work),'baseline':baseline,'acceptance':final,'artifact_acceptance':final['rc']==0 and unchanged,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
+    row={'task':task_id,'label':label,'status':status,'server_at_start':dict(s),'workspace':str(work),'baseline':baseline,'acceptance':final,'artifact_acceptance':final['rc']==0 and unchanged,'tests_unchanged':unchanged,'memory_before':memory,'memory_after':snapshot(),'agent':result,'context_overflow':overflow,'tool_count':len(tools),'tool_errors':sum(e.get('part',{}).get('state',{}).get('status')=='error' for e in tools),'first_tool_from_launch_s':launch_tool_s,'first_tool_after_step_start_s':first_tool_s,'tokens':[x.get('tokens') for x in finished]}
     return row
 
 def main():

@@ -26,8 +26,8 @@ def memory(rows):
     rss=[int(s['server_rss_kib'])/1024**2 for s in samples if s.get('server_rss_kib','').isdigit()]
     swap=[]
     for s in samples:
-        m=re.search(r'used = ([\d.]+)M',s.get('swap',''))
-        if m:swap.append(float(m[1])/1024)
+        m=re.search(r'used = ([\d.,]+)M',s.get('swap',''))  # sysctl prints a decimal comma under es_* locales
+        if m:swap.append(float(m[1].replace(',','.'))/1024)
     return (f'{max(rss):.2f} GiB peak RSS' if rss else 'N/E',f'{min(swap):.2f}–{max(swap):.2f} GiB system swap' if swap else 'N/E')
 def quality(rows):
     scored=[r for r in rows if r['status'] in ['pass','fail']]

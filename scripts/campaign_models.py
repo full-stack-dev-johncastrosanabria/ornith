@@ -8,18 +8,22 @@ the 8 GiB reserve; their manifests keep the pins for re-download.
 import argparse,datetime,json,os,pathlib,shutil,subprocess,sys,time
 from server import ROOT,STATE,MLX_MODELS,VENDOR_SAMPLING,start,stop,load_profile
 from campaign import existing_tasks
-from score_models import length_steps
+from score_models import length_steps,protocol,task_set
 
 # Docker Desktop was closed mid-session; every candidate, Ornith MLX included, reruns under that host state.
 LABEL=os.environ.get('LAB_LABEL','oc226-nodocker')  # D049: the D031 repeat cohort runs under its own label
-TASKS=['F7-A','F7-B','F7-C','F7-D']
-PY=str(ROOT/'harness2/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
+TASKS=task_set(LABEL)  # D061: oc232 cohorts run F7+F8
+PROTOCOL=protocol(LABEL)
+os.environ['LAB_AGENT_STEPS']=str(PROTOCOL['steps'])  # inherited by smoke, micro and task stages
+# D059: harness2/.venv was removed in 31efacb; the smoke/micro/F7 scripts are stdlib-only.
+PY=str(ROOT/'benchmarks/.venv/bin/python');MLXPY=str(ROOT/'runtimes/mlx/.venv/bin/python')
 FETCH={'mlx':[MLXPY,'scripts/download_model.py'],'gguf':['/bin/zsh','scripts/setup_gguf.sh'],'qwen':[MLXPY,'scripts/download_model.py','--candidate','qwen'],
        'bonsai9':[MLXPY,'scripts/download_model.py','--candidate','bonsai9'],'granite':[MLXPY,'scripts/download_model.py','--candidate','granite'],
        'gemma':[MLXPY,'scripts/download_model.py','--candidate','gemma'],'sera8':[MLXPY,'scripts/download_model.py','--candidate','sera8']}
 LINKS={'mlx':'ornith-mlx','gguf':'ornith-gguf.gguf','qwen':'qwen3.5-9b-mlx','bonsai9':'bonsai2-9b.gguf','granite':'granite-4.1-8b-mlx','gemma':'gemma-4-12b-mlx','sera8':'sera-8b.gguf'}
-KEEP={'gguf'}  # D053: the D050 winner stays on disk for daily OpenCode use
-EVICT={'mlx','qwen','bonsai9','granite','gemma','sera8'}
+# D053 kept the winner; D059: all weights now live on Disco 2 and are kept (evict() only handles the old HF-hub layout).
+KEEP=set(FETCH)
+EVICT=set()
 # D035/D036: Gemma's template defaults to enable_thinking=false, so its reasoning arm turns thinking on instead.
 THINKING_OFF_BY_DEFAULT={'gemma'}
 
@@ -43,11 +47,11 @@ def evict(kind):
     shutil.rmtree(repo);link.unlink()
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('kinds',nargs='+',choices=['gguf','qwen','bonsai9','granite','bonsai','mlx','gemma','sera8']);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('kinds',nargs='+',choices=['gguf','qwen','bonsai9','granite','bonsai','mlx','gemma','sera8','gptoss']);a=ap.parse_args()
     lock=ROOT/'logs/campaign.lock';fd=os.open(lock,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600);os.close(fd)
     subprocess.Popen(['/usr/bin/caffeinate','-i','-w',str(os.getpid())],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     checkpoint=ROOT/f"logs/campaign-models-{datetime.datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
-    data={'protocol':'D030','label':LABEL,'pid':os.getpid(),'profile':load_profile(),'stages':[],'status':'running'}
+    data={'protocol':'D030','label':LABEL,'tasks':TASKS,'steps':PROTOCOL['steps'],'task_timeout_s':PROTOCOL['timeout'],'pid':os.getpid(),'profile':load_profile(),'stages':[],'status':'running'}
     data['docker_vm_running_at_start']=bool(subprocess.run(['pgrep','-f','Virtualization.VirtualMachine'],capture_output=True).stdout)
     def save():checkpoint.write_text(json.dumps(data,indent=2)+'\n')
     def stage(kind,name,cmd):
@@ -76,11 +80,12 @@ def main():
             else:
                 stage(kind,'micro',[PY,'scripts/bench_api.py','--label',LABEL])
                 remaining=[t for t in TASKS if t not in existing_tasks(kind,LABEL)]
-                if remaining:stage(kind,'f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL])
+                if remaining:stage(kind,'f7',[PY,'scripts/bench_tasks.py','--tasks',*remaining,'--label',LABEL,'--timeout',str(PROTOCOL['timeout'])])
             stop()
             if ok and kind in MLX_MODELS:stage(kind,'direct',[MLXPY,'scripts/bench_mlx.py','--kind',kind])
             if (ROOT/'logs/campaign.pause').exists():data.update(status='paused',remaining=a.kinds[i:],paused_before=f'{kind} reasoning arm');save();return
-            mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok and LABEL=='oc226-nodocker' else None  # D049: repeats are primary-arm only
+            # D059: Harmony reasoning cannot be switched off, so GPT-OSS has no D032 arm (N/E).
+            mode=reasoning_arm(kind,existing_tasks(kind,LABEL)) if ok and LABEL=='oc226-nodocker' and kind!='gptoss' else None  # D049: repeats are primary-arm only
             if mode:
                 # D036: a thinking-on arm uses the publisher's recommended sampling when one is pinned.
                 vendor=mode=='on' and kind in VENDOR_SAMPLING

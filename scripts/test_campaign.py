@@ -31,6 +31,15 @@ class ResumeTests(unittest.TestCase):
                 server.stop()
             self.assertEqual(sleep.call_count,1)
             self.assertFalse(state.exists());self.assertFalse(lock.exists())
+    def test_stop_kills_a_server_that_ignores_sigterm(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state=pathlib.Path(directory)/'server.json';lock=pathlib.Path(directory)/'lock';lock.touch()
+            state.write_text(json.dumps({'pid':123456,'port':8085,'cmd':['/mock/llama-server']}))
+            replies=[SimpleNamespace(stdout='/mock/llama-server'),*[SimpleNamespace(stdout='S')]*240,SimpleNamespace(stdout='')]
+            with patch.object(server,'STATE',state),patch.object(server,'LOCK',lock),patch.object(server.subprocess,'run',side_effect=replies),patch.object(server.os,'killpg') as kill,patch.object(server.os,'waitpid',return_value=(0,0)),patch.object(server.socket,'socket') as sock,patch.object(server.time,'sleep'):
+                sock.return_value.__enter__.return_value.connect_ex.return_value=1
+                server.stop()
+            self.assertEqual([c.args[1] for c in kill.call_args_list],[server.signal.SIGTERM,server.signal.SIGKILL]);self.assertFalse(state.exists())
     def test_stop_accepts_an_exited_zombie_of_another_parent(self):
         with tempfile.TemporaryDirectory() as directory:
             state=pathlib.Path(directory)/'server.json';lock=pathlib.Path(directory)/'lock';lock.touch()
@@ -46,7 +55,7 @@ class ResumeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root=pathlib.Path(directory);fixture=root/'benchmarks/fixtures/F7-B';(fixture/'tests').mkdir(parents=True);(fixture/'TASK.md').write_text('task')
             (root/'benchmarks/fixtures/manifest.json').write_text(json.dumps({'tasks':[{'task':'F7-B','command':'true'}]}))
-            with patch.object(bench_tasks,'ROOT',root),patch.object(bench_tasks,'grade',return_value={'rc':1}),patch.object(bench_tasks,'snapshot',return_value={}),patch.object(bench_tasks,'run',return_value=timed_out),patch.object(server,'stop',side_effect=RuntimeError('zombie')):
+            with patch.object(bench_tasks,'ROOT',root),patch.object(bench_tasks,'WORK',root/'work'),patch.object(bench_tasks,'grade',return_value={'rc':1}),patch.object(bench_tasks,'snapshot',return_value={}),patch.object(bench_tasks,'run',return_value=timed_out),patch.object(server,'stop',side_effect=RuntimeError('zombie')):
                 row=bench_tasks.task('F7-B',{'kind':'mlx','model_id':'m'},label='t')
         self.assertEqual((row['status'],row['timeout_recovery']['server_restarted']),('fail',False))
     def test_infrastructure_interruptions_remain_pending(self):
@@ -91,6 +100,8 @@ class ResumeTests(unittest.TestCase):
         self.assertEqual([r['kind'] for r in ranked],['slow','fast']);self.assertTrue(provisional)
         ranked,provisional=score_models.rank([s('a',2,900,15),s('b',4,2400,4.6)]);self.assertFalse(provisional)
         self.assertEqual([r['kind'] for r in score_models.rank([s('a',3,900,9),s('b',3,800,5)])[0]],['b','a'])
+        gated={**s('gated',9,100,20),'memory_gate':'swap grew >2 GiB over arm start'};waived={**gated,'kind':'waived','gate_waived':True}
+        self.assertEqual([r['kind'] for r in score_models.rank([gated,waived,s('b',3,800,5)])[0]],['waived','b'])
     def test_evict_removes_only_the_candidate_cache_repo(self):
         import campaign_models
         with tempfile.TemporaryDirectory() as directory:
@@ -122,6 +133,37 @@ class ResumeTests(unittest.TestCase):
             if kind in campaign_models.FETCH:self.assertIn(kind,campaign_models.LINKS);self.assertIn(kind,campaign_models.EVICT|campaign_models.KEEP)
         self.assertEqual(len(set(server.PORTS.values())),len(server.PORTS))
 
+    def test_context_overflow_is_a_quality_failure_only_from_oc232(self):
+        import bench_tasks as b
+        over={'type':'error','error':{'name':'APIError','data':{'message':'request (17012 tokens) exceeds the available context size (16384 tokens)'}}}
+        down={'type':'error','error':{'name':'APIError','data':{'message':'Connection refused'}}}
+        self.assertTrue(b.context_overflow(over));self.assertFalse(b.context_overflow(down))
+        self.assertTrue(b.context_overflow({'error':{'name':'ContextOverflowError','data':{}}}))
+        def status(label,ev):
+            res={'events':[{'type':'step_start','timestamp':0},ev],'timeout':False,'started_epoch_ms':0,'wall_s':1}
+            with patch.object(b,"grade",return_value={"rc":1}),patch.object(b,"hashes",return_value={}),patch.object(b,"snapshot",return_value={}):
+                return b.finish('F8-C',{},label,{'command':'x'},pathlib.Path('/nonexistent'),{},{},{},res)
+        row=status('oc232-nodocker',over);self.assertEqual((row['status'],row['context_overflow']),('fail',True))
+        self.assertEqual(status('oc226-nodocker',over)['status'],'infrastructure')
+        self.assertEqual(status('oc232-nodocker',down)['status'],'infrastructure')
+        import score_models
+        self.assertEqual(score_models.cause(row),'context_overflow')
+        # D061 pilot 2: a failed compaction ends the session; it is the model's fail, never infrastructure.
+        failed={'type':'error','error':{'type':'compaction.failed','message':'Compaction summary reached the output token limit'}}
+        row=status('oc232-nodocker',failed);self.assertEqual(row['status'],'fail')
+        self.assertEqual((score_models.cause(row),score_models.end(row,40)),('compaction_failed','compaction_failed'))
+        done={'agent':{'timeout':False,'events':[{'type':'step_finish','part':{'tokens':{'input':300,'cache':{'read':14000}}}}]*40}}
+        self.assertEqual((score_models.end(done,40),score_models.peak_input(done)),('step_cap',14300))
+        tool=lambda i:{'type':'tool_use','part':{'tool':'read','state':{'status':'completed','input':{'filePath':i}}}}
+        self.assertEqual(score_models.gross({'agent':{'events':[tool('a'),tool('b'),tool('a')]}}),[])
+        self.assertEqual(score_models.gross({'agent':{'events':[tool('a')]*3}}),['loop (3 identical consecutive tool calls)'])
+        self.assertEqual(score_models.gross({'agent':{'events':[{'type':'text','part':{'text':'<|channel|>commentary to=functions.read'}}]}}),['tool calls not executed'])
+        self.assertEqual(score_models.gross(row),['compaction_failed','tool calls not executed'][::-1])
+        start,stop={'type':'step_start'},{'type':'step_finish','part':{'reason':'tool-calls'}}
+        self.assertEqual(score_models.gross({'agent':{'events':[start,tool('a'),stop,start,stop]}}),['tool calls not executed'])
+        dropped={'status':'fail','tests_unchanged':True,'agent':{'timeout':False,'events':[start,tool('a'),stop,start,stop]}}
+        self.assertEqual((score_models.cause(dropped),score_models.end(dropped,40)),('dropped_tool_call','dropped_tool_call'))
+        self.assertEqual(score_models.gross({'agent':{'events':[start,tool('a'),stop,start,tool('b'),stop]}}),[])
     def test_reasoning_arm_is_mechanical(self):
         import campaign_models as c
         capped={'type':'step_finish','part':{'reason':'length','tokens':{'output':4096}}}

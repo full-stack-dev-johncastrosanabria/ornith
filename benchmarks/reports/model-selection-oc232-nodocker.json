@@ -1,0 +1,913 @@
+{
+  "rule": "D031",
+  "label": "oc232-nodocker",
+  "ranking": [
+    "bonsai9",
+    "gguf"
+  ],
+  "provisional": true,
+  "shared_pass_speed": {
+    "tasks": [
+      "F7-B",
+      "F7-C",
+      "F7-D"
+    ],
+    "bonsai9": 538.0500582499953,
+    "gguf": 1509.597187959007
+  },
+  "scores": [
+    {
+      "kind": "gguf",
+      "model": "Ornith 1.5 9B GGUF Q4_K_M",
+      "complete": true,
+      "memory_gate": "swap grew >2 GiB over arm start",
+      "gate_waived": true,
+      "n": 12,
+      "of": 12,
+      "passes": 4,
+      "passes_f7": 4,
+      "passes_f8": 0,
+      "passes_long": 0,
+      "timeouts": [
+        "F8-A@12/40",
+        "F8-B@10/40",
+        "F8-C@11/40",
+        "F8-D@7/40",
+        "F8-E@11/40",
+        "F8-G@10/40",
+        "F8-H@14/40"
+      ],
+      "timeouts_before_budget": 7,
+      "total_s": 15594.430876544022,
+      "peak_input": 12504,
+      "compactions": {
+        "completed": 10,
+        "failed": 4
+      },
+      "decode_tps": 13.274082844491716,
+      "peak_footprint": "10.00 GiB",
+      "peak_rss": "7.05 GiB peak RSS",
+      "swap": "1.71\u20137.89 GiB system swap",
+      "tasks": [
+        {
+          "task": "F7-A",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 313.86728795900126,
+          "steps": 7,
+          "headroom": 0.8256292844672215,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 7169,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 10,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 17,
+            "lines_removed": 1,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": 0,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F7-B",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 320.4755237500067,
+          "steps": 10,
+          "headroom": 0.8219580423611074,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 6803,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 11,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 14,
+            "lines_removed": 4,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F7-C",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 790.4968241669994,
+          "steps": 12,
+          "headroom": 0.5608350976850003,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 9989,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 13,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 10,
+            "lines_removed": 7,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F7-D",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 398.62484004200087,
+          "steps": 9,
+          "headroom": 0.7785417555322217,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 6914,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 12,
+          "practices": {
+            "files_changed": 2,
+            "files_added": [],
+            "lines_added": 2,
+            "lines_removed": 2,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-A",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.154230583008,
+          "steps": 12,
+          "headroom": -8.568365722672056e-05,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 10993,
+          "compactions": {
+            "completed": 1,
+            "failed": 1
+          },
+          "tools": 26,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-B",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.2110522919975,
+          "steps": 10,
+          "headroom": -0.00011725127333184204,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 11733,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 14,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-C",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.1533530000015,
+          "steps": 11,
+          "headroom": -8.519611111190706e-05,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 12222,
+          "compactions": {
+            "completed": 1,
+            "failed": 1
+          },
+          "tools": 14,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-D",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.1469583330036,
+          "steps": 7,
+          "headroom": -8.164351833528372e-05,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 9995,
+          "compactions": {
+            "completed": 1,
+            "failed": 1
+          },
+          "tools": 13,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-E",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.2025917499996,
+          "steps": 11,
+          "headroom": -0.00011255097222195865,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 10249,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 20,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-F",
+          "status": "fail",
+          "cause": "compaction_failed",
+          "wall_s": 1169.7477240839944,
+          "steps": 6,
+          "headroom": 0.3501401532866698,
+          "cap_hits": 2,
+          "end": "compaction_failed",
+          "peak_input": 11451,
+          "compactions": {
+            "completed": 0,
+            "failed": 1
+          },
+          "tools": 10,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-G",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.1411202090094,
+          "steps": 10,
+          "headroom": -7.840011611626174e-05,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 10539,
+          "compactions": {
+            "completed": 1,
+            "failed": 0
+          },
+          "tools": 20,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        },
+        {
+          "task": "F8-H",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.2093703749997,
+          "steps": 14,
+          "headroom": -0.00011631687499980004,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 12504,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 56,
+          "practices": null,
+          "evidence": "tasks-gguf-oc232-nodocker-20261121T022048.json"
+        }
+      ]
+    },
+    {
+      "kind": "bonsai",
+      "model": "Bonsai 2 27B PTQ1_0",
+      "complete": false,
+      "memory_gate": null,
+      "gate_waived": false,
+      "n": 1,
+      "of": 12,
+      "passes": null,
+      "passes_f7": null,
+      "passes_f8": null,
+      "passes_long": null,
+      "timeouts": [
+        "F7-A@12/40"
+      ],
+      "timeouts_before_budget": 1,
+      "total_s": null,
+      "peak_input": 8350,
+      "compactions": {
+        "completed": 0,
+        "failed": 0
+      },
+      "decode_tps": 4.722129101671083,
+      "peak_footprint": "2.41 GiB",
+      "peak_rss": "7.63 GiB peak RSS",
+      "swap": "1.48\u20131.49 GiB system swap",
+      "tasks": [
+        {
+          "task": "F7-A",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.147319249998,
+          "steps": 12,
+          "headroom": -8.184402777655642e-05,
+          "cap_hits": 0,
+          "end": "timeout",
+          "peak_input": 8350,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 15,
+          "practices": null,
+          "evidence": "tasks-bonsai-oc232-nodocker-20261121T065810.json"
+        }
+      ]
+    },
+    {
+      "kind": "bonsai9",
+      "model": "Ternary-Bonsai-2-9B PTQ1_0",
+      "complete": true,
+      "memory_gate": null,
+      "gate_waived": false,
+      "n": 12,
+      "of": 12,
+      "passes": 4,
+      "passes_f7": 3,
+      "passes_f8": 1,
+      "passes_long": 0,
+      "timeouts": [
+        "F8-B@31/40",
+        "F8-D@12/40",
+        "F8-E@23/40",
+        "F8-F@26/40"
+      ],
+      "timeouts_before_budget": 4,
+      "total_s": 13725.100607457964,
+      "peak_input": 13433,
+      "compactions": {
+        "completed": 15,
+        "failed": 0
+      },
+      "decode_tps": 18.425456262174222,
+      "peak_footprint": "1.87 GiB",
+      "peak_rss": "3.70 GiB peak RSS",
+      "swap": "1.37\u20131.48 GiB system swap",
+      "tasks": [
+        {
+          "task": "F7-A",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 1549.3221797080041,
+          "steps": 46,
+          "headroom": 0.1392654557177755,
+          "cap_hits": 0,
+          "end": "step_cap",
+          "peak_input": 12137,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 47,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F7-B",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 120.1750522920047,
+          "steps": 8,
+          "headroom": 0.9332360820599974,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 4449,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 7,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 16,
+            "lines_removed": 5,
+            "lint_introduced": 1,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F7-C",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 208.13801487498858,
+          "steps": 18,
+          "headroom": 0.8843677695138952,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 6299,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 17,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 9,
+            "lines_removed": 7,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F7-D",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 209.73699108300207,
+          "steps": 14,
+          "headroom": 0.8834794493983322,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 6201,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 17,
+          "practices": {
+            "files_changed": 2,
+            "files_added": [],
+            "lines_added": 3,
+            "lines_removed": 3,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-A",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 1620.896173541987,
+          "steps": 40,
+          "headroom": 0.09950212581000717,
+          "cap_hits": 0,
+          "end": "step_cap",
+          "peak_input": 12196,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 39,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-B",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.0831885829975,
+          "steps": 31,
+          "headroom": -4.6215879442979e-05,
+          "cap_hits": 0,
+          "end": "timeout",
+          "peak_input": 12299,
+          "compactions": {
+            "completed": 3,
+            "failed": 0
+          },
+          "tools": 33,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-C",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 1298.9888465419936,
+          "steps": 40,
+          "headroom": 0.2783395296988924,
+          "cap_hits": 0,
+          "end": "step_cap",
+          "peak_input": 12133,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 40,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-D",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.0874650830083,
+          "steps": 12,
+          "headroom": -4.8591712782375396e-05,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 13433,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 13,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-E",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.1497899999958,
+          "steps": 23,
+          "headroom": -8.321666666444294e-05,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 11958,
+          "compactions": {
+            "completed": 1,
+            "failed": 0
+          },
+          "tools": 27,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-F",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.1371904579864,
+          "steps": 26,
+          "headroom": -7.62169211034891e-05,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 12133,
+          "compactions": {
+            "completed": 2,
+            "failed": 0
+          },
+          "tools": 28,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-G",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 569.7703457500029,
+          "steps": 18,
+          "headroom": 0.6834609190277762,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 9946,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 18,
+          "practices": {
+            "files_changed": 2,
+            "files_added": [],
+            "lines_added": 33,
+            "lines_removed": 1,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": 1,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        },
+        {
+          "task": "F8-H",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 947.6153695419925,
+          "steps": 40,
+          "headroom": 0.4735470169211152,
+          "cap_hits": 0,
+          "end": "step_cap",
+          "peak_input": 12293,
+          "compactions": {
+            "completed": 1,
+            "failed": 0
+          },
+          "tools": 46,
+          "practices": null,
+          "evidence": "tasks-bonsai9-oc232-nodocker-20261121T073630.json"
+        }
+      ]
+    },
+    {
+      "kind": "gptoss",
+      "model": "GPT-OSS 20B MLX MXFP4-Q8",
+      "complete": true,
+      "memory_gate": "swap grew >2 GiB over arm start",
+      "gate_waived": false,
+      "n": 12,
+      "of": 12,
+      "passes": 4,
+      "passes_f7": 4,
+      "passes_f8": 0,
+      "passes_long": 0,
+      "timeouts": [
+        "F8-C@17/40",
+        "F8-D@15/40",
+        "F8-E@8/40"
+      ],
+      "timeouts_before_budget": 3,
+      "total_s": 9284.907856252044,
+      "peak_input": 9492,
+      "compactions": {
+        "completed": 1,
+        "failed": 0
+      },
+      "decode_tps": null,
+      "peak_footprint": "12.00 GiB",
+      "peak_rss": "4.89 GiB peak RSS",
+      "swap": "1.63\u20137.27 GiB system swap",
+      "tasks": [
+        {
+          "task": "F7-A",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 337.9487365420064,
+          "steps": 10,
+          "headroom": 0.8122507019211076,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 4296,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 9,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 9,
+            "lines_removed": 1,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": 0,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F7-B",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 203.64032283400593,
+          "steps": 7,
+          "headroom": 0.8868664873144412,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 2676,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 6,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 24,
+            "lines_removed": 2,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F7-C",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 190.1647195419937,
+          "steps": 7,
+          "headroom": 0.8943529335877813,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 2663,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 6,
+          "practices": {
+            "files_changed": 1,
+            "files_added": [],
+            "lines_added": 8,
+            "lines_removed": 7,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F7-D",
+          "status": "pass",
+          "cause": "-",
+          "wall_s": 451.4074245419906,
+          "steps": 12,
+          "headroom": 0.7492180974766719,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 4488,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 11,
+          "practices": {
+            "files_changed": 2,
+            "files_added": [],
+            "lines_added": 3,
+            "lines_removed": 3,
+            "lint_introduced": 0,
+            "dotnet_format_introduced": null,
+            "tests_unchanged": true
+          },
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-A",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 303.61005183300585,
+          "steps": 11,
+          "headroom": 0.8313277489816634,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 4065,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 10,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-B",
+          "status": "fail",
+          "cause": "dropped_tool_call",
+          "wall_s": 618.912624250006,
+          "steps": 9,
+          "headroom": 0.6561596531944411,
+          "cap_hits": 0,
+          "end": "dropped_tool_call",
+          "peak_input": 9492,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 8,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-C",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1800.4305811249942,
+          "steps": 17,
+          "headroom": -0.00023921173610785829,
+          "cap_hits": 0,
+          "end": "timeout",
+          "peak_input": 5965,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 17,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-D",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1801.1187258339778,
+          "steps": 15,
+          "headroom": -0.0006215143522099176,
+          "cap_hits": 1,
+          "end": "timeout",
+          "peak_input": 9239,
+          "compactions": {
+            "completed": 1,
+            "failed": 0
+          },
+          "tools": 14,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-E",
+          "status": "fail",
+          "cause": "timeout",
+          "wall_s": 1802.453791750013,
+          "steps": 8,
+          "headroom": -0.0013632176388960193,
+          "cap_hits": 2,
+          "end": "timeout",
+          "peak_input": 7149,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 6,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-F",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 226.40681362501346,
+          "steps": 7,
+          "headroom": 0.8742184368749926,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 3191,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 6,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-G",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 1457.970351667027,
+          "steps": 17,
+          "headroom": 0.1900164712960961,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": 8329,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 17,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        },
+        {
+          "task": "F8-H",
+          "status": "fail",
+          "cause": "incorrect",
+          "wall_s": 90.84371270801057,
+          "steps": 0,
+          "headroom": 0.9495312707177719,
+          "cap_hits": 0,
+          "end": "done",
+          "peak_input": null,
+          "compactions": {
+            "completed": 0,
+            "failed": 0
+          },
+          "tools": 0,
+          "practices": null,
+          "evidence": "tasks-gptoss-oc232-nodocker-20261121T113634.json"
+        }
+      ]
+    }
+  ],
+  "repeat_r2": {
+    "bonsai9": null,
+    "gguf": null
+  }
+}

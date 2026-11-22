@@ -1,0 +1,98 @@
+{
+  "protocol": "D061 fixture validation",
+  "started": "2026-11-20T18:32:01.787150",
+  "rows": [
+    {
+      "task": "F8-A",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.1,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "1.00'), bundle=None) = Item('C-3', 50, Decimal('1.00'))\nE        +        where Decimal('1.00') = D('1.00')\nE        +  and   Decimal('123.10') = D('123.10')\n\ntests/test_checkout.py:32: AssertionError\n_______________________ test_extra_rules_extend_defaults _______________________\n\n    def test_extra_rules_extend_defaults():\n        rules = load({\"extra_rules\": [\"loyalty\"]})[\"rules\"]\n>       assert rules[:4] == [\"bulk\", \"bundle\", \"region_fee\", \"rounding\"] and \"loyalty\" in rules\nE       AssertionError: assert (['loyalty'] == ['bulk', 'bun...', 'rounding']\nE         \nE         At index 0 diff: 'loyalty' != 'bulk'\nE         Right contains 3 more items, first extra item: 'bundle'\nE         Use -v to get more diff)\n\ntests/test_checkout.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_checkout.py::test_percentages_apply_before_fixed_fees_and_rounding\nFAILED tests/test_checkout.py::test_one_product_is_not_a_bundle - AssertionEr...\nFAILED tests/test_checkout.py::test_gold_customer_keeps_default_rules - Asser...\nFAILED tests/test_checkout.py::test_extra_rules_extend_defaults - AssertionEr...\n4 failed, 5 passed in 0.03s\n",
+      "reference_tail": ".........                                                                [100%]\n9 passed in 0.02s\n"
+    },
+    {
+      "task": "F8-B",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.2,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "\nFAILED tests/test_freight.py::test_rate[shipment6-expected6] - NotImplemented...\nFAILED tests/test_freight.py::test_rate[shipment7-expected7] - NotImplemented...\nFAILED tests/test_freight.py::test_rate[shipment8-expected8] - NotImplemented...\nFAILED tests/test_freight.py::test_rate[shipment9-expected9] - NotImplemented...\nFAILED tests/test_freight.py::test_rate[shipment10-expected10] - NotImplement...\nFAILED tests/test_freight.py::test_rate[shipment11-expected11] - NotImplement...\nFAILED tests/test_freight.py::test_rate[shipment12-expected12] - NotImplement...\nFAILED tests/test_freight.py::test_rate[shipment13-expected13] - NotImplement...\nFAILED tests/test_freight.py::test_invalid[shipment0] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment1] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment2] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment3] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment4] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment5] - NotImplementedError\nFAILED tests/test_freight.py::test_invalid[shipment6] - NotImplementedError\n21 failed in 0.04s\n",
+      "reference_tail": ".....................                                                    [100%]\n21 passed in 0.01s\n"
+    },
+    {
+      "task": "F8-C",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.1,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": ")\n\n    def test_continuation_lines(tmp_path):\n        sample = tmp_path / \"s.log\"\n        sample.write_text(\n            \"2026-03-01T10:00:00+02:00 ERROR orders db deadlock code=E2001\\n\"\n            \"Traceback (most recent call last):\\n\"\n            '  File \"/srv/orders/db.py\", line 9, in commit\\n'\n            \"    raise RuntimeError(\\\"ERROR req path=/x dur=5ms user=u999\\\")\\n\"\n            \"2026-03-01T08:00:01+00:00 INFO orders req method=GET path=/api/orders status=200 dur=12.5ms user=u001\\n\"\n        )\n        result = summarize(str(sample))\n>       assert result[\"records\"] == 2\nE       assert 5 == 2\n\ntests/test_logstats.py:47: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_logstats.py::test_records - assert 818 == 620\nFAILED tests/test_logstats.py::test_levels - AssertionError: assert {'INFO': ...\nFAILED tests/test_logstats.py::test_p95 - AssertionError: assert {'/api/items...\nFAILED tests/test_logstats.py::test_users - assert 169 == 136\nFAILED tests/test_logstats.py::test_since_compares_instants - assert (269 == ...\nFAILED tests/test_logstats.py::test_continuation_lines - assert 5 == 2\n6 failed, 1 passed in 0.03s\n",
+      "reference_tail": ".......                                                                  [100%]\n7 passed in 0.01s\n"
+    },
+    {
+      "task": "F8-D",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.1,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "4)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)\n\ntest at tests/tasks.test.ts:48:1\n\u2716 http handler (0.069708ms)\n  Error: not implemented\n      at listTasks (file:///Volumes/Disco%202/Models/ornith/benchmarks/work/validate-F8-D-6e047033/src/service.ts:6:9)\n      at handle (file:///Volumes/Disco%202/Models/ornith/benchmarks/work/validate-F8-D-6e047033/src/http.ts:16:33)\n      at TestContext.<anonymous> (file:///Volumes/Disco%202/Models/ornith/benchmarks/work/validate-F8-D-6e047033/tests/tasks.test.ts:49:14)\n      at Test.runInAsyncScope (node:async_hooks:226:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)\n",
+      "reference_tail": "\u2714 default listing (0.6845ms)\n\u2714 status list with due date ascending (0.091834ms)\n\u2714 unassigned by title (0.068541ms)\n\u2714 tag and trimmed case-insensitive search (0.049292ms)\n\u2714 second page by title descending (0.066583ms)\n\u2714 due date descending keeps missing dates last (0.059209ms)\n\u2714 assignee with priority ascending (0.051458ms)\n\u2714 page past the end (0.047625ms)\n\u2714 rejects {\"status\":\"blocked\"} (0.159875ms)\n\u2714 rejects {\"status\":\"todo,\"} (0.067375ms)\n\u2714 rejects {\"sort\":\"owner:asc\"} (0.045292ms)\n\u2714 rejects {\"sort\":\"priority:up\"} (0.032458ms)\n\u2714 rejects {\"sort\":\"priority\"} (0.028625ms)\n\u2714 rejects {\"page\":\"0\"} (0.030334ms)\n\u2714 rejects {\"page\":\"1.5\"} (0.027916ms)\n\u2714 rejects {\"pageSize\":\"101\"} (0.02775ms)\n\u2714 rejects {\"pageSize\":\"\"} (0.03275ms)\n\u2714 rejects {\"pageSize\":\"-3\"} (0.036083ms)\n\u2714 items are the stored task objects (0.072167ms)\n\u2714 http handler (0.134625ms)\n\u2139 tests 20\n\u2139 suites 0\n\u2139 pass 20\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 58.808\n"
+    },
+    {
+      "task": "F8-E",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.8,
+      "reference_wall_s": 0.8,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "tBeRenewed$5(LoanServiceTest.java:124)\n       org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)\n       [...]\n  JUnit Jupiter:LoanServiceTest:saturdayDueDateMovesToMonday()\n    MethodSource [className = 'lab.loans.LoanServiceTest', methodName = 'saturdayDueDateMovesToMonday', methodParameterTypes = '']\n    => org.opentest4j.AssertionFailedError: expected: <2026-03-23> but was: <2026-03-22>\n       org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)\n       org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)\n       org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)\n       org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)\n       org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)\n       org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)\n       lab.loans.LoanServiceTest.saturdayDueDateMovesToMonday(LoanServiceTest.java:38)\n       java.base/java.lang.reflect.Method.invoke(Method.java:580)\n       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n",
+      "reference_tail": "\nTest run finished after 37 ms\n[         2 containers found      ]\n[         0 containers skipped    ]\n[         2 containers started    ]\n[         0 containers aborted    ]\n[         2 containers successful ]\n[         0 containers failed     ]\n[        14 tests found           ]\n[         0 tests skipped         ]\n[        14 tests started         ]\n[         0 tests aborted         ]\n[        14 tests successful      ]\n[         0 tests failed          ]\n\n"
+    },
+    {
+      "task": "F8-F",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.1,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": " diff\n\ntests/test_reports.py:48: AssertionError\n=================================== FAILURES ===================================\n________________ test_fresh_database_gets_every_migration_once _________________\n\n    def test_fresh_database_gets_every_migration_once():\n        conn = sqlite3.connect(\":memory:\")\n>       assert migrate.apply_all(conn) == [\"001\", \"002\", \"003\", \"004\"]\nE       AssertionError: assert ['001', '002', '003'] == ['001', '002', '003', '004']\nE         \nE         Right contains one more item: '004'\nE         Use -v to get more diff\n\ntests/test_reports.py:59: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_reports.py::test_fresh_database_gets_every_migration_once\nERROR tests/test_reports.py::test_status_is_backfilled - AssertionError: asse...\nERROR tests/test_reports.py::test_new_orders_default_to_paid - AssertionError...\nERROR tests/test_reports.py::test_status_values_are_enforced - AssertionError...\nERROR tests/test_reports.py::test_monthly_revenue_lists_every_month - Asserti...\nERROR tests/test_reports.py::test_top_customers - AssertionError: assert [] =...\n1 failed, 1 passed, 5 errors in 0.03s\n",
+      "reference_tail": ".......                                                                  [100%]\n7 passed in 0.01s\n",
+      "negatives": {
+        "F8-F.neg-edit-released": 1
+      }
+    },
+    {
+      "task": "F8-G",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 2.8,
+      "reference_wall_s": 2.6,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "d update\".\n[xUnit.net 00:00:00.32]     ProductUpdateTests.MissingVersionIsBadRequest [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"\", price: 1, stock: 1) [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"Lamp\", price: 1, stock: -1) [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"Lamp\", price: 1, stock: 10001) [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"Lamp\", price: -0,01, stock: 1) [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"TOO-LONG\", price: 1, stock: 1) [FAIL]\n[xUnit.net 00:00:00.32]     ProductUpdateTests.InvalidUpdateIsRejectedAndChangesNothing(name: \"   \", price: 1, stock: 1) [FAIL]\n[xUnit.net 00:00:00.33]     ProductUpdateTests.MissingProductIsNotFound [FAIL]\n[xUnit.net 00:00:00.34]     ProductUpdateTests.UpdateReplacesFieldsAndBumpsVersion [FAIL]\n[xUnit.net 00:00:00.34]     ProductUpdateTests.BoundaryValuesAreAccepted [FAIL]\n[xUnit.net 00:00:00.34]     ProductUpdateTests.StaleVersionIsConflict [FAIL]\n",
+      "reference_tail": "  App -> /Volumes/Disco 2/Models/ornith/benchmarks/work/validate-F8-G-6c873a19/src/bin/Debug/net10.0/App.dll\n  Acceptance -> /Volumes/Disco 2/Models/ornith/benchmarks/work/validate-F8-G-6c873a19/tests/bin/Debug/net10.0/Acceptance.dll\nSerie de pruebas para /Volumes/Disco 2/Models/ornith/benchmarks/work/validate-F8-G-6c873a19/tests/bin/Debug/net10.0/Acceptance.dll (.NETCoreApp,Version=v10.0)\n1 archivos de prueba en total coincidieron con el patr\u00f3n especificado.\n\nCorrectas! - Con error:     0, Superado:    12, Omitido:     0, Total:    12, Duraci\u00f3n: 193 ms - Acceptance.dll (net10.0)\nVSTEST_ARTIFACTS_DIRECTORY environment variable was not found, falling back to a user-private temporary directory. This is most likely caused by an outdated Microsoft.NET.Test.Sdk package reference in the test project.\nSe encontr\u00f3 un problema al comprobar las cargas de trabajo. Para obtener m\u00e1s informaci\u00f3n, ejecute \"dotnet workload update\".\n"
+    },
+    {
+      "task": "F8-H",
+      "baseline_rc": 1,
+      "reference_rc": 0,
+      "baseline_wall_s": 0.1,
+      "reference_wall_s": 0.1,
+      "tests_unchanged": true,
+      "ok": true,
+      "baseline_tail": "        tree = ast.parse(path.read_text())\n            for node in ast.walk(tree):\n                name = getattr(node, \"id\", None) or getattr(node, \"attr\", None) or getattr(node, \"name\", None)\n                if name == \"to_cents_legacy\" or (isinstance(node, ast.alias) and node.name == \"to_cents_legacy\"):\n                    hits.append(f\"{path.name}:{getattr(node, 'lineno', '?')}\")\n>       assert hits == []\nE       AssertionError: assert ['refunds.py:...es.py:6', ...] == []\nE         \nE         Left contains 17 more items, first extra item: 'refunds.py:1'\nE         Use -v to get more diff\n\ntests/test_money.py:60: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_money.py::test_invoices - assert 84 == 87\nFAILED tests/test_money.py::test_refunds_and_discounts - assert 267 == 268\nFAILED tests/test_money.py::test_subscriptions - AssertionError: assert 5994 ...\nFAILED tests/test_money.py::test_taxes - AssertionError: assert 419 == 420\nFAILED tests/test_money.py::test_exports_and_gateways - AssertionError: asser...\nFAILED tests/test_money.py::test_legacy_helper_is_gone - AssertionError: asse...\n6 failed, 1 passed in 0.03s\n",
+      "reference_tail": ".......                                                                  [100%]\n7 passed in 0.01s\n"
+    }
+  ],
+  "all_ok": true
+}

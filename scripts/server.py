@@ -17,10 +17,12 @@ LOCK = ROOT/'logs/inference.lock'
 # D054: models and the Bonsai runtime live outside iCloud so they are always on disk (same bytes as measured).
 LOCAL = pathlib.Path.home()/'Developer/LocalLLMs'
 BONSAI_BIN = LOCAL/'bin/bonsai-llama.cpp-mac/llama-server'
-PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088, 'gemma':8089, 'sera8':8090}
+PORTS = {'mlx':8082, 'gguf':8083, 'bonsai':8085, 'qwen':8086, 'bonsai9':8087, 'granite':8088, 'gemma':8089, 'sera8':8090, 'gptoss':8091}
 # MLX candidates share the runtime and adapter; only the pinned weights differ.
 MLX_MODELS = {'mlx':'ornith-mlx', 'qwen':'qwen3.5-9b-mlx', 'granite':'granite-4.1-8b-mlx', 'gemma':'gemma-4-12b-mlx'}
 # D036: publisher-recommended sampling (pinned generation_config.json), used only in the vendor arm.
+# GPT-OSS runs from its own repo/venv (MLX-LM 0.32.2, Harmony adapter, reasoning_effort=medium).
+GPTOSS = pathlib.Path.home()/'Developer/gpt-oss-20b-MXFP4-Q8'
 VENDOR_SAMPLING = {'gemma':{'temperature':1.0,'top_p':0.95,'top_k':64}}
 
 # D051: LAB_PROFILE selects an alternative pre-registered profile (e.g. the D033 cap8k arm) for every reader.
@@ -29,14 +31,14 @@ def load_profile():return json.loads((ROOT/os.environ.get('LAB_PROFILE','runtime
 def active():
     # 8080 belongs to an unrelated existing service, outside this laboratory.
     # Do not send experimental traffic there or stop its owner.
-    for port in [8082,8083,8084,8085,8086,8087,8088,8089,8090,11434,1234]:
+    for port in [8082,8083,8084,8085,8086,8087,8088,8089,8090,8091,11434,1234]:
         with socket.socket() as s:
             s.settimeout(.2)
             if s.connect_ex(('127.0.0.1',port)) == 0:
                 raise RuntimeError(f'Port {port} active; stop the other server explicitly first.')
     p = subprocess.check_output(['ps','-axo','pid,args'],text=True)
     for line in p.splitlines():
-        if any(x in line.lower() for x in ['llama-server','mlx_lm.server','mlx_lm server','scripts/mlx_server.py','ollama serve']):
+        if any(x in line.lower() for x in ['llama-server','mlx_lm.server','mlx_lm server','scripts/mlx_server.py','mlx_api.py','gptoss_api.py','ollama serve']):
             raise RuntimeError(f'Existing inference process: {line.strip()}')
 
 def start(kind):
@@ -48,7 +50,12 @@ def start(kind):
     env=os.environ.copy();env['HF_HUB_OFFLINE']='1';env['HF_HUB_DISABLE_TELEMETRY']='1'
     port=PORTS[kind]
     profile=load_profile()
-    if kind in MLX_MODELS:
+    if kind=='gptoss':
+        model=(GPTOSS/'model').resolve()
+        if not (model/'model-00003-of-00003.safetensors').exists():LOCK.unlink();raise RuntimeError('GPT-OSS weights missing (mount Disco 2).')
+        # Same flags as the gpt-oss repo's serve.sh, through the lab adapter (D061: unknown tool names reach OpenCode); mlx_api.py injects max-tokens 4096, temp .6, top_p .95.
+        cmd=[str(GPTOSS/'.venv/bin/python'),str(ROOT/'scripts/gptoss_api.py'),'--model',str(model),'--host','127.0.0.1','--port',str(port),'--prefill-step-size','128','--decode-concurrency','1','--prompt-concurrency','1','--prompt-cache-size','1','--prompt-cache-bytes','128M']
+    elif kind in MLX_MODELS:
         model=ROOT/'models'/MLX_MODELS[kind]
         if not model.exists():LOCK.unlink();raise RuntimeError('Run download_model.py first.')
         env['LAB_MODEL']=str(model)
@@ -90,6 +97,17 @@ def start(kind):
         elif LOCK.exists():LOCK.unlink()
         raise
 
+def exited(pid,port,tries):
+    for _ in range(tries):
+        try:os.waitpid(pid,os.WNOHANG)
+        except ChildProcessError:pass
+        state=subprocess.run(['ps','-p',str(pid),'-o','stat='],capture_output=True,text=True).stdout.strip()
+        with socket.socket() as c:
+            # D044: an exited server stays a zombie (Z) until its parent, maybe another process, reaps it.
+            if c.connect_ex(('127.0.0.1',port))!=0 and (not state or state.startswith('Z')):return True
+        time.sleep(.5)
+    return False
+
 def stop():
     if not STATE.exists():
         if LOCK.exists():raise RuntimeError('Orphan lock: inspect processes before removing it.')
@@ -100,15 +118,11 @@ def stop():
     if command.strip() and not all(part in command for part in identity):raise RuntimeError('PID reused; refusing to signal unrelated process.')
     if command.strip():
         os.killpg(pid,signal.SIGTERM)
-        for _ in range(60):
-            try:os.waitpid(pid,os.WNOHANG)
-            except ChildProcessError:pass
-            state=subprocess.run(['ps','-p',str(pid),'-o','stat='],capture_output=True,text=True).stdout.strip()
-            with socket.socket() as c:
-                # D044: an exited server stays a zombie (Z) until its parent, maybe another process, reaps it.
-                if c.connect_ex(('127.0.0.1',s['port']))!=0 and (not state or state.startswith('Z')):break
-            time.sleep(.5)
-        else:raise RuntimeError('Server process or port still active; manual inspection required.')
+        # D061 (m): after a timeout Bonsai 27B needed >30 s to finish its batch and exit; allow 120 s, then SIGKILL our own group.
+        if not exited(pid,s['port'],240):
+            try:os.killpg(pid,signal.SIGKILL)
+            except ProcessLookupError:pass
+            if not exited(pid,s['port'],20):raise RuntimeError('Server process or port still active; manual inspection required.')
     STATE.unlink();LOCK.unlink(missing_ok=True);print('Owned server stopped.')
 
 if __name__=='__main__':
