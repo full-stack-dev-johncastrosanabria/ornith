@@ -1,15 +1,26 @@
 """D054 daily-use router: one local OpenAI-compatible endpoint for OpenCode. It loads the requested model on
 demand with the measured lab profile (server.start/stop, one model at a time) and unloads it after IDLE_S idle."""
-import http.client,json,os,signal,subprocess,threading,time
+import datetime,http.client,json,os,signal,subprocess,threading,time
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 import memory
 from server import PORTS,ROOT,STATE,start,stop
 
 ROUTER_PORT=8099
 # D061 (o): Bonsai-2-9B added for daily use at the user's request after the oc232 cohort.
-MODELS={'ornith-1.5-9b-q4km':'gguf','bonsai-2-27b-ptq10':'bonsai','bonsai-2-9b-ptq10':'bonsai9'}
+# D065: GPT-OSS 20B added for chat after D064 (it wires ~12.6 GiB of 16; memory gate waived by the user).
+MODELS={'ornith-1.5-9b-q4km':'gguf','bonsai-2-27b-ptq10':'bonsai','bonsai-2-9b-ptq10':'bonsai9','gpt-oss-20b-mxfp4-q8':'gptoss'}
 IDLE_S=900
 assert all(k in PORTS for k in MODELS.values())
+# D066: Ollama-API details for Enchanted (OllamaKit requires format, family, parameter_size, quantization_level).
+OLLAMA={'ornith-1.5-9b-q4km':('gguf','ornith','9B','Q4_K_M'),'bonsai-2-27b-ptq10':('gguf','bonsai','27B','PTQ1_0'),
+        'bonsai-2-9b-ptq10':('gguf','bonsai','9B','PTQ1_0'),'gpt-oss-20b-mxfp4-q8':('mlx','gptoss','20B','MXFP4-Q8')}
+assert set(OLLAMA)==set(MODELS)
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')
+# shortcut: drops the oldest turns past ~40K characters (~10K tokens) so GPT-OSS stays under its measured OOM point
+# (20K input at 24K); upgrade to a token count if long chats lose context they need.
+def trim(msgs):
+    while sum(len(m['content']) for m in msgs)>40000 and len(msgs)>2:del msgs[1 if msgs[0]['role']=='system' else 0]
+    return msgs
 # inflight counts proxied requests per kind, so requests waiting for the *new* model never block a swap.
 switch=threading.Lock();last=[time.time()];inflight={};mine=[None]
 # Ownership survives a router restart (crash, KeepAlive, code update) so a model it loaded is never orphaned.
@@ -40,11 +51,53 @@ def idle():
 class Handler(BaseHTTPRequestHandler):
     def reply(self,code,data):
         self.send_response(code);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
+    def do_HEAD(self):
+        self.send_response(200 if self.path=='/' else 404);self.send_header('Content-Length','0');self.end_headers()
     def do_GET(self):
-        if self.path.rstrip('/').endswith('/models'):self.reply(200,json.dumps({'object':'list','data':[{'id':m,'object':'model'} for m in MODELS]}).encode())
+        p=self.path.rstrip('/')
+        if p=='':self.reply(200,b'Ollama is running')
+        elif p=='/api/version':self.reply(200,b'{"version":"0.5.0"}')
+        elif p=='/api/tags':self.reply(200,json.dumps({'models':[{'name':m,'model':m,'modified_at':'2026-11-22T00:00:00.000Z','size':0,'digest':m,
+            'details':dict(zip(('format','family','parameter_size','quantization_level'),OLLAMA[m]),families=[OLLAMA[m][1]])} for m in MODELS]}).encode())
+        elif p.endswith('/models'):self.reply(200,json.dumps({'object':'list','data':[{'id':m,'object':'model'} for m in MODELS]}).encode())
         else:self.reply(404,b'{}')
+    def ollama(self,req):
+        # D066: Ollama /api/chat and /api/generate for Enchanted, translated to the OpenAI stream; sampling stays the
+        # measured profile (temp .6, top_p .95, 4096 output) whatever the app sends.
+        chat=self.path=='/api/chat';name=req.get('model')
+        if name not in MODELS:return self.reply(404,json.dumps({'error':f"model '{name}' not found"}).encode())
+        msgs=req.get('messages') if chat else [*([{'role':'system','content':req['system']}] if req.get('system') else []),{'role':'user','content':req.get('prompt','')}]
+        body={'messages':trim([{'role':m['role'],'content':m.get('content') or ''} for m in msgs]),'stream':True,'temperature':.6,'top_p':.95,'max_tokens':4096}
+        kind=MODELS[name];counted=sent=False
+        def emit(text,done=False):
+            d={'model':name,'created_at':now(),'done':done,**({'message':{'role':'assistant','content':text}} if chat else {'response':text}),**({'done_reason':'stop'} if done else {})}
+            self.wfile.write(json.dumps(d).encode()+b'\n');self.wfile.flush()
+        try:
+            s=ensure(kind);counted=True
+            c=http.client.HTTPConnection('127.0.0.1',s['port'],timeout=1800)
+            c.request('POST','/v1/chat/completions',json.dumps({**body,'model':s['model_id']}),{'Content-Type':'application/json'})
+            r=c.getresponse()
+            if r.status!=200:raise RuntimeError(f'model server returned {r.status}: {r.read()[:300].decode(errors="replace")}')
+            self.send_response(200);self.send_header('Content-Type','application/x-ndjson');self.send_header('Connection','close');self.end_headers();sent=True
+            for line in r:
+                if line.startswith(b'data: ') and line.strip()!=b'data: [DONE]':
+                    for ch in json.loads(line[6:]).get('choices',[]):
+                        if t:=(ch.get('delta') or {}).get('content'):emit(t)
+            emit('',True)
+        except (Exception,SystemExit) as e:
+            msg=f'Less than {memory.RESERVE//1024**3} GiB free on disk; free space and retry.' if isinstance(e,SystemExit) else str(e)
+            if not sent:self.reply(503,json.dumps({'error':msg}).encode())
+        finally:
+            if counted:inflight[kind]-=1
+            last[0]=time.time()
     def do_POST(self):
         req=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))) or b'{}')
+        if self.path in ('/api/chat','/api/generate'):return self.ollama(req)
+        if self.path=='/api/show':
+            m=req.get('model') or req.get('name')
+            if m not in MODELS:return self.reply(404,json.dumps({'error':f"model '{m}' not found"}).encode())
+            return self.reply(200,json.dumps({'license':'','template':'','modelfile':'','parameters':'temperature 0.6\ntop_p 0.95',
+                'details':dict(zip(('format','family','parameter_size','quantization_level'),OLLAMA[m]))}).encode())
         if req.get('model') not in MODELS:return self.reply(400,json.dumps({'error':f'unknown model; use one of {list(MODELS)}'}).encode())
         kind=MODELS[req['model']];counted=sent=False
         try:

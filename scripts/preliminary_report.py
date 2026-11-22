@@ -36,23 +36,24 @@ story=[P('Laboratorio Ornith: resultados preliminares',title),
  T([['Estado','Preliminar. Cada tarea se ejecutó entre 1 y 3 veces; las tareas las escribió el propio laboratorio y no están calibradas por personas. '
      'Las diferencias de 1 o 2 tareas no son concluyentes.']],[32,142],first_bold=True),
  P('1. Resumen',h1),
- P('<b>Recomendación actual:</b> usar <b>Ornith 1.5 9B GGUF Q4_K_M</b> en OpenCode (agente <i>ornith-code</i>, router local con 24K de contexto) '
-   'para cambios pequeños y bien acotados. En este Mac, ningún modelo local sirve como asistente general de uso diario: fallan en tareas largas y en chat no llegan a la barra fijada de antemano.'),
+ P('<b>Recomendación actual.</b> <b>Para programar:</b> <b>Ornith 1.5 9B GGUF Q4_K_M</b> en OpenCode (agente <i>ornith-code</i>, router local con 24K de contexto), '
+   'solo para cambios pequeños y bien acotados. <b>Para chat:</b> <b>GPT-OSS 20B</b> con el comando <i>ornith-chat</i> o la app Enchanted. Es el único modelo que pasa la barra de chat (23/24, mediana 78 s), '
+   'pero ocupa unos 12,6 GB de 16 y solo pasa porque el usuario decidió ignorar el límite de memoria en esa prueba. Ningún modelo local resuelve las tareas largas.'),
  *B(['<b>Tareas cortas (F7, 4 tareas):</b> los mejores modelos resuelven 4/4. Ornith GGUF y Bonsai 2 27B llegaron a 8/8 en dos pasadas (cohorte oc226); en el cohorte oc232, Ornith GGUF y GPT-OSS 20B hicieron 4/4.',
      '<b>Tareas largas o de varios pasos (F8, 8 tareas):</b> casi nada pasa. Ornith GGUF 0/8, Bonsai 2 9B 1/8, GPT-OSS 0/8; la mayoría por tiempo agotado (1800 s).',
-     '<b>Chat sin herramientas (8 preguntas × 3):</b> Ornith 15/24 (63 %), Bonsai 2 9B 8/24 (33 %). La barra era 75 % y una mediana de 180 s o menos.',
-     '<b>Memoria:</b> con 16 GB, Ornith GGUF y GPT-OSS superaron el límite de memoria en sesiones largas (swap +2 GiB). GPT-OSS (12 GiB fijos) queda fuera; a Ornith se le aplicó una exención posterior, señalada en los datos.',
+     '<b>Chat sin herramientas (8 preguntas × 3):</b> GPT-OSS 20B 23/24 (96 %, mediana 78 s), Ornith 15/24 (63 %), Bonsai 2 27B 15/24 (63 %, 213 s), Bonsai 2 9B 8/24 (33 %). La barra era 75 % y una mediana de 180 s o menos.',
+     '<b>Memoria:</b> con 16 GB, Ornith GGUF, GPT-OSS y Bonsai 2 27B superaron el límite de memoria en algún momento. En el cohorte oc232, GPT-OSS (12,6 GiB fijos) queda fuera y a Ornith se le aplicó una exención posterior. En la prueba de chat de Bonsai 27B y GPT-OSS (D064), el usuario decidió ignorar el límite. Todas estas excepciones están señaladas.',
      '<b>Velocidad:</b> Ornith genera unos 13 t/s con el Mac en reposo, igual a 16K que a 24K. Tras más de 10 horas de carga continua bajó a 4 t/s; lo más probable es el calor (el Air no tiene ventilador) y la presión de memoria, no el contexto.']),
  P('Resumen por modelo',h2),
  T([['Modelo','Tareas cortas F7','Tareas largas F8','Chat','Memoria','Valoración'],
     ['Ornith 1.5 9B GGUF Q4_K_M','8/8 (oc226) · 4/4 (oc232)','0/8','15/24','Límite superado en sesiones largas (exención en oc232)','Ganador en oc226. Útil para cambios pequeños.'],
     ['Ternary-Bonsai-2-9B','3/4 (oc226) · 3/4 (oc232)','1/8','8/24','Limpio','Primero, provisional, en oc232 por velocidad; poco fiable.'],
-    ['Bonsai 2 27B','8/8 (oc226) · 0/1 (oc232)','No medido (pausado)','No medido','Limpio','Correcto pero lento (4,5–4,9 t/s).'],
-    ['GPT-OSS 20B MXFP4','4/4 (oc232)','0/8','No medido','Límite superado (12 GiB fijos)','Fuera de la clasificación en este Mac.'],
+    ['Bonsai 2 27B','8/8 (oc226) · 0/1 (oc232)','No medido (pausado)','15/24','Límite superado en chat (ignorado)','Correcto en tareas cortas pero lento (2–5 t/s).'],
+    ['GPT-OSS 20B MXFP4','4/4 (oc232)','0/8','23/24','Límite superado (12,6 GiB fijos); ignorado en chat','El mejor en chat. Fuera de la clasificación de agente.'],
     ['Ornith 1.5 9B MLX 4-bit','2/4 (oc226) · 3/4 a 24K','—','—','—','Rápido, menos fiable.'],
     ['Qwen3.5 9B MLX 4-bit','2/4 (oc226)','—','—','—','Sin ventaja.'],
     ['Granite 4.1 8B, Gemma 4 12B, SERA-8B','N/E','—','—','—','No pasaron la prueba de integración con el agente.']],
-   [36,28,22,14,37,37],{(5,1):OK,(5,4):BAD,(5,7):NE}),
+   [36,28,22,14,37,37],{(5,1):OK,(5,4):OK,(3,4):OK,(5,7):NE}),
  P('2. Método',h1),
  *B(['Hardware: MacBook Air M3 (Mac15,12), 16 GB de memoria unificada, sin ventilador. Solo inferencia nativa (llama.cpp Metal o MLX); sin Docker, máquinas virtuales ni nube.',
      'Un solo modelo cargado a la vez, 300 s de enfriamiento entre modelos. Perfil fijo: 16K de contexto, 4096 tokens de salida, temperatura 0,6, top_p 0,95.',
@@ -71,8 +72,10 @@ story=[P('Laboratorio Ornith: resultados preliminares',title),
     ['20–21 nov','oc232-nodocker','12 tareas, 40 pasos, 1800 s, OpenCode 2.3.2','Provisional: Bonsai 9B y Ornith GGUF, 4/12 cada uno'],
     ['21 nov','Prueba a 24K','Bonsai 9B en F8-A y F8-C','0/2'],
     ['21 nov','Repeticiones .NET','F7-A y F8-G, 3 pasadas','Ornith gana F7-A (3/3); Bonsai 9B gana F8-G (2/3)'],
-    ['21–22 nov','Modo chat (D062)','8 preguntas × 3, sin herramientas','Ninguno llega a la barra'],
-    ['22 nov','16K frente a 24K (D063)','Velocidad de Ornith y prueba completa','Igual velocidad; OpenCode → router → Ornith funciona']],
+    ['21–22 nov','Modo chat (D062)','Ornith y Bonsai 9B, 8 preguntas × 3','Ninguno llega a la barra'],
+    ['22 nov','16K frente a 24K (D063)','Velocidad de Ornith y prueba completa','Igual velocidad; OpenCode → router → Ornith funciona'],
+    ['22 nov','Modo chat (D064)','Bonsai 27B y GPT-OSS, mismas preguntas','GPT-OSS 23/24 en 78 s: pasa la barra (memoria ignorada)'],
+    ['22 nov','Chat diario (D065–D066)','GPT-OSS en el router, terminal y Enchanted','ornith-chat y Enchanted funcionan; OpenCode no sirve para chat']],
    [17,37,52,68]),
 ]
 
@@ -141,34 +144,53 @@ story+=[P('5. Cohorte oc232-nodocker, 20–21 de noviembre',h1),
    [40,44,56,34],{(1,1):OK,(2,1):BAD,(1,2):BAD,(2,2):OK}),
  P('Las dos últimas pasadas de Ornith en F7-A tardaron cinco veces más que la primera, tras horas de carga continua.',small)]
 
-story+=[KeepTogether([P('6. Modo chat (D062), 21–22 de noviembre',h1),
+story+=[KeepTogether([P('6. Modo chat (D062 y D064), 21–22 de noviembre',h1),
  P('8 preguntas en español sin herramientas, 3 repeticiones, perfil de uso diario (24K/4096). Se califica el último bloque de código contra comprobaciones ocultas. '
-   'Una respuesta cortada por el límite de tokens cuenta como fallo. Barra fijada de antemano: aprobar al menos el 75 % y una mediana de 180 s o menos.'),
+   'Una respuesta cortada por el límite de tokens cuenta como fallo. Barra fijada de antemano: aprobar al menos el 75 % y una mediana de 180 s o menos. '
+   'D062 midió Ornith y Bonsai 9B; D064 midió Bonsai 27B y GPT-OSS con las mismas preguntas, comprobaciones y calificador.'),
  T([['Modelo','P1','P2','P3','C1','C2','C3','S1','E1','Total','Cortadas','Mediana','Decode t/s (cohorte)','Veredicto'],
+    ['GPT-OSS 20B','3/3','3/3','3/3','3/3','3/3','2/3','3/3','3/3','23/24','1','78 s','N/E','Usable (memoria ignorada)'],
     ['Ornith GGUF','0/3','3/3','3/3','1/3','2/3','0/3','3/3','3/3','15/24','6','503 s','4,2 (13,3)','N/E por memoria; no llega'],
+    ['Bonsai 2 27B','3/3','3/3','2/3','0/3','2/3','2/3','3/3','0/3','15/24','0','213 s','1,9 (4,7)','No usable (memoria ignorada)'],
     ['Bonsai 2 9B','0/3','2/3','2/3','0/3','0/3','0/3','3/3','1/3','8/24','7','386 s','7,2 (18,4)','No usable']],
-   [20,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,11,15,14,20,26])]),
+   [20,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,11,15,14,20,26],{(13,1):OK,(13,2):NE,(13,3):BAD,(13,4):BAD})]),
  P('P1–P3 Python (parse_duration, paginate, merge_intervals); C1–C3 C# .NET 10 (slug, LINQ, parser CSV); S1 consulta SQLite; E1 predecir la salida de un programa. '
-   'Ornith perdió 6 respuestas que gastaron los 4096 tokens razonando sin escribir nada, y 3 por errores de compilación en C#.',small),
+   'Ornith perdió 6 respuestas que gastaron los 4096 tokens razonando sin escribir nada, y 3 por errores de compilación en C#. '
+   'El único fallo de GPT-OSS fue también una respuesta cortada. Casi todo su tiempo es razonamiento antes del primer token visible (mediana 59 s), y su servidor no da un contador de velocidad comparable. '
+   'Los fallos de Bonsai 27B en C# son errores reales del modelo, comprobados a mano. Su velocidad bajó de 3,1 a 1,7 t/s durante la prueba. '
+   'Bonsai 27B y GPT-OSS superaron el límite de memoria; el usuario decidió ignorarlo en D064 después de ver la superación de Bonsai y antes de calificar ninguna respuesta.',small),
  P('7. Velocidad 16K frente a 24K y prueba completa (D063), 22 de noviembre',h1),
  T([['Brazo (orden ABA)','Decode mediana','Memoria fija con el modelo cargado'],['16K','13,4 t/s','11,0–11,35 GB'],['24K','13,3 t/s','11,0–11,35 GB'],['16K','13,5 t/s','11,0–11,35 GB']],[50,40,84]),
  P('El tamaño de contexto no explica la lentitud del chat, así que el router sigue con 24K. A 13 t/s, la respuesta mediana de Ornith tardaría unos 150 s, por debajo de 180 s; aun así, su 63 % de aciertos sigue por debajo del 75 %. '
    '<b>Prueba completa:</b> OpenCode → router → modelo respondió bien con los dos agentes: ornith-code en 172 s con el router manual y en 145 s con el LaunchAgent; bonsai9-code en 479 s (incluye el cambio de modelo), solo con el router manual.'),
- P('8. Limitaciones',h1),
+ P('8. Configuración actual de uso diario (D065–D066)',h1),
+ T([['Uso','Cómo','Modelo','Notas'],
+    ['Programar (recomendado)','OpenCode, agente ornith-code','Ornith 1.5 9B GGUF','24K de contexto, 40 pasos; cambios pequeños'],
+    ['Programar (alternativas)','OpenCode, bonsai9-code / bonsai-lab-code','Bonsai 2 9B / Bonsai 2 27B','Más rápido y menos fiable / correcto pero muy lento'],
+    ['Chat (recomendado)','Terminal: ornith-chat','GPT-OSS 20B (por defecto)','Le llega solo la pregunta, como en D064. Probado: 2 turnos en 83 s con la carga'],
+    ['Chat (app)','Enchanted → 127.0.0.1:8099','Cualquiera de los 4','El router imita la API de Ollama. Protocolo probado; la app en sí, no'],
+    ['Chat en OpenCode','Agente gptoss-chat','GPT-OSS 20B','No recomendado: ~5.700 tokens de instrucciones por paso y llamadas a herramientas inexistentes']],
+   [30,46,38,60],{(0,3):OK,(0,5):BAD}),
+ P('Todo pasa por un router local (127.0.0.1:8099) que arranca con la sesión. Carga el modelo pedido, mantiene uno solo en memoria y lo descarga tras 15 minutos sin uso. '
+   'Las peticiones de chat siempre usan el perfil medido (temperatura 0,6, top_p 0,95, 4096 tokens de salida). '
+   'En conversaciones muy largas se descartan los mensajes más antiguos (~40.000 caracteres), para que GPT-OSS no se quede sin memoria.',small),
+ P('9. Limitaciones',h1),
  *B(['Muestras pequeñas: 1 pasada por tarea en los cohortes y 3 en las repeticiones. Diferencias de 1–2 tareas no son concluyentes.',
      'Las tareas F8 y las preguntas de chat las escribió la misma sesión que opera el laboratorio: no son independientes ni están calibradas por personas.',
      'Bonsai frente a Ornith mezcla modelo, runtime y cuantización; no se puede atribuir una diferencia a un solo factor.',
      'Control y tratamiento se ejecutaron en momentos distintos en un portátil sin ventilador. El calor no se pudo medir (pmset no registra nada en Apple Silicon).',
-     'La exención del límite de memoria de Ornith en oc232 se decidió después de ver los datos.',
+     'La exención del límite de memoria de Ornith en oc232 y la decisión de ignorarlo en el chat de D064 se tomaron después de ver datos; ambas están señaladas.',
+     'GPT-OSS es usable en chat solo si se acepta que ocupa unos 12,6 GB de 16: con otras apps abiertas el Mac usa swap y puede ir lento.',
      'La huella de memoria es aproximada entre runtimes: llama.cpp mapea los pesos desde el archivo.']),
- P('9. Pendientes',h1),
+ P('10. Pendientes',h1),
  *B(['Retomar la campaña de Bonsai 2 27B en oc232 (quedan 11 tareas).',
      'Repetición r2 de los dos primeros de oc232, que la regla exige por el empate.',
      'Harness² con Claude como editor fijo (D060): registrado de antemano, todavía sin ejecutar.',
-     'Verificar bonsai9-code con el router en launchd.']),
- P('10. Fuentes',h1),
- P('Repositorio del laboratorio (rama main, commit 73bde94): docs/RESULTS.md, docs/FINDINGS.md y docs/DECISIONS.md (D001–D063); '
-   'benchmarks/reports/model-selection-oc226-*.json y model-selection-oc232-nodocker.json; benchmarks/results/ (tasks-*, chat-graded-20261122T014414.json, micro-gguf-20261122T05*.json). '
+     'Verificar bonsai9-code con el router en launchd.',
+     'Probar la app Enchanted conectada al router (solo se probó el protocolo).']),
+ P('11. Fuentes',h1),
+ P('Repositorio del laboratorio (rama main): docs/RESULTS.md, docs/FINDINGS.md y docs/DECISIONS.md (D001–D066); '
+   'benchmarks/reports/model-selection-oc226-*.json y model-selection-oc232-nodocker.json; benchmarks/results/ (tasks-*, chat-graded-20261122T014414.json, chat-graded-20261122T123556.json, micro-gguf-20261122T05*.json). '
    'Los resultados en bruto, incluidas las fallas, se conservan sin cambios.',small)]
 
 def deco(c,d):

@@ -232,4 +232,41 @@ class RouterTests(unittest.TestCase):
             self.assertEqual(calls,['stop']);self.assertIsNone(m.mine[0]);self.assertFalse(own.exists())
         m.mine[0]=None
 
+    def test_router_speaks_ollama_for_enchanted(self):
+        import http.client,threading,model_router as m
+        from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
+        seen=[]
+        class Fake(BaseHTTPRequestHandler):  # OpenAI-style SSE backend: reasoning first, then two content deltas
+            def do_POST(self):
+                seen.append(json.loads(self.rfile.read(int(self.headers['Content-Length']))))
+                self.send_response(200);self.end_headers()
+                for d in [{'reasoning':'hmm'},{'content':'Hola'},{'content':' mundo'}]:self.wfile.write(b'data: '+json.dumps({'choices':[{'delta':d}]}).encode()+b'\n\n')
+                self.wfile.write(b'data: [DONE]\n\n')
+            def log_message(self,*a):pass
+        back=ThreadingHTTPServer(('127.0.0.1',0),Fake);front=ThreadingHTTPServer(('127.0.0.1',0),m.Handler);m.Handler.log_message=lambda *a:None
+        for s in (back,front):threading.Thread(target=s.serve_forever,daemon=True).start()
+        def call(method,path,body=None):
+            c=http.client.HTTPConnection('127.0.0.1',front.server_port,timeout=10);c.request(method,path,json.dumps(body) if body else None);r=c.getresponse();return r.status,r.read()
+        try:
+            self.assertEqual(call('HEAD','/')[0],200)
+            tags=json.loads(call('GET','/api/tags')[1])['models']
+            self.assertEqual({t['name'] for t in tags},set(m.MODELS))
+            for t in tags:  # OllamaKit decodes these as required fields; the date must be ISO 8601 with a zone
+                self.assertTrue(t['modified_at'].endswith('Z') and all(t['details'][k] for k in ('format','family','parameter_size','quantization_level')))
+            def ensure(kind):m.inflight[kind]=m.inflight.get(kind,0)+1;return {'port':back.server_port,'model_id':'served'}
+            with patch.object(m,'ensure',ensure):
+                st,out=call('POST','/api/chat',{'model':'gpt-oss-20b-mxfp4-q8','messages':[{'role':'user','content':'hola','images':[]}],'options':{'temperature':1.5}})
+                lines=[json.loads(l) for l in out.splitlines()]
+                self.assertEqual(st,200);self.assertEqual(''.join(l['message']['content'] for l in lines),'Hola mundo')
+                self.assertEqual([l['done'] for l in lines],[False,False,True])
+                self.assertEqual(seen[-1]['model'],'served');self.assertEqual(seen[-1]['temperature'],.6)  # measured profile, not the app's
+                self.assertEqual(seen[-1]['messages'],[{'role':'user','content':'hola'}])
+                g=[json.loads(l) for l in call('POST','/api/generate',{'model':'bonsai-2-9b-ptq10','prompt':'t','system':'s'})[1].splitlines()]
+                self.assertEqual(''.join(l['response'] for l in g),'Hola mundo');self.assertEqual(seen[-1]['messages'][0],{'role':'system','content':'s'})
+            self.assertEqual(call('POST','/api/chat',{'model':'nope','messages':[]})[0],404)
+        finally:
+            for s in (back,front):s.shutdown();s.server_close()
+        long=[{'role':'system','content':'s'}]+[{'role':'user','content':'x'*15000} for _ in range(4)]
+        self.assertEqual(len(m.trim(long)),3);self.assertEqual(long[0]['role'],'system')  # oldest turns dropped, system kept
+
 if __name__=='__main__':unittest.main()
